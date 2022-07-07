@@ -2,6 +2,9 @@
 
 namespace App\Router;
 
+
+//Manage route
+
 class Route {
 
     private $path;
@@ -9,43 +12,56 @@ class Route {
     private $matches = [];
     private $params = [];
 
-    public function __construct($path, $callable) 
-    {
+    public function __construct($path, $callable) {
+
         $this->path = trim($path, '/');
         $this->callable = $callable;
+
     }
 
-    public function with(string $param,string $regex) 
-    {
+    //Regex method for manage param captur
+
+    public function with(string $param,string $regex) {
+        
         $this->params[$param] = str_replace('(', '(?:', $regex);
         return $this;
+        
     }
     
-    public function match(string $url): bool 
-    {
+    //check if url = route and captur param
+    public function match(string $url): bool {
+        
+        // remove '/'
         $url = trim($url, '/');
         $path = preg_replace_callback('#:([\w]+)#', [$this, 'paramMatch'] , $this->path);
         $regex = "#^$path$#i";
-
-        if (!preg_match($regex, $url, $matches)) 
-        {
+        //watch if url = path
+        if (!preg_match($regex, $url, $matches)) {
             return false;
         }
+        
+        // Delete the first element of matches array
         array_shift($matches);
+        
         $this->matches = $matches;
+
         return true;
+        
     }
     
-    private function paramMatch($match): string 
-    {
+    //Captur all param 
+    private function paramMatch($match): string {
+        
         if(isset($this->params[$match[1]])) {
             return '(' . $this->params[$match[1]] . ')';
         }
+        
         return '([^/]+)';
     }
+    
+    //Call the callable route 
+    public function call() {
 
-    public function call() 
-    {
         if(is_string($this->callable)) {
             $params = explode('#', $this->callable);
             
@@ -53,20 +69,22 @@ class Route {
             $ctrl = new $controller();
             
             return call_user_func_array([$ctrl, $params[1]], $this->matches);
-        }else 
-        {
+        } else {
             return call_user_func_array($this->callable, $this->matches);
         }
+        
     }
-
-    public function getUrl($params): string 
-    {
+    
+    //create url
+    public function getUrl($params): string {
         $path = $this->path;
 
-        foreach($params as $id => $value) 
-        {
+        foreach($params as $id => $value) {
             $path = str_replace(':$id', $value, $path);
         }
+
         return $path;
+
     }
+
 }
