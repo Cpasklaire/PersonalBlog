@@ -1,0 +1,82 @@
+.accroche
+{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin-top: 5%;
+ margin-bottom: 5%;
+ background-image: url('../../img/logo.png');
+    h1 
+    {
+        font-family: $font-titre;
+        font-size: 3em;
+        margin: 3%;
+    }
+}
+.presentation
+{
+    background-color: $couleur-secondaire;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    position: relative;
+
+    .blabla
+    {
+        width: 70%;
+    }
+    .photo_java, .photo_clea
+    {
+        border: 2px solid;
+        background-color: $couleur-primaire;
+        .photo-top 
+        {
+
+            height: 20px;
+            background-color: $couleur-primaire;
+            display: flex;
+            justify-content: flex-end;
+            svg
+            {
+                padding: 1%;
+                width: 0.5em;
+            }
+        }
+        img 
+        {
+            width: 100%;
+        }
+        .photo-botton
+        {
+            background-color: $couleur-primaire;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+    }   
+    .photo_clea
+    {
+        position: absolute;
+        right: 5%;
+        top: -25%;
+        width: 15%;
+        .photo-botton
+        {
+            font-size: 1.5em;
+        }
+    }
+    .photo_java
+    {
+        position: absolute;
+        right: 17%;
+        top: 10%;
+        width: 9%;
+        .photo-botton
+        {
+            font-size: 0.7em;
+        }
+    }
+    
+}
