@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-use Twig/FilesystemLoader;
-use Twig/Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 abstract class TwigController 
 {
@@ -12,7 +12,8 @@ abstract class TwigController
 
     public function __construct()
     {
-        $this->loader = new FilesystemLoader(TOOT.'/templates');
+        echo (ROOT);
+        $this->loader = new FilesystemLoader(ROOT.'/PersonalBlog/templates');
         $this->twig = new Environment($this->loader);
     }
 }

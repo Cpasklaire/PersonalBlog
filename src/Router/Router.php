@@ -2,8 +2,6 @@
 
 namespace App\Router;
 
-use App\Controllers\PostController;
-
 //Create routes
 class Router {
 
@@ -11,67 +9,66 @@ class Router {
     private $routes = [];
     private $namedRoutes = [];
 
-    public function __construct($url){
+    public function __construct($url)
+    {
         $this->url = $url;
     }
     
     //add route whith GET method to all routes
-    public function get(string $path, $callable, $name = NULL) {
-        
+    public function get(string $path, $callable, $name = NULL) 
+    {
         return $this->addRoute($path, $callable, $name, 'GET');
-        
     }
     
     //add route whith POST method to all routes
-    public function post(string $path, $callable, $name = NULL) {
-        
+    public function post(string $path, $callable, $name = NULL) 
+    {
         return $this->addRoute($path, $callable, $name, 'POST');
-        
     }
     
     //create and add route to routes array
-    public function addRoute(string $path, $callable, $name, string $method) {
-        
+    public function addRoute(string $path, $callable, $name, string $method) 
+    {
         $route = new Route($path, $callable);
         $this->routes[$method][] = $route;
-        if(is_string($callable) && $name === null){
+        
+        if(is_string($callable) && $name === null)
+        {
             $name = $callable;
         }
-        if($name) {
+        if($name) 
+        {
             $this->namedRoutes[$name] = $route;
         }
-
         return $route;
-        
     }
     
     //Check if road exist and if matche with $routes
-    public function run() {
-
-        if(!isset($this->routes[$_SERVER['REQUEST_METHOD']])) {
+    public function run() 
+    {echo $this->url;
+        if(!isset($this->routes[$_SERVER['REQUEST_METHOD']])) 
+        {
             throw new RouterException('No routes exist');
         } 
-        
-        foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route) {
-            
-            if($route->match($this->url)) {
-                return $route->call();
-            } 
-            
+        foreach($this->routes[$_SERVER['REQUEST_METHOD']] as $route) 
+        {
+            if($route->match($this->url)) 
+            {
+               
+               return $route->call();
+                
+            }    
         }
-        
         throw new RouterException('No routes matches');
-        
     }
 
-    //check url and call getUrl
-    public function url($name, $params = []) {
-
-        if(!isset($this->namedRoutes[$name])) {
-            throw new RouterException('No route match this name');
+     //check url and call getUrl
+    public function url($name, $params = []) 
+    {
+        if(!isset($this->namedRoutes[$name])) 
+        {
+            //throw new RouterException('No route match this name');
         }
-
         return $this->namedRoutes[$name]->getUrl($params);
-    }
-
+    } 
 }

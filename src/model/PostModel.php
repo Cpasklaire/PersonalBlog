@@ -48,7 +48,7 @@ class PostModel {
     public function getOnePost($postId): Post {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, userId, title, text, imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post WHERE id = $postId"
+            "SELECT id, userId, title, 'text', imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post WHERE id = $postId"
         );
 
         $data = $statement->fetch();
@@ -74,7 +74,7 @@ class PostModel {
     public function createPost(string $title, string $imageURL, string $userId, string $text): bool  {
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO posts(title, text, imageURL, userId, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())"
+            "INSERT INTO posts(title, 'text', imageURL, userId, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())"
         );
 
         $affectedLine = $statement->execute([$title, $text, $imageURL, $userId]);
@@ -87,7 +87,7 @@ class PostModel {
     public function putPost(string $title, string $imageURL, string $text, string $userId, $id): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "UPDATE posts SET title = ?, imageURL = ?, text = ?, userId = ?, updatedAt = NOW() WHERE id = ?"
+            "UPDATE posts SET title = ?, imageURL = ?, 'text' = ?, userId = ?, updatedAt = NOW() WHERE id = ?"
         );
 
         $affectedLine = $statement->execute([$title, $imageURL, $text, $userId, $id]);

@@ -14,7 +14,8 @@ class PostController {
         $postModel = new PostModel();
         $postModel->connection = new DatabaseConnection();
         $posts = $postModel->getPosts();
-
+        
+        require('templates/postPage.php');
         $this->twig->display('postpage.html.twig', compact('posts')); //or ['posts'->$posts]
     }
 

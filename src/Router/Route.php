@@ -62,29 +62,29 @@ class Route {
     //Call the callable route 
     public function call() {
 
-        if(is_string($this->callable)) {
+        if(is_string($this->callable)) 
+        {
             $params = explode('#', $this->callable);
             
             $controller = "App\\Controllers\\" . $params[0] . "Controller";
             $ctrl = new $controller();
             
             return call_user_func_array([$ctrl, $params[1]], $this->matches);
-        } else {
+        } else 
+        {
             return call_user_func_array($this->callable, $this->matches);
-        }
-        
+        }  
     }
     
     //create url
-    public function getUrl($params): string {
+    public function getUrl($params): string 
+    {
         $path = $this->path;
 
-        foreach($params as $id => $value) {
+        foreach($params as $id => $value) 
+        {
             $path = str_replace(':$id', $value, $path);
         }
-
         return $path;
-
     }
-
 }
