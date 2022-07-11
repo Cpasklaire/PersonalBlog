@@ -12,8 +12,7 @@ abstract class TwigController
 
     public function __construct()
     {
-        echo (ROOT);
-        $this->loader = new FilesystemLoader(ROOT.'/PersonalBlog/templates');
+        $this->loader = new FilesystemLoader('./templates');
         $this->twig = new Environment($this->loader);
     }
 }

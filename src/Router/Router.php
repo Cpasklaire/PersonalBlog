@@ -45,7 +45,7 @@ class Router {
     
     //Check if road exist and if matche with $routes
     public function run() 
-    {echo $this->url;
+    {//echo $this->url;
         if(!isset($this->routes[$_SERVER['REQUEST_METHOD']])) 
         {
             throw new RouterException('No routes exist');

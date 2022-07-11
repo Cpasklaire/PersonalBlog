@@ -8,15 +8,20 @@ use App\Models\PostModel;
 
 class PostController {
 
-    // view all posts
-    public function list() {
+    public $twig;
 
+     // view all posts
+    public function list() {
+echo ('ici');
         $postModel = new PostModel();
         $postModel->connection = new DatabaseConnection();
         $posts = $postModel->getPosts();
         
-        require('templates/postPage.php');
-        $this->twig->display('postpage.html.twig', compact('posts')); //or ['posts'->$posts]
+        echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]);  
+		return $posts;
+/*         echo ($posts);
+        require('./templates/postPage.html.twig');
+        $this->twig->display('postpage.html.twig', compact('posts')); //or ['posts'->$posts] */
     }
 
     // view One post
@@ -33,6 +38,6 @@ class PostController {
 
         require('templates/postOnePage.php');
 
-    }
+    } 
     
 }

@@ -21,7 +21,7 @@ class PostModel {
     public function getPosts(): array {
         
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, userId, title, text, imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post ORDER BY createdAt DESC"
+            "SELECT id, userId, title, 'text', imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post ORDER BY createdAt DESC"
         );
 
         $posts = [];
