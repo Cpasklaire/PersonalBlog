@@ -12,9 +12,9 @@ require 'vendor/autoload.php';
 
 $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 
-$router->get('/', 'Index#index');
+//$router->get('/', 'Index#index');
 
-$router->get('/articles', 'Post#list');
+$router->get('/', 'Post#list');
 //$router->get('/post/:id', 'Post#show')->with('id', '[0-9]+');
 
 try {

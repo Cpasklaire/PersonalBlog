@@ -26,7 +26,8 @@ class PostModel {
 
         $posts = [];
 
-        while(($row = $statement->fetch())) {
+        while($row = $statement->fetch()) 
+        {
 
             $post = new Post();
             $post->id = $row['id'];
@@ -39,7 +40,6 @@ class PostModel {
             $posts[] = $post;
 
         }
-
         return $posts;
 
     }
