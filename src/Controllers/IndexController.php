@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
-class IndexController extends TwigController 
+class IndexController extends BaseController 
 {
     public function index()
     {
-        $this->twig->display('home.html.twig');
+        // get 3 posts
+        $this->twig->display('home.html.twig', ['posts' => []]);
     }
 }

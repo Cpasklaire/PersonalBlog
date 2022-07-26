@@ -14,7 +14,8 @@ $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 
 //$router->get('/', 'Index#index');
 
-$router->get('/', 'Post#list');
+$router->get('/', 'Index#index');
+$router->get('/posts', 'Post#list');
 //$router->get('/post/:id', 'Post#show')->with('id', '[0-9]+');
 
 try {

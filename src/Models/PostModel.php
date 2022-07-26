@@ -8,7 +8,7 @@ class Post {
     public string $id;
     public string $userId;
     public string $title;
-    public string $text;
+    public string $content;
     public string $imageURL;
     public string $updatedAt;
 }
@@ -21,7 +21,7 @@ class PostModel {
     public function getPosts(): array {
         
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, userId, title, 'text', imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post ORDER BY createdAt DESC"
+            "SELECT id, userId, title, content, imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post ORDER BY createdAt DESC"
         );
 
         $posts = [];
@@ -33,8 +33,8 @@ class PostModel {
             $post->id = $row['id'];
             $post->userId = $row['userId'];
             $post->title = $row['title'];
-            $post->text = $row['text'];
-            $post->imageURL = $row['imageURL'];
+            $post->content = $row['content'];
+            $post->imageURL = $row['imageURL'] ? $row['imageURL'] : '';
             $post->updatedAt = $row['updatedAt'];
 
             $posts[] = $post;

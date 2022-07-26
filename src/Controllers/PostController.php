@@ -6,22 +6,15 @@ use App\Lib\DatabaseConnection;
 use App\Models\PostModel;
 //use App\Models\CommentModel;
 
-class PostController {
-
-    public $twig;
+class PostController extends BaseController {
+    
 
      // view all posts
     public function list() {
-echo ('ici');
         $postModel = new PostModel();
         $postModel->connection = new DatabaseConnection();
         $posts = $postModel->getPosts();
-        
-        echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]);  
-		return $posts;
-/*         echo ($posts);
-        require('./templates/postPage.html.twig');
-        $this->twig->display('postpage.html.twig', compact('posts')); //or ['posts'->$posts] */
+        echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]);  	
     }
 
     // view One post

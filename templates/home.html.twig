@@ -1,13 +1,7 @@
-        
-        
-        
-        {% block posts %}
-    {% for post in posts %}
-        <h1>{{ post}}</h1>
-    {% endfor %}
-{% endblock %}
+{% extends "layout.html.twig" %}
 
-    <section class="home"><?php echo($posts) ?>
+{% block content %}
+    <section class="home">
         <div class="accroche">
             <h2>Besoin d'un developpeur qui à du chien ? </h2>
             <h1>Cyberus Developement</h1>
@@ -42,6 +36,13 @@
             </div>
         </div>
 
-
-
     </section>
+    {% for post in posts %}
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+    {% endfor %}
+{% endblock %}
+
+
+
+    
