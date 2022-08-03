@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Lib\DatabaseConnection;
 use App\Models\PostModel;
-//use App\Models\CommentModel;
+use App\Models\CommentModel;
 
 class PostController extends BaseController {
     
@@ -21,17 +21,16 @@ class PostController extends BaseController {
     public function show($id) {
 
         $postModel = new PostModel();
-        //$commentModel = new CommentModel();
+        $commentModel = new CommentModel();
         
         $postModel->connection = new DatabaseConnection();
-        //$commentModel->connection = new DatabaseConnection();
+        $commentModel->connection = new DatabaseConnection();
 
         $post = $postModel->getOnePost($id);
-        //$comments = $commentModel->getComments($id);
+        $comments = $commentModel->getComments($id);
 
-        //require('templates/postOnePage.php');
         echo $this->twig->render('./postOnePage.html.twig', ['post' => $post]);  	
-
+        echo $this->twig->render('./postOnePage.html.twig', ['comment' => $comments]); 
     } 
     
 }
