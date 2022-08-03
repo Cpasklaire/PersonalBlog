@@ -22,7 +22,7 @@ class CommentModel {
     public function getComments($postId): array {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT Id, userId, content, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt_fr FROM comment INNER JOIN user ON comment.userId = users.id WHERE postId = $postId AND valided = 1 ORDER BY creation_date DESC; "
+            "SELECT id, userId, content, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt FROM Comment INNER JOIN User ON comment.userId = user.id WHERE postId = $postId AND valided = 1 ORDER BY createdAt DESC; "
         );
 
         $comments = [];
@@ -77,7 +77,7 @@ class CommentModel {
     public function deleteComment(string $id): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "DELETE FROM comments WHERE id = ?"
+            "DELETE FROM comment WHERE id = ?"
         );
 
         $affectedLine = $statement->execute([$id]);
