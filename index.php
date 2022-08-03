@@ -15,8 +15,8 @@ $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 //$router->get('/', 'Index#index');
 
 $router->get('/', 'Index#index');
-$router->get('/posts', 'Post#list');
-//$router->get('/post/:id', 'Post#show')->with('id', '[0-9]+');
+$router->get('/articles', 'Post#list');
+$router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
 
 try {
 $router->run();

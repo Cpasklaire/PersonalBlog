@@ -11,7 +11,7 @@ class DatabaseConnection
 
         if($this->database == null) 
         {
-            $this->database = new \PDO('mysql:host=localhost;dbname=oc-php-p5;charset=utf8', 'root', '');
+            $this->database = new \PDO('mysql:host=localhost;dbname=blogphp;charset=utf8', 'root', 'root');
         }
         return $this->database;
     }

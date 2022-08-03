@@ -29,7 +29,8 @@ class PostController extends BaseController {
         $post = $postModel->getOnePost($id);
         //$comments = $commentModel->getComments($id);
 
-        require('templates/postOnePage.php');
+        //require('templates/postOnePage.php');
+        echo $this->twig->render('./postOnePage.html.twig', ['post' => $post]);  	
 
     } 
     
