@@ -2,7 +2,7 @@
     "name": "inu/personal-blog",
     "autoload": {
         "psr-4": {
-            "Inu\\PersonalBlog\\": "src/"
+            "App\\": "src"
         }
     },
     "authors": [
@@ -12,11 +12,7 @@
         }
     ],
     "require": {
-        "twbs/bootstrap": "^5.1",
-        "twig/twig": "3.0",
-        "ramsey/uuid": "^4.2"
-    },
-    "require": {
+        "twig/twig": "3.3",
         "ramsey/uuid": "^4.2"
     }
 }

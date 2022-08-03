@@ -1,18 +1,25 @@
 <?php
 
-echo "hello world";
+//si dev 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+/* phpinfo();
+die; */
 
 require 'vendor/autoload.php';
 
-$router = new App\Router\Router($_GET['url']);
 
-$router->get('/', function(){ require('templates/home.php'); });
+$router = new App\Router\Router($_SERVER['REQUEST_URI']);
 
+//$router->get('/', 'Index#index');
+
+$router->get('/', 'Index#index');
 $router->get('/articles', 'Post#list');
-$router->post('/log', 'User#log');
-$router->post('/sign', 'User#sign');
-$router->post('/logout', 'User#logout');
-$router->post('/contact', 'User#sendMail');
-$router->post('/adminlog', 'Admin#log');
+$router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
 
+try {
 $router->run();
+}catch(\Exception $e){
+    die ($e);
+}
