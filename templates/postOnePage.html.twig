@@ -7,7 +7,11 @@
         <h1>{{ post.id }}</h1>
 
         
-        <p>{{ comments.content }}</p>
-        <h1>{{ comments.id }}</h1>
+        <h2>Commentaires: ({{ post.comments|length }})</h2>
+        {% for comment in post.comments %}        
+            <p>{{ comment.content }}</p>
+        {% endfor %}
+
+        
 
 {% endblock %}

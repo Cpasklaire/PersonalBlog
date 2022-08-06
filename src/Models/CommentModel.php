@@ -13,16 +13,15 @@ class Comment {
     public string $updatedAt ;
 }
 
-class CommentModel {
+class CommentModel extends BaseModel{
 
-    public DatabaseConnection $connection;
-
+    
     //get all comments for one post
 
     public function getComments($postId): array {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, userId, content, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt FROM Comment INNER JOIN User ON comment.userId = user.id WHERE postId = $postId AND valided = 1 ORDER BY createdAt DESC; "
+            "SELECT Comment.id, userId, Comment.content, DATE_FORMAT(Comment.updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt FROM Comment INNER JOIN User ON comment.userId = user.id WHERE postId = $postId AND valided = 1 ORDER BY Comment.createdAt DESC; "
         );
 
         $comments = [];

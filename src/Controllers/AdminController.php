@@ -48,11 +48,10 @@ class AdminController extends BaseController{
     public function list() {
 
         $postModel = new PostModel();
-        $postModel->connection = new DatabaseConnection();
-
+        // $postModel->connection = new DatabaseConnection();
         $posts = $postModel->getPosts();
 
-        echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]); 
+        echo $this->twig->render('./admin/posts.html.twig', ['posts' => $posts]); 
 
     }
 
@@ -75,6 +74,8 @@ class AdminController extends BaseController{
     /*create post*/
     public function create() {
 
+        $userId = $this->getCurrentUserId();
+
         if(
             (isset($_POST['title']) && $_POST['title'] !== "" && preg_match('/^[a-zA-Zé èà]*$/', $_POST['title'])) && 
             (isset($_POST['imageURL']) && $_POST['imageURL'] !== "" && preg_match('/^[a-zA-Zé èà]*$/', $_POST['imageURL'])) && 
@@ -86,9 +87,9 @@ class AdminController extends BaseController{
             $content = $_POST['content'];
             
             $postModel = new PostModel();
-            $postModel->connection = new DatabaseConnection();
+            // $postModel->connection = new DatabaseConnection();
             
-            $success = $postModel->createPost($title, $imageURL, $content);
+            $success = $postModel->createPost($title, $imageURL, $content, $userId);
             
             if($success) {
                 echo $this->twig->render('./adminPage.html.twig');

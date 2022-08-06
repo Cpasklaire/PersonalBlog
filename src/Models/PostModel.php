@@ -13,9 +13,9 @@ class Post {
     public string $updatedAt;
 }
 
-class PostModel {
+class PostModel extends BaseModel {
 
-    public DatabaseConnection $connection;
+    // public DatabaseConnection $connection;
     
     // view all posts
     public function getPosts(): array {
@@ -50,28 +50,30 @@ class PostModel {
         $statement = $this->connection->getConnection()->query(
             "SELECT id, userId, title, 'text', imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post WHERE id = $postId"
         );
-
         $data = $statement->fetch();
-
         if(!is_array($data)) {
             return header('Location: /personalblog/'); 
         }
 
-        $post = new Post();
 
+        $post = new Post();
         $post->id = $postId;
         $post->userId = $data['userId'];
         $post->title = $data['title'];
         $post->text = $data['text'];
-        $post->imageURL = $data['imageURL'];
+        $post->imageURL = $data['imageURL'] ? $row['imageURL'] : '';
         $post->updatedAt = $data['updatedAt'];
+
+        $commentModel = new CommentModel();
+        $comments = $commentModel->getComments($post->id);
+        $post->comments = $comments;
 
         return $post;
 
     }
 
     //creat post
-    public function createPost(string $title, string $imageURL, string $userId, string $text): bool  {
+    public function createPost(string $title, string $imageURL, string $text, string $userId): bool  {
 
         $statement = $this->connection->getConnection()->prepare(
             "INSERT INTO posts(title, 'text', imageURL, userId, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())"
@@ -84,7 +86,7 @@ class PostModel {
     }
 
     // edit post
-    public function putPost(string $title, string $imageURL, string $text, string $userId, $id): bool {
+    public function putPost(string $title, string $imageURL, string $text): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "UPDATE posts SET title = ?, imageURL = ?, 'text' = ?, userId = ?, updatedAt = NOW() WHERE id = ?"

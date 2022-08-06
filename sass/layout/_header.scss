@@ -1,24 +1,18 @@
-header
-{
+header {
     background-color: $couleur-primaire;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-left: 3%;
     padding-right: 3%;
-    a 
-    {
+    a  {
         display: flex;
         flex-direction: column;
-        img 
-        {
+        img {
             width: 50%;
         }
-        h1 
-        {
-            font-family: $font-titre;
-            position: absolute;
-            top: 8%;
+        h1 {
+            font-family: $font-titre;            
         }
     }
 }
