@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Lib\DatabaseConnection;
 use App\Models\PostModel;
-//use App\Models\CommentModel;
+use App\Models\CommentModel;
 
 class PostController extends BaseController {
     

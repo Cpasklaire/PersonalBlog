@@ -25,7 +25,7 @@ class UserController {
             if(sizeof($user) > 0) {
                 session_start();
                 $_SESSION['name'] = $email;
-                $_SESSION['fullname'] = $user[1] . " " . $user[2];
+                $_SESSION['pseudo'] = $user[1];
                 $_SESSION['auth'] = "true";
                 $_SESSION['userId'] = $user[0];
             } 

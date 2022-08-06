@@ -13,7 +13,7 @@ class UserModel {
     public function login(string $email, string $password): array {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM users WHERE email = '$email'"
+            "SELECT * FROM user WHERE email = '$email'"
         );
 
         $user = $statement->fetch();
@@ -22,8 +22,7 @@ class UserModel {
         if($user) {
             if(password_verify($password ,$user['pwd'])) {
                     $userInfo[] = $user['id'];
-                    $userInfo[] = $user['firstname'];
-                    $userInfo[] = $user['lastname'];
+                    $userInfo[] = $user['pseudo'];
             } 
         }
 
@@ -35,14 +34,14 @@ class UserModel {
     public function adminLogin(string $email, string $password): bool {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM users WHERE email = '$email'"
+            "SELECT * FROM user WHERE email = '$email'"
         );
 
         $user = $statement->fetch();
 
         if($user) {
             if(password_verify($password ,$user['pwd'])) {
-                if($user['is_admin']) {
+                if($user['admin']) {
                     return true;
                 }
             } 
@@ -53,27 +52,27 @@ class UserModel {
     }
 
     /*create a user*/
-    public function createUser(string $firstname, string $lastname, string $email, string $password): bool {
+    public function createUser(string $pseudo, string $email, string $password): bool {
 
         $v4 = Uuid::uuid4();
         $newId = $v4->toString();
         $newPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO users(id, email, firstname, lastname, pwd, created_at) VALUES (?, ?, ?, ?, ?, NOW())"
+            "INSERT INTO user(id, email, pseudo, mdp, createdAt) VALUES (?, ?, ?, ?, ?, NOW())"
         );
 
-        $affectedLine = $statement->execute([$newId, $email, $firstname, $lastname, $newPassword]);
+        $affectedLine = $statement->execute([$newId, $email, $pseudo, $newPassword]);
 
         return ($affectedLine > 0);
         
     }
 
     /*send email*/
-    public function sendMail(string $firstname, string $lastname, string $email, string $message) {
+    public function sendMail(string $pseudo, string $email, string $message) {
 
         $contact = "monmail@gmail.com";
-        $object = $firstname . " " . $lastname;
+        $object = $pseudo;
         $entetes="From: " . $email;
         $entetes.="Content-Type: text/html; charset=iso-8859-1";
 

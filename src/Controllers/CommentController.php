@@ -47,7 +47,7 @@ class CommentController extends BaseController {
     
     //delete one comment
 
-    /*public function delete(string $id, string $commentId) {
+    public function delete(string $id, string $commentId) {
                 
         $commentModel = new CommentModel();
         $commentModel->connection = new DatabaseConnection();
@@ -60,6 +60,6 @@ class CommentController extends BaseController {
             echo "pas ok";
         } 
 
-    }*/
+    }
 
 }
