@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Lib\DatabaseConnection;
 use \Ramsey\Uuid\Uuid;
 
 class Comment {
@@ -15,8 +14,31 @@ class Comment {
 
 class CommentModel extends BaseModel{
 
-    
     //get all comments for one post
+
+    public function getComments($postId): array {
+
+        $statement = $this->connection->getConnection()->query(
+            "SELECT * FROM Posts INNER JOIN Users ON Posts.userId = users.id WHERE Posts.postId = $postId AND valided = 1 ORDER BY Posts.createdAt DESC; "
+        );
+
+        $comments = [];
+
+        while($row = $statement->fetch()) 
+        {
+            $comment = new Comment();
+            $comment->id = $row['id'];
+            $comment->userId = $row['userId'];
+            $comment->content = $row['content'];
+            $comment->updatedAt = $row['updatedAt'];
+
+            $comments[] = $comment;
+        }
+
+        return $comments;
+    }
+    
+/*     //get all comments for one post
 
     public function getComments($postId): array {
 
@@ -120,6 +142,6 @@ class CommentModel extends BaseModel{
 
         return ($affectedLine > 0);
 
-    }
+    } */
 
 }
