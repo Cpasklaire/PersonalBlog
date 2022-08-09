@@ -16,6 +16,9 @@
             </a>
             <nav>
                 <a href="/articles">Articles</a>
+                <a href="/login">Se connecter</a>
+                <a href="/signup">S'inscrire</a>
+                {# {% if $_SESSION['userId'] == true %}<a href="/logout">Déconnection</a>{% endif %} #}
             </nav>
     </header>
         <div>        
@@ -23,8 +26,9 @@
         </div>
 
         <footer>
-            <a href="/login">Se connecter</a>
-            <!--se déconnecter-->
+            <a href="/info">poilitique de confidentialité</a>
+            <a href="/contact">Nous contacter</a>
+
         </footer>
     </body>
 </html>

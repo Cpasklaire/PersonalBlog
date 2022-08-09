@@ -2,53 +2,36 @@
 
 namespace App\Models;
 
-use App\Lib\DatabaseConnection;
 use \Ramsey\Uuid\Uuid;
 
-class UserModel {
+class User {
+    public string $id;
+    public string $pseudo;
+    public string $admin;
+}
 
-    public DatabaseConnection $connection;
+class UserModel extends BaseModel{
 
-    /*log user*/
+    //login
+
     public function login(string $email, string $password): array {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM user WHERE email = '$email'"
+            "SELECT * FROM users WHERE email = '$email'"
         );
 
         $user = $statement->fetch();
         $userInfo = [];
 
         if($user) {
-            if(password_verify($password ,$user['pwd'])) {
+            if(password_verify($password ,$user['mdp'])) {
                     $userInfo[] = $user['id'];
                     $userInfo[] = $user['pseudo'];
+                    $userInfo[] = $user['admin'];
             } 
         }
 
         return $userInfo;
-        
-    }
-
-    /*log admin*/
-    public function adminLogin(string $email, string $password): bool {
-
-        $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM user WHERE email = '$email'"
-        );
-
-        $user = $statement->fetch();
-
-        if($user) {
-            if(password_verify($password ,$user['pwd'])) {
-                if($user['admin']) {
-                    return true;
-                }
-            } 
-        }
-
-        return false;
-        
     }
 
     /*create a user*/
@@ -59,7 +42,7 @@ class UserModel {
         $newPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO user(id, email, pseudo, mdp, createdAt) VALUES (?, ?, ?, ?, ?, NOW())"
+            "INSERT INTO users(id, email, pseudo, mdp, createdAt) VALUES (?, ?, ?, ?, ?, NOW())"
         );
 
         $affectedLine = $statement->execute([$newId, $email, $pseudo, $newPassword]);
@@ -68,10 +51,10 @@ class UserModel {
         
     }
 
-    /*send email*/
+    /*send email
     public function sendMail(string $pseudo, string $email, string $message) {
 
-        $contact = "monmail@gmail.com";
+        $contact = "clea.leroux@hotmail.fr";
         $object = $pseudo;
         $entetes="From: " . $email;
         $entetes.="Content-Type: text/html; charset=iso-8859-1";
@@ -87,6 +70,6 @@ class UserModel {
             echo 'email not send';
         }
 
-    }
+    }*/
 
 }

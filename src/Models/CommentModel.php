@@ -37,68 +37,29 @@ class CommentModel extends BaseModel{
 
         return $comments;
     }
+        //create a comment 
+
+        public function createComment(string $id, string $userId, string $content): bool {
+
+            $v4 = Uuid::uuid4();
+            $newId = $v4->toString();
     
-/*     //get all comments for one post
-
-    public function getComments($postId): array {
-
-        $statement = $this->connection->getConnection()->query(
-            "SELECT Comment.id, userId, Comment.content, DATE_FORMAT(Comment.updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt FROM Comment INNER JOIN User ON comment.userId = user.id WHERE postId = $postId AND valided = 1 ORDER BY Comment.createdAt DESC; "
-        );
-
-        $comments = [];
-
-        while($row = $statement->fetch()) 
-        {
-            $comment = new Comment();
-            $comment->id = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->content = $row['content'];
-            $comment->updatedAt = $row['updatedAt'];
-
-            $comments[] = $comment;
+            $statement = $this->connection->getConnection()->prepare(
+                "INSERT INTO posts(id, postId, userId, content, valided) VALUES (?, ?, ?, ?, 0)"
+            );
+    
+            $affectedLine = $statement->execute([$newId, $id, $userId, $content]);
+    
+            return ($affectedLine > 0);
+    
         }
 
-        return $comments;
-    }
-
-    //create a comment 
-
-    public function createComment(string $id, string $userId, string $content): bool {
-
-        $v4 = Uuid::uuid4();
-        $newId = $v4->toString();
-
-        $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO comment(Id, postId, userId, content, valided) VALUES (?, ?, ?, ?, 0)"
-        );
-
-        $affectedLine = $statement->execute([$newId, $id, $userId, $content]);
-
-        return ($affectedLine > 0);
-
-    }
-
-    //Modify one comment
-
-    public function putComment(string $id,string $content): bool {
-
-        $statement = $this->connection->getConnection()->prepare(
-            "UPDATE comment SET content = ?, valided = 0, updatedAt = NOW() WHERE id = ?"
-        );
-
-        $affectedLine = $statement->execute([$content, $id]);
-
-        return ($affectedLine > 0);
-
-    }
-
-    //delete one comment 
+            //delete one comment 
 
     public function deleteComment(string $id): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "DELETE FROM comment WHERE id = ?"
+            "DELETE FROM posts WHERE id = ?"
         );
 
         $affectedLine = $statement->execute([$id]);
@@ -112,7 +73,7 @@ class CommentModel extends BaseModel{
     public function getNotEnabledComments(): array {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT content, id, postId, FROM comment LEFT JOIN user ON comment.userId = user.id WHERE valided = 0"
+            "SELECT content, id, postId, FROM posts LEFT JOIN users ON posts.userId = users.id WHERE valided = 0"
         );
 
         $comments = [];
@@ -142,6 +103,6 @@ class CommentModel extends BaseModel{
 
         return ($affectedLine > 0);
 
-    } */
+    }
 
 }

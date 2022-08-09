@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Lib\DatabaseConnection;
 use App\Models\CommentModel;
 
 class CommentController extends BaseController {
@@ -14,7 +13,6 @@ class CommentController extends BaseController {
         $content = $_POST['content'];
 
         $commentModel = new CommentModel();
-        $commentModel->connection = new DatabaseConnection();
         
         $success = $commentModel->createComment($id, $userId, $content);
 
@@ -26,33 +24,13 @@ class CommentController extends BaseController {
         
     }
     
-    //modify one comment
-
-    public function update(string $id, string $commentId) {
-        
-        $content = $_POST['modifyContent'];
-        
-        $commentModel = new CommentModel();
-        $commentModel->connection = new DatabaseConnection();
-        
-        $success = $commentModel->putComment($commentId, $content);
-    
-        if($success) {
-            header('Location: /articles/' . $id);
-        } else {
-            echo "pas ok";
-        } 
-
-    }
-    
     //delete one comment
 
     public function delete(string $id, string $commentId) {
                 
         $commentModel = new CommentModel();
-        $commentModel->connection = new DatabaseConnection();
         
-        $success = $commentModel->deleteComment($commentId, $content);
+        $success = $commentModel->deleteComment($commentId);
     
         if($success) {
             header('Location: /articles/' . $id);
@@ -62,4 +40,30 @@ class CommentController extends BaseController {
 
     }
 
+        /* display not validate comments*/
+        public function showComments() {
+
+            $commentModel = new CommentModel();
+    
+            $comments = $commentModel->getNotEnabledComments();
+    
+            echo $this->twig->render('./postOnePage.html.twig', ['comments' => $comments]); 
+    
+        }
+    
+        
+        /*valid a comment*/
+        public function validate($id) {
+    
+            $commentModel = new CommentModel();
+            
+            $success = $commentModel->validateComment($id);
+        
+            if($success) {
+                echo $this->twig->render('./postOnePage.html.twig'); 
+            } else {
+                echo "pas ok";
+            } 
+    
+        }
 }

@@ -15,18 +15,9 @@ class BaseController {
         $this->twig = new Environment($this->loader);        
 	}
 
-	protected function isAuthenticated() {
-		return $this->getCurrentUserId() > 0 ? true : false;
-	}
-
-	protected function getCurrentUser() {
-		// TODO get current user from db and return it
-		return null;  
-	}
-
-	protected function getCurrentUserId() {
-		if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) return $_SESSION['userId'];
-		return null;
-	}
+    public function index()
+    {
+        $this->twig->display('home.html.twig');
+    }
 
 }

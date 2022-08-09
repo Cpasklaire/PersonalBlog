@@ -2,13 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Lib\DatabaseConnection;
 use App\Models\UserModel;
 
-class UserController {
+class UserController extends BaseController {
 
-    /*login function*/
-    public function log() {
+    /*login*/
+    public function login() {
 
         if(
             (isset($_POST['email']) && $_POST['email'] !== "" && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) && 
@@ -18,27 +17,27 @@ class UserController {
             $mdp = "" . $_POST['mdp'] . "";
             
             $userModel = new UserModel();
-            $userModel->connection = new DatabaseConnection();
             
             $user = $userModel->login($email, $mdp);
             
             if(sizeof($user) > 0) {
                 session_start();
-                $_SESSION['name'] = $email;
-                $_SESSION['pseudo'] = $user[1];
-                $_SESSION['auth'] = "true";
                 $_SESSION['userId'] = $user[0];
+                $_SESSION['pseudo'] = $user[1];
+                $_SESSION['name'] = $email;
+                $_SESSION['admin'] = $user[4];
             } 
 
-            header('Location: /blog_php');
-            
-        } else {
-            
-            header('Location: /blog_php');
-            
-        }
-        
-    }
+            if($_SESSION['admin']==0)
+            {
+            header('Location: /');      
+        } else if($_SESSION['admin']==1) 
+        {   
+            header('Location: /admin/adminLayout');
+        }else{
+            header('Location: /notUser');
+        }     
+    }}
         
     /*user logout*/
     public function logout() {
@@ -49,7 +48,7 @@ class UserController {
 
         session_destroy();
 
-        header('Location: /blog_php');
+        header('Location: /');
 
     }
 
@@ -68,7 +67,6 @@ class UserController {
             $pseudo = $_POST['pseudo'];
             
             $userModel = new UserModel();
-            $userModel->connection = new DatabaseConnection();
             
             $success = $userModel->createUser($pseudo, $email, $mdp);
             
@@ -85,7 +83,7 @@ class UserController {
         
     }
 
-    /*send email*/
+    /*send email
     public function sendMail() {
 
         $pseudo = $_POST['pseudo'];
@@ -101,6 +99,6 @@ class UserController {
 
         }
 
-    }
+    }*/
 
 }
