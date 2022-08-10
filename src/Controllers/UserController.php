@@ -6,22 +6,6 @@ use App\Models\UserModel;
 
 class UserController extends BaseController {
 
-	protected function getCurrentUser() {
-		// TODO get current user from db and return it
-        $userModel = new UserModel();
-        $userInfo = $userModel->login($email, $mdp);
-		return $userInfo;
-	}	
-    
-    protected function getCurrentUserId() {
-		if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) return $_SESSION['userId'];
-		return null;
-	}
-    
-    protected function isAuthenticated() {
-		return $this->getCurrentUserId() > 0 ? true : false;
-	}
-
     /*login*/
     public function login() {
 

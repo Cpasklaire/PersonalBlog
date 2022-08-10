@@ -14,24 +14,19 @@ class UserModel extends BaseModel{
 
     //login
 
-    public function login(string $email, string $password): array {
+    public function login(string $email, string $password): object {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM users WHERE email = '$email'"
+            "SELECT * FROM users WHERE email = '$email' LIMIT 1"
         );
+        return $statement->fetchObject();        
+    }
 
-        $user = $statement->fetch();
-        $userInfo = [];
-
-        if($user) {
-            if(password_verify($password ,$user['mdp'])) {
-                    $userInfo[] = $user['id'];
-                    $userInfo[] = $user['pseudo'];
-                    $userInfo[] = $user['admin'];
-            } 
-        }
-
-        return $userInfo;
+    public function getUser($id) {
+        $statement = $this->connection->getConnection()->query(
+            "SELECT * FROM Users WHERE id = $id"
+        );
+        return $statement->fetchObject();        
     }
 
     /*create a user*/

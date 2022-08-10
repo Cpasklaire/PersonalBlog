@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 
@@ -15,16 +16,29 @@ class BaseController {
         $this->twig = new Environment($this->loader);        
 	}
 
+    protected function getCurrentUser() {		
+        $userModel = new UserModel();
+        $user = $userModel->getUser($this->getCurrentUserId());
+		return $user;
+	}	
+    
+    protected function getCurrentUserId() {
+		if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) return $_SESSION['userId'];
+		return null;
+	}
+    
+    protected function isAuthenticated() {
+		return $this->getCurrentUserId() > 0 ? true : false;
+	}
+
     public function index()
     {
-        $this->twig->display('home.html.twig');
-    }
-    public function login()
+        $this->render('home.html.twig');
+    }    
+
+    protected function render($view, $params = [])
     {
-        $this->twig->display('login.html.twig');
-    }
-    public function sign()
-    {
-        $this->twig->display('sign.html.twig');
+        $params['currentUser'] = $this->getCurrentUser();
+        $this->twig->display($view, $params);
     }
 }

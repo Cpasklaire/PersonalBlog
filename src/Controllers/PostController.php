@@ -14,6 +14,7 @@ class PostController extends BaseController {
         $posts = $postModel->getPosts();
         echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]);	
     }
+    
     public function listAdmin() {
         $postModel = new PostModel();
         $posts = $postModel->getPosts();

@@ -40,6 +40,8 @@ public function getPosts(): array {
     // view One post
     public function getOnePost($postId): Post {
 
+        // gerer le cas où le post n'existe pas => 404
+
         $statement = $this->connection->getConnection()->query(
             "SELECT * FROM Posts WHERE id = $postId"
         );
@@ -64,20 +66,20 @@ public function getPosts(): array {
 
     }
 
-        //creat post
-        public function createPost(string $title, string $imageURL, string $content, string $userId): bool  {
+    //creat post
+    public function createPost(string $title, string $imageURL, string $content, string $userId): bool  {
 
-            $statement = $this->connection->getConnection()->prepare(
-                "INSERT INTO posts(userId, title, content, imageURL, postId, createdAt, updatedAt) VALUES (?, ?, ?, ?,NULL, NOW(), NOW())"
-            );
-    
-            $affectedLine = $statement->execute([$userId, $title, $content, $imageURL]);
-    
-            return ($affectedLine > 0);
-    
-        }
+        $statement = $this->connection->getConnection()->prepare(
+            "INSERT INTO posts(userId, title, content, imageURL, postId, createdAt, updatedAt) VALUES (?, ?, ?, ?,NULL, NOW(), NOW())"
+        );
 
-            // edit post
+        $affectedLine = $statement->execute([$userId, $title, $content, $imageURL]);
+
+        return ($affectedLine > 0);
+
+    }
+
+        // edit post
     public function putPost(string $title, string $imageURL, string $content): bool {
 
         $statement = $this->connection->getConnection()->prepare(
