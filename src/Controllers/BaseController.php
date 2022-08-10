@@ -19,5 +19,12 @@ class BaseController {
     {
         $this->twig->display('home.html.twig');
     }
-
+    public function login()
+    {
+        $this->twig->display('login.html.twig');
+    }
+    public function sign()
+    {
+        $this->twig->display('sign.html.twig');
+    }
 }

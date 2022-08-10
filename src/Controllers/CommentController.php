@@ -47,7 +47,7 @@ class CommentController extends BaseController {
     
             $comments = $commentModel->getNotEnabledComments();
     
-            echo $this->twig->render('./postOnePage.html.twig', ['comments' => $comments]); 
+            echo $this->twig->render('./admin/noValidComment.html.twig', ['comments' => $comments]); 
     
         }
     
@@ -60,7 +60,7 @@ class CommentController extends BaseController {
             $success = $commentModel->validateComment($id);
         
             if($success) {
-                echo $this->twig->render('./postOnePage.html.twig'); 
+                echo $this->twig->render('./admin/noValidComment.html.twig'); 
             } else {
                 echo "pas ok";
             } 

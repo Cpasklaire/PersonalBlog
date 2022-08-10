@@ -4,8 +4,6 @@
 
         <h1>{{ post.title }}</h1>
         <p>{{ post.content }}</p>
-        <h1>{{ post.id }}</h1>
-
         
          <h2>Commentaires: ({{ post.comments|length }})</h2>
         {% for comment in post.comments %}        

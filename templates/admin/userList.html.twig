@@ -1,0 +1,7 @@
+{% extends "/admin/adminLayout.html.twig" %}
+
+{% block content %}
+    {% for user in users %}
+        <h1>{{ user.pseudo }}</h1>
+    {% endfor %}
+{% endblock %}

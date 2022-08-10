@@ -6,6 +6,22 @@ use App\Models\UserModel;
 
 class UserController extends BaseController {
 
+	protected function getCurrentUser() {
+		// TODO get current user from db and return it
+        $userModel = new UserModel();
+        $userInfo = $userModel->login($email, $mdp);
+		return $userInfo;
+	}	
+    
+    protected function getCurrentUserId() {
+		if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) return $_SESSION['userId'];
+		return null;
+	}
+    
+    protected function isAuthenticated() {
+		return $this->getCurrentUserId() > 0 ? true : false;
+	}
+
     /*login*/
     public function login() {
 
@@ -33,9 +49,9 @@ class UserController extends BaseController {
             header('Location: /');      
         } else if($_SESSION['admin']==1) 
         {   
-            header('Location: /admin/adminLayout');
+            header('Location: /admin');
         }else{
-            header('Location: /notUser');
+            header('Location: /inconnu');
         }     
     }}
         
@@ -73,15 +89,16 @@ class UserController extends BaseController {
             if($success) {
                 echo 'utilisateur créé';
             } else {
-                header('Location: /blog_php');
+                header('Location: /sign');
             }
         } else {
             
-            header('Location: /blog_php');
+            header('Location: /');
             
         }
         
     }
+
 
     /*send email
     public function sendMail() {

@@ -13,34 +13,34 @@ session_start();
 
 $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 
-$router->get('/', 'Index#index');
-$router->get('/articles', 'Post#list');
-$router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
+//global
+$router->get('/', 'Base#index'); //ok
+$router->get('/articles', 'Post#list'); //ok
+$router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+'); //bug
+$router->post('/contact', 'User#sendMail'); //no test
 
-//$router->post('/articles/postComment/:id-:userId', 'Comment#createComment')->with('id', '[0-9]+')->with('userId', '([a-zA-Z\-0-9])+');
-//$router->post('/articles/:id/comment/:commentId', 'Comment#update')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+');
-//$router->post('/articles/:id/commentDelete/:commentId', 'Comment#delete')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+');
+//connection
+$router->get('/login', 'Base#login'); //ok
+$router->post('/login', 'User#login'); //bug
+$router->get('/sign', 'Base#sign'); //ok
+$router->post('/sign', 'User#sign'); //bug
+$router->post('/logout', 'User#logout'); //no test
 
-// $router->post('/log', 'User#log');
-// $router->post('/sign', 'User#sign');
-// $router->post('/logout', 'User#logout');
-// $router->post('/contact', 'User#sendMail');
+//user
+$router->post('/articles/postComment/:id-:userId', 'Comment#createComment')->with('id', '[0-9]+')->with('userId', '([a-zA-Z\-0-9])+'); //no test
 
-// $router->post('/adminlog', 'Admin#log');
-
-$router->get('/admin', 'Admin#list');
-
-$router->get('/adminPanel/showarticles', 'Admin#list');
-$router->get('/adminPanel/modify/:id', 'Admin#show');
-$router->post('/adminPanel/modify/:id', 'Admin#modify');
-$router->post('/adminPanel/delete/:id', 'Admin#delete');
-$router->post('/adminPanel/addarticle', 'Admin#create');
-$router->get('/adminPanel/showComments', 'Admin#showComments');
-$router->post('/adminPanel/articles/:id/commentDelete/:commentId', 'Admin#deleteComment')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+');
-$router->post('/adminPanel/validateComment/:id', 'Admin#validate');
-
-$router->get('/login', 'Index#login');
-$router->post('/login', 'Index#authenticate');
+//admin
+//posts
+$router->get('/admin', 'Post#listAdmin'); //ok
+$router->post('/admin/modify/:id', 'Post#modify'); //no test
+$router->post('/admin/delete/:id', 'Post#delete'); //no test
+$router->post('/admin/creatpost', 'Post#create'); //no test
+//comment
+$router->get('/admin/commentaires', 'Comment#showComments'); //bug
+$router->post('/admin/articles/:id/commentDelete/:commentId', 'Comment#deleteComment')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+'); //no test
+$router->post('/admin/commentaires/validate/:id', 'Comment#validate'); //no test
+//user
+$router->get('/admin/users', 'User#list');//pas créé
 
 try {
 $router->run();

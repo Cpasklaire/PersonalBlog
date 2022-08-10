@@ -1,0 +1,27 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <section class="sign">
+        <form method="POST" class="login-form">
+            <div>
+                <label>pseudo</label>                
+                <input type="text" name="login" placeholder="" />
+            </div>
+
+            <div>
+                <label>mail</label>                
+                <input type="email" name="email" placeholder="" />
+            </div>
+
+            <div>
+                <label>Mot de passe</label>                
+                <input type="password" name="password" />
+            </div>
+
+            <div>
+                <input type="submit" />
+            </div>
+
+        </form>
+    </section>
+{% endblock %}

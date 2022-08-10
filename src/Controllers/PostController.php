@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\PostModel;
 use App\Models\CommentModel;
+use App\Controllers\UserController;
 
 class PostController extends BaseController {
     
@@ -12,6 +13,11 @@ class PostController extends BaseController {
         $postModel = new PostModel();
         $posts = $postModel->getPosts();
         echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]);	
+    }
+    public function listAdmin() {
+        $postModel = new PostModel();
+        $posts = $postModel->getPosts();
+        echo $this->twig->render('./admin/postPage.html.twig', ['posts' => $posts]);	
     }
 
      // view One post
