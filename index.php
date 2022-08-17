@@ -26,8 +26,8 @@ $router->post('/contact', 'User#sendMail'); //no test
 //connection
 $router->get('/login', 'Auth#login'); //ok
 $router->post('/login', 'Auth#login'); //ok
-$router->get('/sign', 'Auth#sign'); //ok
-$router->post('/sign', 'Auth#sign'); //ok
+$router->get('/signup', 'Auth#signup'); //ok
+$router->post('/signup', 'Auth#signup'); //ok
 $router->get('/logout', 'Auth#logout'); //no test
 
 //user

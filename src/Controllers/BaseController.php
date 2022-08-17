@@ -17,8 +17,10 @@ class BaseController {
 	}
 
      protected function getCurrentUser() {		
+        $userId = $this->getCurrentUserId();
+        if (!$userId) return null;
         $userModel = new UserModel();
-        $user = $userModel->getUser($this->getCurrentUserId());
+        $user = $userModel->getUser($userId);
 		return $user;
 	}	
     

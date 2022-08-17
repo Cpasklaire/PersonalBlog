@@ -42,7 +42,7 @@ class AuthController extends BaseController {
         }        
     }
 
-    public function sign()
+    public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
 
@@ -55,21 +55,19 @@ class AuthController extends BaseController {
                     echo 'utilisateur créé';
                     header('Location: /login');
                 } else {
-                    header('Location: /sign');
+                    header('Location: /signup');
                 }
            } else {
-                header('Location: /signin?error=invalid_form');    
+                header('Location: /signup?error=invalid_form');    
             }
          } else {
-            return $this->render('sign.html.twig');
+            return $this->render('signup.html.twig');
         }   
     }
 
      public function logout() {
 
-        session_start();
         session_destroy();
-
         header('Location: /');
 
     } 
