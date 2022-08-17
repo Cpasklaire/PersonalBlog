@@ -16,7 +16,7 @@ class BaseController {
         $this->twig = new Environment($this->loader);        
 	}
 
-    protected function getCurrentUser() {		
+     protected function getCurrentUser() {		
         $userModel = new UserModel();
         $user = $userModel->getUser($this->getCurrentUserId());
 		return $user;
@@ -29,7 +29,7 @@ class BaseController {
     
     protected function isAuthenticated() {
 		return $this->getCurrentUserId() > 0 ? true : false;
-	}
+	} 
 
     public function index()
     {

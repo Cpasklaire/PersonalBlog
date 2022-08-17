@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use \Ramsey\Uuid\Uuid;
-
 class User {
     public string $id;
     public string $pseudo;
@@ -19,28 +17,27 @@ class UserModel extends BaseModel{
         $statement = $this->connection->getConnection()->query(
             "SELECT * FROM users WHERE email = '$email' LIMIT 1"
         );
-        return $statement->fetchObject();        
+        return $statement->fetchObject();   
+        
     }
 
     public function getUser($id) {
         $statement = $this->connection->getConnection()->query(
             "SELECT * FROM Users WHERE id = $id"
         );
-        return $statement->fetchObject();        
+        return $statement->fetchObject();   
     }
 
     /*create a user*/
     public function createUser(string $pseudo, string $email, string $password): bool {
 
-        $v4 = Uuid::uuid4();
-        $newId = $v4->toString();
-        $newPassword = password_hash($password, PASSWORD_DEFAULT);
+        $mdp = password_hash($password, PASSWORD_DEFAULT);
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO users(id, email, pseudo, mdp, createdAt) VALUES (?, ?, ?, ?, ?, NOW())"
+            "INSERT INTO users(email, pseudo, mdp, createdAt) VALUES (?, ?, ?, NOW())"
         );
 
-        $affectedLine = $statement->execute([$newId, $email, $pseudo, $newPassword]);
+        $affectedLine = $statement->execute([$email, $pseudo, $mdp]);
 
         return ($affectedLine > 0);
         

@@ -21,12 +21,16 @@ class AuthController extends BaseController {
                     die;
                 }
 
-                if($_SESSION['admin']==1) {   
-                    header('Location: /admin');
-                    die;
+                if(password_verify($_POST['password'], $user->mdp)) {
+                    if($user->admin==1) {   
+                        header('Location: /admin');
+                        die;
+                    } else {
+                        header('Location: /');    
+                        die;
+                    }
                 } else {
-                    header('Location: /');    
-                    die;
+                    header('Location: /login?error=invalid_passeword'); 
                 }
            } else {
                 // invalid credentials : missing data in form
@@ -40,6 +44,33 @@ class AuthController extends BaseController {
 
     public function sign()
     {
-        return $this->render('sign.html.twig');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+
+            
+
+            if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {                
+                $userModel = new UserModel();                
+                $success = $userModel->createUser($_POST['pseudo'], $_POST['email'], $_POST['password']);
+                if($success) {
+                    echo 'utilisateur créé';
+                    header('Location: /login');
+                } else {
+                    header('Location: /sign');
+                }
+           } else {
+                header('Location: /signin?error=invalid_form');    
+            }
+         } else {
+            return $this->render('sign.html.twig');
+        }   
     }
+
+     public function logout() {
+
+        session_start();
+        session_destroy();
+
+        header('Location: /');
+
+    } 
 }

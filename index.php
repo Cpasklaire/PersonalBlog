@@ -25,15 +25,15 @@ $router->post('/contact', 'User#sendMail'); //no test
 
 //connection
 $router->get('/login', 'Auth#login'); //ok
-$router->post('/login', 'Auth#login'); //bug
+$router->post('/login', 'Auth#login'); //ok
 $router->get('/sign', 'Auth#sign'); //ok
-$router->post('/sign', 'User#sign'); //bug
-$router->post('/logout', 'User#logout'); //no test
+$router->post('/sign', 'Auth#sign'); //ok
+$router->get('/logout', 'Auth#logout'); //no test
 
 //user
 // userId n'est pas dans l'URL ! 
 // standard REST /articles/:id/comment en POST
-$router->post('/articles/postComment/:id-:userId', 'Comment#createComment')->with('id', '[0-9]+')->with('userId', '([a-zA-Z\-0-9])+'); //no test
+$router->post('/articles/postComment/:id', 'Comment#createComment')->with('id', '[0-9]+'); //no test
 
 // admin
 // admin base controller qui verifie que l'utilisateur est admin ... 
