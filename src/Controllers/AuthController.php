@@ -15,6 +15,7 @@ class AuthController extends BaseController {
                 $user = $userModel->login($_POST['login'], $_POST['password']);
                 if ($user) {
                     $_SESSION['userId'] = $user->id;
+                    //$_SESSION['pseudo'] = $user->pseudo;
                 } else {
                     // invalid credentials or user does not exist
                     header('Location: /login?error=invalid_credentials');    
@@ -45,8 +46,6 @@ class AuthController extends BaseController {
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
-
-            
 
             if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {                
                 $userModel = new UserModel();                

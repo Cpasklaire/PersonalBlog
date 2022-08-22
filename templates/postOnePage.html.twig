@@ -3,11 +3,16 @@
 {% block content %}
 
         <h1>{{ post.title }}</h1>
+        <h2>{{ post.chapo }}</h2>
         <p>{{ post.content }}</p>
+        <span>{{ post.author }}</span>
+        <span>{{ post.updateDate |date('d/m/Y') }}</span>
         
          <h2>Commentaires: ({{ post.comments|length }})</h2>
-        {% for comment in post.comments %}        
+        {% for comment in post.comments %}     
+            <span>{{ comment.author }}</span>   
             <p>{{ comment.content }}</p>
+            <span>{{ comment.updatedAt |date('d/m/Y') }}</span>
         {% endfor %} 
 
         

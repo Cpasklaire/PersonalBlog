@@ -36,35 +36,34 @@ class PostController extends BaseController {
         /*create post*/
         public function create() {
 
-            $userId = $this->getCurrentUserId();
-    
-            if(
-                (isset($_POST['title']) && $_POST['title'] !== "" && preg_match('/^[a-zA-Zé èà]*$/', $_POST['title'])) && 
-                (isset($_POST['imageURL']) && $_POST['imageURL'] !== "" && preg_match('/^[a-zA-Zé èà]*$/', $_POST['imageURL'])) && 
-                (isset($_POST['content']) && $_POST['content'] !== "" && preg_match("/^[a-zA-Zé èà0-9\s,.'-]{3,}$/", $_POST['content'])) 
-            ) {
-      
-                $title = $_POST['title'];
-                $imageURL = $_POST['imageURL'];
-                $content = $_POST['content'];
-                
-                $postModel = new PostModel();
-                
-                $success = $postModel->createPost($title, $imageURL, $content, $userId);
-                
-                if($success) {
-                    echo $this->twig->render('./adminPage.html.twig');
-                } else {
-                    echo "pas ok";
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+
+                if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {                
+                    
+                    $userId = $_SESSION['userId'];
+                    $title = $_POST['title'];
+                    $chapo = $_POST['chapo'];
+                    $content = $_POST['content'];
+                    $author = "michel";     
+                    
+                    $postModel = new PostModel();           
+                    $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
+                    if($success) {
+                        echo 'post créé';
+                        header('Location: /admin');
+                    } else {
+                        header('Location: /admin/createPost');
+                    }
+               } else {
+                    header('Location: /admin/createPost?error=invalid_form');    
                 }
-                
-            } else {
-                
-                echo $this->twig->render('./CreatModifyPost.html.twig');
-            
-            }
+             } else {
+                return $this->render('./admin/createPost.html.twig');
+            }   
         }
-            /*modify one post*/
+            
+        
+        /*modify one post*/
     public function modify($id) {
 
         if(

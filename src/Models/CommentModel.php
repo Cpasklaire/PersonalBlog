@@ -7,6 +7,7 @@ use \Ramsey\Uuid\Uuid;
 class Comment {
     public string $id ;
     public string $userId;
+    public string $author;
     public string $content ;
     public string $valided ;
     public string $updatedAt ;
@@ -29,6 +30,7 @@ class CommentModel extends BaseModel{
             $comment = new Comment();
             $comment->id = $row['id'];
             $comment->userId = $row['userId'];
+            $comment->author = $row['author'];
             $comment->content = $row['content'];
             $comment->updatedAt = $row['updatedAt'];
 

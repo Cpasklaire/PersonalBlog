@@ -2,7 +2,12 @@
 
 {% block content %}
     {% for post in posts %}
+    <div class="adminPosts">
         <a href="/articles/{{ post.postId }}"><h1>{{ post.title }}</h1></a>
-        <p>{{ post.content }}</p>
+        <h1>{{ post.chapo }}</h1>
+        Modifier
+        Supprimer
+        Voir les commentaires
+    </div>
     {% endfor %}
 {% endblock %}

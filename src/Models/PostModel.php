@@ -5,8 +5,9 @@ namespace App\Models;
 class Post {
     public string $postId;
     public string $title;
+    public string $chapo;
     public string $content;
-    public string $imageURL;
+    public string $author;
     public string $createDate;
     public string $updateDate;
 }
@@ -27,8 +28,9 @@ public function getPosts(): array {
         $post = new Post();
         $post->postId = $row['id'];
         $post->title = $row['title'];
+        $post->chapo = $row['chapo'];
         $post->content = $row['content'];
-        $post->imageURL = $row['imageURL'] ? $row['imageURL'] : '';
+        $post->author = $row['author'];
         $post->createDate = $row['createdAt'];
         $post->updateDate = $row['updatedAt'];
 
@@ -53,40 +55,41 @@ public function getPosts(): array {
         $post = new Post();
         $post->id = $postId;
         $post->title = $data['title'];
+        $post->chapo = $data['chapo'];
         $post->content = $data['content'];
-        $post->imageURL = $data['imageURL'] ? $data['imageURL'] : '';
+        $post->author = $data['author'];
         $post->createDate = $data['createdAt'];
         $post->updateDate = $data['updatedAt'];
 
-/*         $commentModel = new CommentModel();
+        $commentModel = new CommentModel();
         $comments = $commentModel->getComments($post->id);
-        $post->comments = $comments; */
+        $post->comments = $comments;
 
         return $post;
 
     }
 
     //creat post
-    public function createPost(string $title, string $imageURL, string $content, string $userId): bool  {
+    public function createPost(string $userId, string $title, string $chapo, string $content, string $author): bool  {
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO posts(userId, title, content, imageURL, postId, createdAt, updatedAt) VALUES (?, ?, ?, ?,NULL, NOW(), NOW())"
+            "INSERT INTO posts(userId, title, chapo, content, postId, author, createdAt, updatedAt) VALUES (?, ?, ?, ?, NULL, ?, NOW(), NOW())"
         );
 
-        $affectedLine = $statement->execute([$userId, $title, $content, $imageURL]);
+        $affectedLine = $statement->execute([$userId, $title, $chapo, $content, $author]);
 
         return ($affectedLine > 0);
 
     }
 
         // edit post
-    public function putPost(string $title, string $imageURL, string $content): bool {
+    public function putPost(string $title, string $content, string $author): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "UPDATE posts SET title = ?, imageURL = ?, content = ?, userId = ?, updatedAt = NOW() WHERE id = ?"
+            "UPDATE posts SET title = ?,  content = ?, author = ?, userId = ?, updatedAt = NOW() WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$title, $imageURL, $content, $userId, $id]);
+        $affectedLine = $statement->execute([$title, $content, $author]);
 
         return ($affectedLine > 0);
     }

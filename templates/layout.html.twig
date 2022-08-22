@@ -16,9 +16,13 @@
             </a>
             <nav>
                 <a href="/articles">Articles</a>
+                {% if currentUser.id is null  %}
                 <a href="/login">Se connecter</a>
                 <a href="/signup">S'inscrire</a>
+                {% endif %}
+                {% if currentUser.id > 1  %}
                 <a href="/logout">Déconnection</a>
+                {% endif %}
             </nav>
     </header>
         <div>        

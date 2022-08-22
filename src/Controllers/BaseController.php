@@ -13,7 +13,7 @@ class BaseController {
 
 	public function __construct() {
 		$this->loader = new FilesystemLoader('./templates');
-        $this->twig = new Environment($this->loader);        
+        $this->twig = new Environment($this->loader);    
 	}
 
      protected function getCurrentUser() {		
