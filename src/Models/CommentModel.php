@@ -5,18 +5,17 @@ namespace App\Models;
 use \Ramsey\Uuid\Uuid;
 
 class Comment {
-    public string $id ;
+    public string $id;
     public string $userId;
     public string $author;
-    public string $content ;
-    public string $valided ;
-    public string $updatedAt ;
+    public string $content;
+    public string $valided;
+    public string $updatedAt;
 }
 
 class CommentModel extends BaseModel{
 
-    //get all comments valided for one post
-
+    //show comments valided for one post
     public function getComments($postId): array {
 
         $statement = $this->connection->getConnection()->query(
@@ -25,8 +24,7 @@ class CommentModel extends BaseModel{
 
         $comments = [];
 
-        while($row = $statement->fetch()) 
-        {
+        while($row = $statement->fetch()) {
             $comment = new Comment();
             $comment->id = $row['id'];
             $comment->userId = $row['userId'];
@@ -36,55 +34,44 @@ class CommentModel extends BaseModel{
 
             $comments[] = $comment;
         }
-
         return $comments;
     }
 
-        //get all comments for one post
+    //show all comments for one post
+    public function getAllComments($postId): array {
 
-        public function getAllComments($postId): array {
+        $statement = $this->connection->getConnection()->query(
+            "SELECT * FROM Posts WHERE Posts.postId = $postId ORDER BY Posts.createdAt DESC; "
+        );
 
-            $statement = $this->connection->getConnection()->query(
-                "SELECT * FROM Posts WHERE Posts.postId = $postId ORDER BY Posts.createdAt DESC; "
-            );
-    
-            $comments = [];
-    
-            while($row = $statement->fetch()) 
-            {
-                $comment = new Comment();
-                $comment->id = $row['id'];
-                $comment->userId = $row['userId'];
-                $comment->author = $row['author'];
-                $comment->content = $row['content'];
-                $comment->valided = $row['valided'];
-                $comment->updatedAt = $row['updatedAt'];
-    
-                $comments[] = $comment;
-            }
-    
-            return $comments;
+        $comments = [];
+
+        while($row = $statement->fetch()) {
+            $comment = new Comment();
+            $comment->id = $row['id'];
+            $comment->userId = $row['userId'];
+            $comment->author = $row['author'];
+            $comment->content = $row['content'];
+            $comment->valided = $row['valided'];
+            $comment->updatedAt = $row['updatedAt'];
+
+            $comments[] = $comment;
         }
+        return $comments;
+    }
 
-        //create a comment 
+    //create a comment 
+    public function createComment(string $id, string $userId, string $content): bool {
 
-        public function createComment(string $id, string $userId, string $content): bool {
+        $statement = $this->connection->getConnection()->prepare(
+            "INSERT INTO posts(postId, userId, content, valided) VALUES (?, ?, ?, 0)"
+        );
 
-            $v4 = Uuid::uuid4();
-            $newId = $v4->toString();
-    
-            $statement = $this->connection->getConnection()->prepare(
-                "INSERT INTO posts(id, postId, userId, content, valided) VALUES (?, ?, ?, ?, 0)"
-            );
-    
-            $affectedLine = $statement->execute([$newId, $id, $userId, $content]);
-    
-            return ($affectedLine > 0);
-    
-        }
+        $affectedLine = $statement->execute([$id, $userId, $content]);
+        return ($affectedLine > 0);
+    }
 
-            //delete one comment 
-
+    //delete one comment 
     public function deleteComment(string $id): bool {
 
         $statement = $this->connection->getConnection()->prepare(
@@ -92,13 +79,10 @@ class CommentModel extends BaseModel{
         );
 
         $affectedLine = $statement->execute([$id]);
-
         return ($affectedLine > 0);
-
     }
 
-    //create a list of not enabled comments
-
+    //create a list of not valided comments
     public function getNotEnabledComments(): array {
 
         $statement = $this->connection->getConnection()->query(
@@ -107,8 +91,7 @@ class CommentModel extends BaseModel{
 
         $comments = [];
 
-        while($row = $statement->fetch()) 
-        {
+        while($row = $statement->fetch()) {
             $comment = new Comment();
             $comment->id = $row['id'];
             $comment->userId = $row['userId'];
@@ -119,17 +102,15 @@ class CommentModel extends BaseModel{
 
             $comments[] = $comment;
         }
-
         return $comments;
-        
     }
 
     //valid one comment
-
     public function validateComment(string $id): bool {
         $statement = $this->connection->getConnection()->prepare(
             "UPDATE posts SET valided = true WHERE id = ?"
         );
+        
         $affectedLine = $statement->execute([$id]);
         return ($affectedLine > 0);
     }

@@ -6,8 +6,7 @@ class DatabaseConnection
 {
     public ?\PDO $database = null;
 
-    public function getConnection(): \PDO 
-    {
+    public function getConnection(): \PDO {
 
         if($this->database == null) 
         {

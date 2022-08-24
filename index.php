@@ -45,7 +45,7 @@ $router->get('/admin/commentaires', 'Comment#showComments');
 $router->get('/admin/commentaires/:id', 'Comment#validate')->with('id', '[0-9]+');
 $router->post('/admin/commentaires/delect/:id', 'Comment#deleteComment')->with('id', '[0-9]+'); //no test
 //user
-$router->get('/admin/users', 'Base#userList');
+$router->get('/admin/users', 'User#userList');
 
 try {
     $router->run();

@@ -13,5 +13,4 @@ class BaseModel {
 			$this->connection = new DatabaseConnection();
 		}		
 	}
-
 }

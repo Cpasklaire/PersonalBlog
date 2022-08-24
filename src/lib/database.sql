@@ -19,11 +19,10 @@ CREATE TABLE Posts (
     userId INT NOT NULL,
     title VARCHAR(100),
     content LONGTEXT NOT NULL,
-    imageURL VARCHAR(200),
 
     postId INTEGER,
     valided BOOLEAN DEFAULT false,
-    author INT,
+    author VARCHAR(100),
 
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
