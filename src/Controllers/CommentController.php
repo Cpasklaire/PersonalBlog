@@ -40,30 +40,21 @@ class CommentController extends BaseController {
 
     }
 
-        /* display not validate comments*/
-        public function showComments() {
-
+    /* display not validate comments*/
+    public function showComments() {
+        $commentModel = new CommentModel();
+        $comments = $commentModel->getNotEnabledComments();
+        echo $this->twig->render('./admin/noValidComment.html.twig', ['comments' => $comments]);
+    }
+    
+    /*valid a comment*/
+    public function validate($id) {
             $commentModel = new CommentModel();
-    
-            $comments = $commentModel->getNotEnabledComments();
-    
-            echo $this->twig->render('./admin/noValidComment.html.twig', ['comments' => $comments]); 
-    
-        }
-    
-        
-        /*valid a comment*/
-        public function validate($id) {
-    
-            $commentModel = new CommentModel();
-            
             $success = $commentModel->validateComment($id);
-        
             if($success) {
-                echo $this->twig->render('./admin/noValidComment.html.twig'); 
+                header('Location: /admin/commentaires');
             } else {
-                echo "pas ok";
+                header('Location: /admin/commentaires');
             } 
-    
-        }
+    }
 }

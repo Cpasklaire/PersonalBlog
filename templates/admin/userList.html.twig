@@ -1,7 +1,23 @@
 {% extends "/admin/adminLayout.html.twig" %}
 
 {% block content %}
-    {% for user in users %}
-        <h1>{{ user.pseudo }}</h1>
-    {% endfor %}
+    <div class="users">
+        <div class="user">
+            <span>Pseudo</span>
+            <span>Courriel</span>
+            <span>Statut</span>
+        </div>
+        {% for user in users %}
+            <div class="user">
+                <span>{{ user.pseudo }}</span>
+                <span>{{ user.email }}</span>
+                {% if user.admin < 1 %} 
+                    <span>Utilisateur</span> 
+                {% endif %}
+                {% if user.admin > 0 %} 
+                    <span>Administrateur</span> 
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -28,10 +28,21 @@ class PostController extends BaseController {
         $commentModel = new CommentModel();
 
         $post = $postModel->getOnePost($id);
-        $comments = $commentModel->getComments($id);
+        $comments = $commentModel->getAllComments($id);
 
         echo $this->twig->render('./postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     }  
+
+    public function showAdmin($id) {
+
+        $postModel = new PostModel();
+        $commentModel = new CommentModel();
+
+        $post = $postModel->getOnePostAllComment($id);
+        $comments = $commentModel->getAllComments($id);
+
+        echo $this->twig->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
+    } 
     
         /*create post*/
         public function create() {

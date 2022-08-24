@@ -78,5 +78,12 @@
             font-size: 0.7em;
         }
     }
-    
+}
+.cv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg{
+        width: 10%;
+    }
 }

@@ -3,24 +3,17 @@
 {% block content %}
     <section class="createPost">
         <form method="POST" class="create-form">
-            <div>
+
                 <label>Titre</label>                
                 <input  type="text" name="title"/>
-            </div>
 
-            <div>
                 <label>Chapo</label>   
-                <textarea name="chapo"></textarea>             
-            </div>
+                <input  type="text" name="chapo"/>             
 
-            <div>
                 <label>Contenu</label>                
                 <textarea name="content"></textarea>
-            </div>
 
-            <div>
-                <input type="submit" />
-            </div>
+                <button type="submit">Publier</button>
 
         </form>
     </section>

@@ -69,6 +69,36 @@ public function getPosts(): array {
 
     }
 
+        // view One post
+        public function getOnePostAllComment($postId): Post {
+
+            // gerer le cas où le post n'existe pas => 404
+    
+            $statement = $this->connection->getConnection()->query(
+                "SELECT * FROM Posts WHERE id = $postId"
+            );
+            $data = $statement->fetch();
+            if(!is_array($data)) {
+                return header('Location: /'); 
+            }
+    
+            $post = new Post();
+            $post->id = $postId;
+            $post->title = $data['title'];
+            $post->chapo = $data['chapo'];
+            $post->content = $data['content'];
+            $post->author = $data['author'];
+            $post->createDate = $data['createdAt'];
+            $post->updateDate = $data['updatedAt'];
+    
+            $commentModel = new CommentModel();
+            $comments = $commentModel->getAllComments($post->id);
+            $post->comments = $comments;
+    
+            return $post;
+    
+        }
+
     //creat post
     public function createPost(string $userId, string $title, string $chapo, string $content, string $author): bool  {
 

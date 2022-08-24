@@ -12,7 +12,7 @@ class AuthController extends BaseController {
             // Perform authentication
             if (isset($_POST['login']) && isset($_POST['password'])) {                
                 $userModel = new UserModel();                
-                $user = $userModel->login($_POST['login'], $_POST['password']);
+                $user = $userModel->login($_POST['login']);
                 if ($user) {
                     $_SESSION['userId'] = $user->id;
                     //$_SESSION['pseudo'] = $user->pseudo;

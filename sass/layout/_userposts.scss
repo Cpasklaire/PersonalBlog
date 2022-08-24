@@ -1,0 +1,67 @@
+.posts {
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .post {
+        min-width: 40%;
+        border-bottom: 2px solid $couleur-secondaire;
+        border-right: 2px solid $couleur-secondaire;
+        border-radius: 10%;
+        padding-left: 5%;
+        padding-bottom: 1%;
+        padding-top: 1%;
+        margin-bottom: 1%;
+        H2{
+            font-size: 2em;
+        }
+    }
+}
+
+.onePost, .adminOnePost {
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    .chapo{
+        margin: 2%;
+        background-color: $couleur-primaire;
+        border-radius: 30px;
+        text-align: center;
+    }
+    .info{
+        background-color: $couleur-primaire;
+        border-radius: 30px;
+        text-align: center;
+        width: 10%;
+        margin-left: 85%;
+    }
+    .comments {
+        margin-left: 5%;
+        margin-right: 5%;
+        background-color: $couleur-secondaire;
+        margin-top: 2%;
+        padding: 2%;
+        border-radius: 50px;
+        .comment{
+            background-color: white;
+            border-radius: 50px;
+            margin: 2%;
+            padding: 2%;
+            svg {
+                width: 5%;
+            }
+            .date{
+                font-size: .5em;
+            }
+
+        }            
+        .noconnect {
+            text-align: center;
+            a{
+                font-weight: bold;
+            }
+        }
+    }
+}

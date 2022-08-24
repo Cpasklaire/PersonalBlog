@@ -12,10 +12,10 @@ class UserModel extends BaseModel{
 
     //login
 
-    public function login(string $email, string $password): object {
+    public function login(string $pseudo): object {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM users WHERE email = '$email' LIMIT 1"
+            "SELECT * FROM users WHERE pseudo = '$pseudo' LIMIT 1"
         );
         return $statement->fetchObject();   
         
@@ -41,6 +41,28 @@ class UserModel extends BaseModel{
 
         return ($affectedLine > 0);
         
+    }
+
+    public function getUsers(): array {
+        
+        $statement = $this->connection->getConnection()->query(
+            " SELECT * FROM Users ORDER BY updatedAt DESC"
+        );
+    
+        $posts = [];
+    
+        while($row = $statement->fetch()) 
+        {
+            $user = new User();
+            $user->userId = $row['id'];
+            $user->pseudo = $row['pseudo'];
+            $user->email = $row['email'];
+            $user->admin = $row['admin'];
+            $user->createdAt = $row['createdAt'];
+    
+            $users[] = $user;
+        }
+        return $users;
     }
 
     /*send email

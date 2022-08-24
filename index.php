@@ -17,7 +17,9 @@ $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 $router->get('/', 'Base#index');
 $router->get('/articles', 'Post#list');
 $router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
-$router->post('/contact', 'User#sendMail'); //no test
+$router->get('/contact', 'Base#contact'); //no test
+$router->post('/contact', 'Base#contact'); //no test
+$router->get('/info', 'Base#politique');
 
 //connection
 $router->get('/login', 'Auth#login');
@@ -32,17 +34,17 @@ $router->post('/articles/:id/comment/', 'Comment#createComment')->with('id', '[0
 // admin
 //posts
 $router->get('/admin', 'Post#listAdmin'); 
-// /admin/post/:id en post (pour edit / create) en delete pour le delete 
+$router->get('/admin/articles/:id', 'Post#showAdmin')->with('id', '[0-9]+');
 $router->post('/admin/modify/:id', 'Post#modify'); //no test
 $router->post('/admin/delete/:id', 'Post#delete'); //no test
 $router->get('/admin/createPost', 'Post#create');
 $router->post('/admin/createPost', 'Post#create');
 //comment
-$router->get('/admin/commentaires', 'Comment#showComments'); //bug
-$router->post('/admin/articles/:id/commentDelete/:commentId', 'Comment#deleteComment')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+'); //no test
-$router->post('/admin/commentaires/validate/:id', 'Comment#validate'); //no test
+$router->get('/admin/commentaires', 'Comment#showComments'); 
+$router->get('/admin/commentaires/:id', 'Comment#validate')->with('id', '[0-9]+');
+$router->post('/admin/commentaires/delect/:id', 'Comment#deleteComment')->with('id', '[0-9]+'); //no test
 //user
-$router->get('/admin/users', 'User#list');
+$router->get('/admin/users', 'Base#userList');
 
 try {
     $router->run();

@@ -3,25 +3,18 @@
 {% block content %}
     <section class="sign">
         <form method="POST" class="sign-form">
-            <div>
+
                 <label>Pseudo</label>                
-                <input type="text" name="pseudo" placeholder="identifiant" />
-            </div>
+                <input type="text" name="pseudo" placeholder="identifiant" requied/>
 
-            <div>
                 <label>Courriel</label>                
-                <input type="mail" name="email" placeholder="monadress@mail.fr" />
-            </div>
+                <input type="mail" name="email" placeholder="monadress@mail.fr" requied/>
 
-            <div>
                 <label>Mot de passe</label>                
-                <input type="password" name="password" />
-            </div>
+                <input type="password" name="password" requied/>
 
-            <div>
-                <input type="submit" />
+                <button type="submit">S'inscrire</button>
             </div>
-
         </form>
     </section>
 {% endblock %}

@@ -1,8 +1,14 @@
 {% extends "/admin/adminLayout.html.twig" %}
 
 {% block content %}
-    {% for post in posts %}
-        <a href="/articles/{{ post.postId }}"><h1>{{ post.title }}</h1></a>
-        <p>{{ post.content }}</p>
+    {% for comment in comments %}
+        <h1>{{ comment.author }}</h1>
+        <p>{{ comment.content }}</p>
+        <a href="commentaires/{{comment.id}}">Valider</a>
+        <a href="articles/{{ comment.postId }}">Voir le contexte</a>
     {% endfor %}
+
+    {% if comment.valided |length < 1 %} 
+    Tout est valider !
+    {% endif %}
 {% endblock %}
