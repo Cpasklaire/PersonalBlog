@@ -35,8 +35,9 @@ $router->post('/articles/:id/comment/', 'Comment#createComment')->with('id', '[0
 //posts
 $router->get('/admin', 'Post#listAdmin'); 
 $router->get('/admin/articles/:id', 'Post#showAdmin')->with('id', '[0-9]+');
-$router->post('/admin/modify/:id', 'Post#modify'); //no test
-$router->post('/admin/delete/:id', 'Post#delete'); //no test
+$router->post('/admin/modify/:id', 'Post#modify')->with('id', '[0-9]+');
+$router->get('/admin/modify/:id', 'Post#modify')->with('id', '[0-9]+');
+$router->get('/admin/delete/:id', 'Post#delete')->with('id', '[0-9]+');
 $router->get('/admin/createPost', 'Post#create');
 $router->post('/admin/createPost', 'Post#create');
 //comment

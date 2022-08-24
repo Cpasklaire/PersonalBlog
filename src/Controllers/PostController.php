@@ -76,35 +76,39 @@ class PostController extends BaseController {
         
         /*modify one post*/
     public function modify($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
 
-        if(
-            (isset($_POST['title']) && $_POST['title'] !== "" && preg_match('/^[a-zA-Zé èà]*$/', $_POST['title'])) && 
-            (isset($_POST['imageURL']) && $_POST['imageURL'] !== "" && preg_match('/^[a-zA-Zé èà]*$/', $_POST['imageURL'])) && 
-            (isset($_POST['content']) && $_POST['content'] !== "" && preg_match("/^[a-zA-Zé èà0-9\s,.'-]{3,}$/", $_POST['content'])) 
-        ) {
- 
+        if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {                
+
             $title = $_POST['title'];
-            $content = $_POST['content'];
-            $imageURL = $_POST['imageURL'];
+            $chapo = $_POST['chapo'];
+            $content = $_POST['content'];     
             
-            $postModel = new PostModel();
-            
-            $success = $postModel->putPost($title, $imageURL, $id, $content);
-            
+            $postModel = new PostModel();           
+            $success = $postModel->putPost($title, $chapo, $content, $id);
             if($success) {
-                echo $this->twig->render('./adminPage.html.twig');
+                echo 'post modifier';
+                header('Location: /admin');
             } else {
-                echo "pas ok";
+                header('Location: /admin/modify/:id');
             }
-            
-        } else {
-
-            echo $this->twig->render('./adminPage.html.twig');
-            
+       } else {
+            header('Location: /admin/modify/:id');    
         }
+    
+    } else {
+        return $this->render('./admin/modify.html.twig');
+    }  
     } 
         /*delete one post*/
         public function delete($id) {
-            echo "article $id delete et ses commentaires"; 
+            $postModel = new PostModel();
+            $success = $postModel->deletePost($id);
+    
+            if($success) {
+                header('Location: /admin');
+            } else {
+                echo "pas ok";
+            } 
         }
 }

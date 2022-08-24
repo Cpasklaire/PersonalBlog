@@ -113,15 +113,28 @@ public function getPosts(): array {
     }
 
         // edit post
-    public function putPost(string $title, string $content, string $author): bool {
+    public function putPost(string $title, string $content, string $chapo, $id): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "UPDATE posts SET title = ?,  content = ?, author = ?, userId = ?, updatedAt = NOW() WHERE id = ?"
+            "UPDATE posts SET title = ?,  content = ?,  chapo = ?, updatedAt = NOW() WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$title, $content, $author]);
+        $affectedLine = $statement->execute([$title, $content, $chapo, $id]);
 
         return ($affectedLine > 0);
     }
     
+               //delete post 
+
+               public function deletePost($id): bool {
+
+                $statement = $this->connection->getConnection()->prepare(
+                    "DELETE FROM posts WHERE id = ?"
+                );
+        
+                $affectedLine = $statement->execute([$id]);
+        
+                return ($affectedLine > 0);
+        
+            }
 }

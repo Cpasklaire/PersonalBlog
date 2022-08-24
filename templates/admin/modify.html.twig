@@ -1,0 +1,20 @@
+{% extends "/admin/adminLayout.html.twig" %}
+
+{% block content %}
+    <section class="modifyPost">
+        <form method="POST" class="modify-form">
+
+                <label>Titre</label>                
+                <input  type="text" name="title"/>
+
+                <label>Chapo</label>   
+                <input  type="text" name="chapo"/>             
+
+                <label>Contenu</label>                
+                <textarea name="content"></textarea>
+
+                <button type="submit">Publier</button>
+
+        </form>
+    </section>
+{% endblock %}
