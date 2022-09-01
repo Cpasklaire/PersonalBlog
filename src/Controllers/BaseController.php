@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use App\Models\PostModel;
 
 class BaseController {
 	
@@ -49,12 +50,12 @@ class BaseController {
     }    
     
     public function index(){
-        $this->render('home.html.twig');
+        $postModel = new PostModel();
+        $posts = $postModel->getPosts();
+
+        echo $this->render('home.html.twig', ['posts' => $posts]);	
     }    
     public function politique(){
         $this->render('polConf.html.twig');
-    } 
-    public function contact(){
-        $this->render('contact.html.twig');
-    } 
+    }
 }

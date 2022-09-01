@@ -3,27 +3,36 @@
 namespace App\Controllers;
 
 use App\Models\CommentModel;
+use App\Models\PostModel;
 
 class CommentController extends BaseController {
 
     //create new comment
-    public function createComment(string $id, string $userId) {
+    public function createComment($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+            if (isset($_POST['content'])) {                
+                    
+                $content = $_POST['content'];
+                $postId = $id;
 
-        $userId = $_SESSION['userId'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } else {
+                    if (!$_SESSION['userId']) {
+                        $userId = 42;
+                        $author = 'Anonyme';  
+                    } else {
+                        $userId = $_SESSION['userId'];
+                        $author = $_SESSION['pseudo'];  
+                    }
 
-            $content = $_POST['content'];
-            $commentModel = new CommentModel();
-            $success = $commentModel->createComment($id, $userId, $content);
-
-            if($success) {
-                header('Location: /articles/'.$id);
-            } else {
-                echo "Echet de la création de commentaire";
-            }     
+                $commentModel = new CommentModel();
+                $success = $commentModel->createComment( $userId, $postId, $content, $author);
+    
+                    if($success) {
+                        header('Location: /articles/'.$id);
+                    } else {
+                        echo "Echet de la création de commentaire";
+                    }     
+            
+            }
         }
     }
 

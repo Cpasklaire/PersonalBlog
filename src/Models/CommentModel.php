@@ -61,13 +61,13 @@ class CommentModel extends BaseModel{
     }
 
     //create a comment 
-    public function createComment(string $id, string $userId, string $content): bool {
+    public function createComment(string $userId, string $postId, string $content, string $author): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO posts(postId, userId, content, valided) VALUES (?, ?, ?, 0)"
+            "INSERT INTO posts(postId, userId, content, author, valided) VALUES (?, ?, ?, ?, 0)"
         );
 
-        $affectedLine = $statement->execute([$id, $userId, $content]);
+        $affectedLine = $statement->execute([$postId, $userId, $content, $author]);
         return ($affectedLine > 0);
     }
 
@@ -114,4 +114,5 @@ class CommentModel extends BaseModel{
         $affectedLine = $statement->execute([$id]);
         return ($affectedLine > 0);
     }
+
 }

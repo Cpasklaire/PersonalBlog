@@ -3,10 +3,16 @@
 {% block content %}
     <div class='posts'>
         {% for post in posts %}
-            <div class='post'>
-                <a href="/articles/{{ post.postId }}"><h2>{{ post.title }}</h2></a>
-                <p>{{ post.chapo }}</p>
-            </div>
+
+                <a href="/articles/{{ post.postId }}">    
+                    <div>
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.chapo }}</p>
+                        <span>Lire la suite</span>
+                    </div>
+                    <img src="./public/img/articles/{{ post.postId }}.png" alt="">
+                </a>
+
         {% endfor %}
     </div>
 {% endblock %}

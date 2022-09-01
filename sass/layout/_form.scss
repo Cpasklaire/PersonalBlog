@@ -1,4 +1,4 @@
-.login-form, .sign-form, .contact-form, .create-form, .modify-form {
+.login-form, .sign-form, .contact-form, .create-form, .modify-form, .comment-form {
 	background-color: $couleur-secondaire;
 	display: flex;
 	flex-direction: column;
@@ -23,4 +23,16 @@
 .create-form, .modify-form {
 	width: 96%;
 	margin-left: 2%;
+}
+
+.comment-form
+{
+	margin-top: 0%;
+	margin-left: 0%;
+	width: 100%;
+	border-radius: 0px;
+	margin-bottom: 0%;
+	textarea {
+		width: 50%;
+	}
 }

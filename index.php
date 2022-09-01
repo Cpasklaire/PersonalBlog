@@ -17,8 +17,8 @@ $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 $router->get('/', 'Base#index');
 $router->get('/articles', 'Post#list');
 $router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
-$router->get('/contact', 'Base#contact'); //no test
-$router->post('/contact', 'Base#contact'); //no test
+$router->get('/contact', 'User#contact');
+$router->post('/contact', 'User#contact');
 $router->get('/info', 'Base#politique');
 
 //connection
@@ -29,7 +29,7 @@ $router->post('/signup', 'Auth#signup');
 $router->get('/logout', 'Auth#logout');
 
 //user
-$router->post('/articles/:id/comment/', 'Comment#createComment')->with('id', '[0-9]+'); //no test
+$router->post('/articles/:id/', 'Comment#createComment')->with('id', '[0-9]+');
 
 // admin
 //posts
@@ -43,12 +43,12 @@ $router->post('/admin/createPost', 'Post#create');
 //comment
 $router->get('/admin/commentaires', 'Comment#showComments'); 
 $router->get('/admin/commentaires/:id', 'Comment#validate')->with('id', '[0-9]+');
-$router->post('/admin/commentaires/delect/:id', 'Comment#deleteComment')->with('id', '[0-9]+'); //no test
 //user
 $router->get('/admin/users', 'User#userList');
 
 try {
     $router->run();
 }catch(\Exception $e){
+    //404 ou 500
     die ($e);
 }

@@ -100,7 +100,7 @@ class PostModel extends BaseModel {
     public function createPost(string $userId, string $title, string $chapo, string $content, string $author): bool{
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO posts(userId, title, chapo, content, postId, author, createdAt, updatedAt) VALUES (?, ?, ?, ?, NULL, ?, NOW(), NOW())"
+            "INSERT INTO Posts(userId, title, chapo, content, author, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, NOW(), NOW())"
         );
 
         $affectedLine = $statement->execute([$userId, $title, $chapo, $content, $author]);

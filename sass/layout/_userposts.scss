@@ -5,8 +5,8 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    .post {
-        min-width: 40%;
+    a {
+        width: 40%;
         border-bottom: 2px solid $couleur-secondaire;
         border-right: 2px solid $couleur-secondaire;
         border-radius: 10%;
@@ -14,8 +14,30 @@
         padding-bottom: 1%;
         padding-top: 1%;
         margin-bottom: 1%;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: no-wrap;
+            &:hover 
+            {
+                box-shadow: 2px 4px $couleur-ombre;
+                opacity: .8;
+            }
+        p 
+        {
+            overflow: hidden;
+            max-height: 5em;
+        }
+        img 
+        {
+            width: 40%;
+            border-radius: 40%;  
+        }
         H2{
             font-size: 2em;
+        }
+        span 
+        {
+            margin-left: 70%;
         }
     }
 }
@@ -29,6 +51,7 @@
         background-color: $couleur-primaire;
         border-radius: 30px;
         text-align: center;
+        padding: 1%;
     }
     .info{
         background-color: $couleur-primaire;
@@ -57,11 +80,5 @@
             }
 
         }            
-        .noconnect {
-            text-align: center;
-            a{
-                font-weight: bold;
-            }
-        }
     }
 }

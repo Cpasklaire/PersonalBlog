@@ -11,7 +11,8 @@ class PostController extends BaseController {
     public function list() {
         $postModel = new PostModel();
         $posts = $postModel->getPosts();
-        echo $this->twig->render('./postPage.html.twig', ['posts' => $posts]);	
+
+        echo $this->render('./postPage.html.twig', ['posts' => $posts]);	
     }
     public function listAdmin() {
         $userId = $_SESSION['userId'];
@@ -25,7 +26,7 @@ class PostController extends BaseController {
         } else {
             $postModel = new PostModel();
             $posts = $postModel->getPosts();
-            echo $this->twig->render('./admin/postPage.html.twig', ['posts' => $posts]);	
+            echo $this->render('./admin/postPage.html.twig', ['posts' => $posts]);	
         }
     }
 
@@ -38,7 +39,7 @@ class PostController extends BaseController {
         $post = $postModel->getOnePost($id);
         $comments = $commentModel->getAllComments($id);
 
-        echo $this->twig->render('./postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
+        echo $this->render('./postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     }  
     public function showAdmin($id) {
         $userId = $_SESSION['userId'];
@@ -56,7 +57,7 @@ class PostController extends BaseController {
             $post = $postModel->getOnePostAllComment($id);
             $comments = $commentModel->getAllComments($id);
 
-            echo $this->twig->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
+            echo $this->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     
         } 
     }
@@ -135,7 +136,9 @@ class PostController extends BaseController {
                 }
         
             } else {
-                return $this->render('./admin/modify.html.twig');
+                $postModel = new PostModel();
+                $post = $postModel->getOnePost($id);
+                echo $this->render('./admin/modify.html.twig', ['post' => $post]);
             }  
         }
     } 

@@ -4,12 +4,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <script src="https://cdn.tiny.cloud/1/l4v78ybwtvw7wkl8rlhdb9we4zv1jp3t2zoyxwacmgpw4a31/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-      tinymce.init({
-        selector: 'textarea'
-      });
-    </script>
+        <script src="../vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>tinymce.init({selector: '.longtext'});</script>
         <title>Admin Cyberus Developement</title>
         <link rel="stylesheet" type="text/css" href="/public/style.css">
     </head>
@@ -21,16 +17,15 @@
                 <h1>Cyberus Developement ADMIN</h1>
             </a>
             <nav>
-                <a href="/logout">Déconnection</a>
                 <a href="/">Vu utilisateur</a>
+                <a href="/logout">Déconnection</a>
             </nav>
     </header>
         <div>        
             {% block content %}{% endblock %}
         </div>
 
-        <footer>
-        
+        <footer>  
         </footer>
     </body>
 </html>

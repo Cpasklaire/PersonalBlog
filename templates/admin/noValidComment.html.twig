@@ -5,7 +5,7 @@
         <h1>{{ comment.author }}</h1>
         <p>{{ comment.content }}</p>
         <a href="commentaires/{{comment.id}}">Valider</a>
-        <a href="articles/{{ comment.postId }}">Voir le contexte</a>
+        <a href="admin/articles/{{ comment.postId }}">Voir le contexte</a>
     {% endfor %}
 
     {% if comment.valided |length < 1 %} 

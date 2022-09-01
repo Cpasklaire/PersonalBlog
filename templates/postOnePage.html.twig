@@ -5,7 +5,7 @@
 
         <h2>{{ post.title }}</h2>
         <p class="chapo">{{ post.chapo }}</p>
-        <p>{{ post.content }}</p>
+        <p>{{ post.content|raw }}</p>
 
         <div class="info">
             <span>{{ post.author }}</span> </br>
@@ -23,17 +23,17 @@
                 </div>
             {% endfor %} 
 
-            {% if currentUser.id is null %}
-            <span class="noconnect"> Envie de réagire ? <a href="/login">Connecter vous !</a></span>
-            {% endif %}
-
-            {% if currentUser.id > 1 %}
+            
             <form method="POST" class="comment-form">
-                <label>Une réaction ?</label>                
+            {% if currentUser.id is null %}    
+                <label>Une réaction anonyme ? Ou <a href="/login">Connecter vous !</a></label> 
+            {% endif %}     
+            {% if currentUser.id > 1 %}     
+                <label>Une réaction ?</label>      
+            {% endif %}     
                 <textarea name="content" placeholder="Mon commentaire très inspirer"></textarea>
-                <input type="submit" />
+                <button type="submit">Envoyer</button>
             </form>
-            {% endif %}
         </div>
 </div>
 {% endblock %}
