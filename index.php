@@ -49,6 +49,6 @@ $router->get('/admin/users', 'User#userList');
 try {
     $router->run();
 }catch(\Exception $e){
-    //404 ou 500
+    //$this->twig->render('error.html.twig');
     die ($e);
 }
