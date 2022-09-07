@@ -9,10 +9,10 @@ class AuthController extends BaseController {
     //user connection
 
     public function login(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            if (isset($_POST['login']) && isset($_POST['password'])) {                
-                $userModel = new UserModel();                
+            if (isset($_POST['login']) && isset($_POST['password'])) {
+                $userModel = new UserModel();
                 $user = $userModel->login($_POST['login']);
                 
                 //user existe
@@ -21,26 +21,26 @@ class AuthController extends BaseController {
                     $_SESSION['admin'] = $user->admin;
                     $_SESSION['pseudo'] = $user->pseudo;
                 } else {
-                    header('Location: /login?error=invalid_credentials');    
+                    header('Location: /login?error=invalid_credentials');
                     die;
                 }
 
                 //good password
                 if(password_verify($_POST['password'], $user->mdp)) {
                     
-                    if($user->admin==1) {   
+                    if($user->admin==1) {
                         header('Location: /admin');
                         die;
                     } else {
-                        header('Location: /');    
+                        header('Location: /');
                         die;
                     }
                 } else {
-                    header('Location: /login?error=invalid_passeword'); 
+                    header('Location: /login?error=invalid_passeword');
                 }
 
             } else {
-                header('Location: /login?error=invalid_form');    
+                header('Location: /login?error=invalid_form');
             }
 
         } else {
@@ -52,19 +52,18 @@ class AuthController extends BaseController {
     public function signup(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
 
-            if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {                
-                $userModel = new UserModel();                
+            if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {
+                $userModel = new UserModel();
                 $success = $userModel->createUser($_POST['pseudo'], $_POST['email'], $_POST['password']);
                 
                 if($success) {
-                    echo 'utilisateur créé';
                     header('Location: /login');
                 } else {
                     header('Location: /signup');
                 }
             
             } else {
-                header('Location: /signup?error=invalid_form');    
+                header('Location: /signup?error=invalid_form');
             }
         
         } else {
