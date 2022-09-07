@@ -19,85 +19,38 @@ class UserController extends BaseController {
         } else {
             $userModel = new UserModel();
             $users = $userModel->getUsers();
-            echo $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
+            $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
         }
     }
 
-    //email
-/*     public function contact() {
+    public function contact() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+
             $userId = $this->getCurrentUserId();
+
             if (!$userId) {
-                if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['message'])) {
-                    $to = 'absinthe_lafeeverte@hotmail.fr';
                     $pseudo = $_POST['pseudo'];
-                    $subject = 'un mail de' .$pseudo;
-                    $message = $_POST['message'];
                     $contact = $_POST['email'];
-                    $headers = 'From:' .$contact;
-                    
-                    $success = mail(
-                        $to,
-                        $subject,
-                        $message,
-                        $headers
-                    );
-
-                    if ($success) {
-                        header('Location: /'); 
-                    }else{
-                        echo $pseudo;
-                    }
-                } else {
-                    echo 'formulaire vide';    
-                };
-
             } else {
-                if (isset($_POST['message'])) {
-                    
-                    $to = 'absinthe_lafeeverte@hotmail.fr';
                     $pseudo = $_SESSION['pseudo'];
-                    $subject = 'un mail de' .$pseudo;
-                    $message = $_POST['message'];
                     $contact = $_SESSION['email'];
-                    $headers = 'From:' .$contact;
-                    
-                    $success = mail(
-                        $to,
-                        $subject,
-                        $message,
-                        $headers
-                    );
-
-                    if ($success) {
-                        header('Location: /'); 
-                    }else{
-                        echo $pseudo;
-                    }
-                } else {
-                    echo 'formulaire vide';    
-                };
-
-            };
-        
-        } else {
-            return $this->render('contact.html.twig');
-        }
-    } */
-
-         public function contact() {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-            $dest = "clea.leroux@hotmail.com";
-            $sujet = "Email de test";
-            $corp = "Salut ceci est un email de test envoyer par un script PHP";
-            $headers = "From: sasha.leroux92@gmail.com";
-            if (mail($dest, $sujet, $corp, $headers)) {
-              echo "Email envoyé avec succès à $dest ...";
-            } else {
-              echo "Échec de l'envoi de l'email...";
             }
-        } else {
-            return $this->render('contact.html.twig');
+            if (isset($_POST['message'])) {
+
+                $headers = 'From:' .$contact;
+                $message = $_POST['message'];
+                $to = 'sasha.leroux92@gmail.com';
+                $sujet = "Email de" .$pseudo;
+
+                if (mail($to, $sujet, $message, $headers)) {
+                    header('Location: /');
+                } else {
+                    header('Location: /contact');
+                }
+
+            } else {
+                return $this->render('contact.html.twig');
+            }
         }
     } 
 }
