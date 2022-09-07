@@ -87,10 +87,6 @@ class UserController extends BaseController {
 
          public function contact() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
-                ini_set('SMTP', 'smtp.gmail.com');
-                ini_set('smtp_port', 587);
-                ini_set('sendmail_from', 'sasha.leroux92@gmail.com');
-                ini_set('sendmail_path', "\"C:\wamp64\sendmail\sendmail.exe\" -t");
             $dest = "clea.leroux@hotmail.com";
             $sujet = "Email de test";
             $corp = "Salut ceci est un email de test envoyer par un script PHP";
