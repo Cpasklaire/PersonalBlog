@@ -1,0 +1,25 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+    <section class="contact">
+        <form method="POST" class="contact-form">
+
+                {% if currentUser.id is null  %}
+                <label>Comment dois-je t'appeler ?</label>                
+                <input type="text" name="pseudo" placeholder="identifiant" requied/>
+                <label>Et pour te contacter ? </label>                
+                <input type="email" name="email" placeholder="mon@mail.fr" requied/>
+                {% endif %}
+
+                {% if currentUser.id > 1  %}
+                {{ currentUser.pseudo }} je t'écoute,
+                {% endif %}
+
+                <label>Que voudrais-tu me dire ?</label>                
+                <textarea type="text" name="message" requied rows="5" cols="50"> </textarea>
+
+                <button type="submit">Envoyer le pigeon voyageur</button>
+
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">    
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="/vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+        <script>tinymce.init({selector: '.longtext'});</script>
+        <title>Admin Cyberus Developement</title>
+        <link rel="stylesheet" type="text/css" href="/public/style.css">
+    </head>
+        
+    <body>
+    <header>
+            <a href="/admin">
+                <img src="/public/img/logo.png" alt="logo">
+                <h1>Cyberus Developement ADMIN</h1>
+            </a>
+            <nav>
+                <a href="/">Vu utilisateur</a>
+                <a href="/logout">Déconnection</a>
+            </nav>
+    </header>
+        <div>        
+            {% block content %}{% endblock %}
+        </div>
+
+        <footer>  
+        </footer>
+    </body>
+</html>

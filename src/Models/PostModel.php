@@ -2,97 +2,131 @@
 
 namespace App\Models;
 
-use App\Lib\DatabaseConnection;
-
 class Post {
-    public string $id;
-    public string $userId;
+    public string $postId;
     public string $title;
+    public string $chapo;
     public string $content;
-    public string $imageURL;
-    public string $updatedAt;
+    public string $author;
+    public string $createDate;
+    public string $updateDate;
 }
 
-class PostModel {
+class PostModel extends BaseModel {
 
-    public DatabaseConnection $connection;
-    
     // view all posts
     public function getPosts(): array {
-        
+            
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, userId, title, content, imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post ORDER BY createdAt DESC"
+            " SELECT * FROM Posts WHERE ISNULL(postId) ORDER BY updatedAt DESC"
         );
 
         $posts = [];
 
-        while($row = $statement->fetch()) 
-        {
-
+        while($row = $statement->fetch()) {
             $post = new Post();
-            $post->id = $row['id'];
-            $post->userId = $row['userId'];
+            $post->postId = $row['id'];
             $post->title = $row['title'];
+            $post->chapo = $row['chapo'];
             $post->content = $row['content'];
-            $post->imageURL = $row['imageURL'] ? $row['imageURL'] : '';
-            $post->updatedAt = $row['updatedAt'];
+            $post->author = $row['author'];
+            $post->createDate = $row['createdAt'];
+            $post->updateDate = $row['updatedAt'];
 
             $posts[] = $post;
-
         }
         return $posts;
-
     }
 
     // view One post
     public function getOnePost($postId): Post {
 
         $statement = $this->connection->getConnection()->query(
-            "SELECT id, userId, title, 'text', imageURL, DATE_FORMAT(updatedAt, '%d/%m/%Y à %H:%i:%s') AS updatedAt  FROM Post WHERE id = $postId"
+            "SELECT * FROM Posts WHERE id = $postId"
         );
 
         $data = $statement->fetch();
-
+        
         if(!is_array($data)) {
-            return header('Location: /personalblog/'); 
+            return header('Location: /404'); 
+        } else {
+            $post = new Post();
+            $post->id = $postId;
+            $post->title = $data['title'];
+            $post->chapo = $data['chapo'];
+            $post->content = $data['content'];
+            $post->author = $data['author'];
+            $post->createDate = $data['createdAt'];
+            $post->updateDate = $data['updatedAt'];
+
+            $commentModel = new CommentModel();
+            $comments = $commentModel->getComments($post->id);
+            $post->comments = $comments;
+
+            return $post;
         }
+    }
 
-        $post = new Post();
+    // view One post and full comments
+    public function getOnePostAllComment($postId): Post {
 
-        $post->id = $postId;
-        $post->userId = $data['userId'];
-        $post->title = $data['title'];
-        $post->text = $data['text'];
-        $post->imageURL = $data['imageURL'];
-        $post->updatedAt = $data['updatedAt'];
+        $statement = $this->connection->getConnection()->query(
+            "SELECT * FROM Posts WHERE id = $postId"
+        );
 
-        return $post;
+        $data = $statement->fetch();
+        
+        if(!is_array($data)) {
+            return header('Location: /404'); 
+        } else {
+            $post = new Post();
+            $post->id = $postId;
+            $post->title = $data['title'];
+            $post->chapo = $data['chapo'];
+            $post->content = $data['content'];
+            $post->author = $data['author'];
+            $post->createDate = $data['createdAt'];
+            $post->updateDate = $data['updatedAt'];
 
+            $commentModel = new CommentModel();
+            $comments = $commentModel->getAllComments($post->id);
+            $post->comments = $comments;
+
+            return $post;
+        }
     }
 
     //creat post
-    public function createPost(string $title, string $imageURL, string $userId, string $text): bool  {
+    public function createPost(string $userId, string $title, string $chapo, string $content, string $author): bool{
 
         $statement = $this->connection->getConnection()->prepare(
-            "INSERT INTO posts(title, 'text', imageURL, userId, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())"
+            "INSERT INTO Posts(userId, title, chapo, content, author, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, NOW(), NOW())"
         );
 
-        $affectedLine = $statement->execute([$title, $text, $imageURL, $userId]);
-
+        $affectedLine = $statement->execute([$userId, $title, $chapo, $content, $author]);
         return ($affectedLine > 0);
-
     }
 
     // edit post
-    public function putPost(string $title, string $imageURL, string $text, string $userId, $id): bool {
+    public function putPost(string $title, string $content, string $chapo, $id): bool {
 
         $statement = $this->connection->getConnection()->prepare(
-            "UPDATE posts SET title = ?, imageURL = ?, 'text' = ?, userId = ?, updatedAt = NOW() WHERE id = ?"
+            "UPDATE posts SET title = ?,  content = ?,  chapo = ?, updatedAt = NOW() WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$title, $imageURL, $text, $userId, $id]);
-
+        $affectedLine = $statement->execute([$title, $content, $chapo, $id]);
         return ($affectedLine > 0);
     }
     
+    //delete post 
+
+    public function deletePost($id): bool {
+
+        $statement = $this->connection->getConnection()->prepare(
+            "DELETE FROM posts WHERE id = ?"
+        );
+
+        $affectedLine = $statement->execute([$id]);
+        return ($affectedLine > 0);
+    }
 }

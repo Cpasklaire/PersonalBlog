@@ -4,7 +4,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Super Blog</title>
+        <script src="https://kit.fontawesome.com/c30b777b7c.js" crossorigin="anonymous"></script>
+        <title>Cyberus Developement Blog</title>
         <link rel="stylesheet" type="text/css" href="/public/style.css">
     </head>
         
@@ -14,14 +15,26 @@
                 <img src="../public/img/logo.png" alt="logo">
                 <h1>Cyberus Developement</h1>
             </a>
-            <a href="/articles">Articles</a>
+            <nav>
+                <a href="/articles">Articles</a>
+                {% if currentUser.id is null  %}
+                <a href="/login">Se connecter</a>
+                <a href="/signup">S'inscrire</a>
+                {% endif %}
+                {% if currentUser.id > 1  %}
+                <a href="/logout">Déconnection</a>
+                {% endif %}
+            </nav>
     </header>
-        <div id="posts">        
+        <div class="bodyblock">        
             {% block content %}{% endblock %}
         </div>
 
         <footer>
-            <a href="">Se connecter</a>
+            <a href="/info">Poilitique de confidentialité</a>
+            <a href="/contact">Nous contacter</a>
+            <a href="/admin">Pour les adiministrateurs</a>
+
         </footer>
     </body>
 </html>

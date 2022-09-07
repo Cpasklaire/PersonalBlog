@@ -9,21 +9,46 @@ die; */
 
 require 'vendor/autoload.php';
 
+session_start();
 
 $router = new App\Router\Router($_SERVER['REQUEST_URI']);
 
-//$router->get('/', 'Index#index');
-
-$router->get('/', 'Index#index');
+//global
+$router->get('/', 'Base#index');
 $router->get('/articles', 'Post#list');
 $router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
+$router->get('/contact', 'User#contact');
+$router->post('/contact', 'User#contact');
+$router->get('/info', 'Base#politique');
 
-//$router->post('/articles/postComment/:id-:userId', 'Comment#createComment')->with('id', '[0-9]+')->with('userId', '([a-zA-Z\-0-9])+');
-//$router->post('/articles/:id/comment/:commentId', 'Comment#update')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+');
-//$router->post('/articles/:id/commentDelete/:commentId', 'Comment#delete')->with('id', '[0-9]+')->with('commentId', '([a-zA-Z\-0-9])+');
+//connection
+$router->get('/login', 'Auth#login');
+$router->post('/login', 'Auth#login');
+$router->get('/signup', 'Auth#signup');
+$router->post('/signup', 'Auth#signup');
+$router->get('/logout', 'Auth#logout');
+
+//user
+$router->post('/articles/:id/', 'Comment#createComment')->with('id', '[0-9]+');
+
+// admin
+//posts
+$router->get('/admin', 'Post#listAdmin'); 
+$router->get('/admin/articles/:id', 'Post#showAdmin')->with('id', '[0-9]+');
+$router->post('/admin/modify/:id', 'Post#modify')->with('id', '[0-9]+');
+$router->get('/admin/modify/:id', 'Post#modify')->with('id', '[0-9]+');
+$router->get('/admin/delete/:id', 'Post#delete')->with('id', '[0-9]+');
+$router->get('/admin/createPost', 'Post#create');
+$router->post('/admin/createPost', 'Post#create');
+//comment
+$router->get('/admin/commentaires', 'Comment#showComments'); 
+$router->get('/admin/commentaires/:id', 'Comment#validate')->with('id', '[0-9]+');
+//user
+$router->get('/admin/users', 'User#userList');
 
 try {
-$router->run();
+    $router->run();
 }catch(\Exception $e){
+    //$this->twig->render('error.html.twig');
     die ($e);
 }

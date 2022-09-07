@@ -2,64 +2,75 @@
 
 namespace App\Controllers;
 
-use App\Lib\DatabaseConnection;
 use App\Models\CommentModel;
+use App\Models\PostModel;
 
 class CommentController extends BaseController {
 
     //create new comment
+    public function createComment($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+            if (isset($_POST['content'])) {                
+                    
+                $content = $_POST['content'];
+                $postId = $id;
 
-    public function createComment(string $id, string $userId) {
+                    if (!$_SESSION['userId']) {
+                        $userId = 42;
+                        $author = 'Anonyme';  
+                    } else {
+                        $userId = $_SESSION['userId'];
+                        $author = $_SESSION['pseudo'];  
+                    }
 
-        $content = $_POST['content'];
+                $commentModel = new CommentModel();
+                $success = $commentModel->createComment( $userId, $postId, $content, $author);
+    
+                    if($success) {
+                        header('Location: /articles/'.$id);
+                    } else {
+                        echo "Echet de la création de commentaire";
+                    }     
+            
+            }
+        }
+    }
 
-        $commentModel = new CommentModel();
-        $commentModel->connection = new DatabaseConnection();
-        
-        $success = $commentModel->createComment($id, $userId, $content);
-
-        if($success) {
-            header('Location: /articles/' . $id);
+    //show comments not validate
+    public function showComments() {
+        $userId = $_SESSION['userId'];
+        $admin = $_SESSION['admin'];
+        if (!$userId) {
+            header('Location: /login');
+            exit();
+        } elseif ($admin == 0){
+            header('Location: /');
+            exit();
         } else {
-            echo "pas ok";
-        } 
-        
+            $commentModel = new CommentModel();
+            $comments = $commentModel->getNotEnabledComments();
+            echo $this->twig->render('./admin/noValidComment.html.twig', ['comments' => $comments]);
+        }
     }
     
-    //modify one comment
-
-    public function update(string $id, string $commentId) {
-        
-        $content = $_POST['modifyContent'];
-        
-        $commentModel = new CommentModel();
-        $commentModel->connection = new DatabaseConnection();
-        
-        $success = $commentModel->putComment($commentId, $content);
-    
-        if($success) {
-            header('Location: /articles/' . $id);
+    //valid a comment
+    public function validate($id) {
+        $userId = $_SESSION['userId'];
+        $admin = $_SESSION['admin'];
+        if (!$userId) {
+            header('Location: /login');
+            exit();
+        } elseif ($admin == 0){
+            header('Location: /');
+            exit();
         } else {
-            echo "pas ok";
-        } 
-
+            $commentModel = new CommentModel();
+            $success = $commentModel->validateComment($id);
+            if($success) {
+                header('Location: /admin/commentaires');
+            } else {
+                echo "Echet de la validation de commentaire";
+            } 
+        }
     }
-    
-    //delete one comment
-
-    /*public function delete(string $id, string $commentId) {
-                
-        $commentModel = new CommentModel();
-        $commentModel->connection = new DatabaseConnection();
-        
-        $success = $commentModel->deleteComment($commentId, $content);
-    
-        if($success) {
-            header('Location: /articles/' . $id);
-        } else {
-            echo "pas ok";
-        } 
-
-    }*/
-
 }

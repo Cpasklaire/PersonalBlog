@@ -1,0 +1,25 @@
+{% extends "/admin/adminLayout.html.twig" %}
+
+{% block content %}
+
+    <div class="adminPosts">
+        <div class="option">
+            <a href="/admin/createPost">Nouvel articles</a>
+            <a href="/admin/commentaires">Validation des commentaires</a>
+            <a href="/admin/users">Lists des inscrit</a>
+        </div>
+        {% for post in posts %}
+        <div class="adminPost">
+            <div class="info">
+                <h2>{{ post.title }}</h2>
+                <span>{{ post.updateDate |date('d/m/Y') }}</span>
+            </div>
+            <div class="commande">
+                <a href="admin/articles/{{ post.postId }}">Voir</a>
+                <a href="admin/modify/{{ post.postId }}">Modifier</a>
+                <a href="admin/delete/{{ post.postId }}">Supprimer</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

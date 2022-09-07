@@ -1,0 +1,20 @@
+{% extends "/admin/adminLayout.html.twig" %}
+
+{% block content %}
+    <section class="createPost">
+        <form method="POST" class="create-form">
+
+                <label>Titre</label>                
+                <input  type="text" name="title"/>
+
+                <label>Chapo</label>   
+                <textarea type="text" name="chapo"></textarea>             
+
+                <label>Contenu</label>                
+                <textarea name="content"class="longtext"></textarea>
+
+                <button type="submit">Publier</button>
+
+        </form>
+    </section>
+{% endblock %}

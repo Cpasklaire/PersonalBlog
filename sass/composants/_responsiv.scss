@@ -1,0 +1,57 @@
+@media  (max-width: 769px) and (min-width: 423px)
+{
+
+}
+
+@media (max-width: 423px) 
+{ 
+    *
+    {
+        font-size: .95em !important;
+    }
+    .bodyblock 
+    {
+ margin-bottom: 12% !important;
+    }
+    .presentation
+{
+    img 
+    {
+        display: none;
+    }
+}
+.newposts
+{
+
+    .postsa 
+    {   
+            flex-direction: column !important;
+            img 
+            {
+                width: 100px !important;
+                height: 100px !important;
+            }
+            .chapo
+            {
+                p 
+                {
+                    display: none;
+                }
+            }
+        
+    }
+}
+.posts {
+    a {
+        width: 100% !important;
+        img 
+        {
+            display: none; 
+        }
+        span 
+        {
+            margin-left: 0% !important;
+        }
+    }
+}
+}

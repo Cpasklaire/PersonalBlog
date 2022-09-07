@@ -1,8 +1,18 @@
 {% extends "layout.html.twig" %}
 
 {% block content %}
-    {% for post in posts %}
-        <h1>{{ post.title }}</h1>
-        <p>{{ post.content }}</p>
-    {% endfor %}
+    <div class='posts'>
+        {% for post in posts %}
+
+                <a href="/articles/{{ post.postId }}">    
+                    <div>
+                        <h2>{{ post.title }}</h2>
+                        <p>{{ post.chapo }}</p>
+                        <span>Lire la suite</span>
+                    </div>
+                    <img src="./public/img/articles/{{ post.postId }}.png" alt="">
+                </a>
+
+        {% endfor %}
+    </div>
 {% endblock %}
