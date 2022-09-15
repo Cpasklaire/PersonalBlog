@@ -29,7 +29,7 @@ class UserController extends BaseController {
             $user = $this->getCurrentUser();
             $pseudo = $user->pseudo;
             $contact = $user->email;
-            
+
             if (isset($message)) {
 
                 $headers = 'From:' .$contact;
@@ -38,9 +38,8 @@ class UserController extends BaseController {
 
                 if (mail($destinataire, $sujet, $message, $headers)) {
                     header('Location: /');
-                } else {
-                    header('Location: /contact');
                 }
+                header('Location: /contact');
             }
         }
         return $this->render('contact.html.twig');

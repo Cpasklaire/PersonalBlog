@@ -52,15 +52,14 @@ class PostController extends BaseController
             header('Location: /login');
         } elseif ($admin == 0) {
             header('Location: /');
-        } else {
-            $postModel = new PostModel();
-            $commentModel = new CommentModel();
-
-            $post = $postModel->getOnePostAllComment($postId);
-            $comments = $commentModel->getAllComments($postId);
-
-            $this->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
         }
+        $postModel = new PostModel();
+        $commentModel = new CommentModel();
+
+        $post = $postModel->getOnePostAllComment($postId);
+        $comments = $commentModel->getAllComments($postId);
+
+        $this->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     }
 
     //create post

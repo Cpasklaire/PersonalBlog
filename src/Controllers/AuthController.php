@@ -34,19 +34,15 @@ class AuthController extends BaseController {
                         $_SESSION['pseudo'] = $user->pseudo;
                         if ($user->admin == 1) {
                             header('Location: /admin');
-                        } else {
-                            header('Location: /');
                         }
+                        header('Location: /');
                     }
                     header('Location: /login?error=invalid_passeword');
-                } else {
-                    header('Location: /login?error=invalid_credentials');
                 }
-            } else {
-                header('Location: /login?error=invalid_form');
+                header('Location: /login?error=invalid_credentials');
             }
+            header('Location: /login?error=invalid_form');
         }
-
         return $this->render('login.html.twig');
     }
 
@@ -68,14 +64,11 @@ class AuthController extends BaseController {
 
                 if ($success) {
                     header('Location: /login');
-                } else {
-                    header('Location: /signup');
                 }
-            } else {
-                header('Location: /signup?error=invalid_form');
+                header('Location: /signup');
             }
+            header('Location: /signup?error=invalid_form');
         }
-
         return $this->render('signup.html.twig');
     }
 
