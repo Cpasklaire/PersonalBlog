@@ -11,6 +11,7 @@
     margin: 3%;
   }
 }
+
 .presentation {
   background-color: $couleur-secondaire;
   padding-left: 3%;
@@ -42,6 +43,7 @@
       flex-direction: column;
       align-items: center;
       position: relative;
+
       &:hover .overlay {
         width: 100%;
       }
@@ -52,12 +54,14 @@
         left: 50%;
         transform: translate(-50%, -50%);
       }
+
       img {
         width: 400px;
         height: 250px;
         opacity: 0.3;
         border-radius: 50px;
       }
+
       .overlay {
         position: absolute;
         bottom: 0;
@@ -70,6 +74,7 @@
         transition: 0.5s ease;
         border-radius: 50px;
       }
+
       .chapo {
         //white-space: nowrap;
         position: absolute;
@@ -99,11 +104,13 @@
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
+
     .item {
       a {
         display: flex;
         flex-direction: column;
         align-items: center;
+
         svg {
           width: 50%;
         }

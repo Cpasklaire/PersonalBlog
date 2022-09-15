@@ -5,20 +5,25 @@ header {
   align-items: center;
   padding-left: 3%;
   padding-right: 3%;
+
   a {
     display: flex;
     flex-direction: column;
+
     img {
       width: 30%;
     }
+
     h1 {
       font-family: $font-titre;
     }
   }
 }
+
 .bodyblock {
   margin-bottom: 3%;
 }
+
 footer {
   position: fixed;
   left: 0;
@@ -26,6 +31,7 @@ footer {
   width: 100%;
   text-align: center;
   background-color: $couleur-primaire;
+
   a {
     margin-left: 1%;
     margin-right: 1%;
