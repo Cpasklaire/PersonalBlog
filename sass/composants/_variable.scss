@@ -1,19 +1,18 @@
-$couleur-primaire: #F4DFCA;
+$couleur-primaire: #f4dfca;
 $couleur-secondaire: #a07b7a;
-$couleur-tertiaire: #8867EB;
+$couleur-tertiaire: #8867eb;
 
 $couleur-ombre: #aaa0a8;
 
-$font-titre: '04B30';
-$font-texte: 'opendyslexic';
-$couleur-texte: #1B1464;
+$font-titre: "04B30";
+$font-texte: "opendyslexic";
+$couleur-texte: #1b1464;
 
 * {
-    font-family: $font-texte,
-        Arial, serif;
-    color: $couleur-texte;
-    padding: 0%;
-    margin: 0;
-    text-decoration: none;
-    list-style: none;
+  font-family: $font-texte, Arial, serif;
+  color: $couleur-texte;
+  padding: 0%;
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
 }
