@@ -8,25 +8,18 @@ class UserController extends BaseController {
 
     //users show
     public function userList() {
-
-        $user = $this->getCurrentUser();
-
-        if (!$user->id) {
-            header('Location: /login');
-        } elseif ($user->admin == 0){
-            header('Location: /');
-        } else {
-            $userModel = new UserModel();
-            $users = $userModel->getUsers();
-            $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
-        }
+        $userModel = new UserModel();
+        $users = $userModel->getUsers();
+        $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
     }
 
     public function contact() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
+
+        if ($method === 'POST') { 
 
             $userId = $this->getCurrentUserId();
-            $request = new RequestController();
             $message = $request->post['message'];
 
             if (!$userId) {

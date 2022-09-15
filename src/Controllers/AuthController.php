@@ -10,9 +10,10 @@ class AuthController extends BaseController {
 
     public function login()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
-            $request = new RequestController();
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
+
+        if ($method === 'POST') {
             $login = $request->post['login'];
             $password = $request->post['password'];
 
@@ -53,8 +54,11 @@ class AuthController extends BaseController {
     //create user
     public function signup()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $request = new RequestController();
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
+
+        if ($method === 'POST') {
+            
             $pseudo = $request->post['pseudo'];
             $email = $request->post['email'];
             $password = $request->post['password'];

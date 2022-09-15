@@ -68,6 +68,7 @@ class PostController extends BaseController
     public function create()
     {
         $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
         $userId = $request->session['userId'];
         $admin = $request->session['admin'];
         if (!$userId) {
@@ -75,8 +76,8 @@ class PostController extends BaseController
         } elseif ($admin == 0) {
             header('Location: /');
         } else {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $request = new RequestController();
+            if ($method === 'POST') {
+
                 $title = $request->post['title'];
                 $chapo = $request->post['chapo'];
                 $content = $request->post['content'];
@@ -107,6 +108,7 @@ class PostController extends BaseController
     public function modify($postId)
     {
         $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
         $userId = $request->session['userId'];
         $admin = $request->session['admin'];
         if (!$userId) {
@@ -114,7 +116,7 @@ class PostController extends BaseController
         } elseif ($admin == 0) {
             header('Location: /');
         } else {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($method === 'POST') {
                 $request = new RequestController();
                 $title = $request->post['title'];
                 $chapo = $request->post['chapo'];

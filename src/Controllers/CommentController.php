@@ -10,9 +10,10 @@ class CommentController extends BaseController
     //create new comment
     public function createComment($commentId)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
 
-            $request = new RequestController();
+        if ($method === 'POST') {
             $content = $request->post['content'];
             $sessionId = $request->session['userId'];
 
