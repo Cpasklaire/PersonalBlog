@@ -49,22 +49,21 @@ class PostModel extends BaseModel {
         
         if(!is_array($data)) {
             return header('Location: /404'); 
-        } else {
-            $post = new Post();
-            $post->postId = $postId;
-            $post->title = $data['title'];
-            $post->chapo = $data['chapo'];
-            $post->content = $data['content'];
-            $post->author = $data['author'];
-            $post->createDate = $data['createdAt'];
-            $post->updateDate = $data['updatedAt'];
-
-            $commentModel = new CommentModel();
-            $comments = $commentModel->getComments($post->postId);
-            $post->comments = $comments;
-
-            return $post;
         }
+        $post = new Post();
+        $post->postId = $postId;
+        $post->title = $data['title'];
+        $post->chapo = $data['chapo'];
+        $post->content = $data['content'];
+        $post->author = $data['author'];
+        $post->createDate = $data['createdAt'];
+        $post->updateDate = $data['updatedAt'];
+
+        $commentModel = new CommentModel();
+        $comments = $commentModel->getComments($post->postId);
+        $post->comments = $comments;
+
+        return $post;
     }
 
     // view One post and full comments

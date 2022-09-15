@@ -15,8 +15,8 @@ $router->post('/contact', 'User#contact');
 $router->get('/info', 'Base#politique');
 
 //connection
-$router->get('/login', 'Auth#login');
-$router->post('/login', 'Auth#login');
+$router->get('/login', 'Auth#connect');
+$router->post('/login', 'Auth#connect');
 $router->get('/signup', 'Auth#signup');
 $router->post('/signup', 'Auth#signup');
 $router->get('/logout', 'Auth#logout');

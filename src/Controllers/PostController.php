@@ -25,11 +25,10 @@ class PostController extends BaseController
             header('Location: /login');
         } elseif ($admin == 0) {
             header('Location: /');
-        } else {
-            $postModel = new PostModel();
-            $posts = $postModel->getPosts();
-            $this->render('./admin/postPage.html.twig', ['posts' => $posts]);
         }
+        $postModel = new PostModel();
+        $posts = $postModel->getPosts();
+        $this->render('./admin/postPage.html.twig', ['posts' => $posts]);
     }
 
     //show One post

@@ -25,11 +25,11 @@ class UserController extends BaseController {
             if (!$userId) {
                     $pseudo = $request->post['pseudo'];
                     $contact = $request->post['email'];
-            } else {
-                $user = $this->getCurrentUser();
-                $pseudo = $user->pseudo;
-                $contact = $user->email;
-            }
+            } 
+            $user = $this->getCurrentUser();
+            $pseudo = $user->pseudo;
+            $contact = $user->email;
+            
             if (isset($message)) {
 
                 $headers = 'From:' .$contact;

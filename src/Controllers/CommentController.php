@@ -24,11 +24,10 @@ class CommentController extends BaseController
                 if (!$sessionId) {
                     $userId = 42;
                     $author = 'Anonyme';
-                } else {
-                    $userId = $sessionId;
-                    $author = $request->session['pseudo'];
                 }
-
+                $userId = $sessionId;
+                $author = $request->session['pseudo'];
+                
                 $commentModel = new CommentModel();
                 $success = $commentModel->createComment($userId, $postId, $content, $author);
 

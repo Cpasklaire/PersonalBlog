@@ -8,7 +8,7 @@ class AuthController extends BaseController {
 
     //user connection
 
-    public function login()
+    public function connect()
     {
         $request = new RequestController();
         $method = $request->server['REQUEST_METHOD'];
@@ -37,9 +37,8 @@ class AuthController extends BaseController {
                         } else {
                             header('Location: /');
                         }
-                    } else {
-                        header('Location: /login?error=invalid_passeword');
                     }
+                    header('Location: /login?error=invalid_passeword');
                 } else {
                     header('Location: /login?error=invalid_credentials');
                 }
