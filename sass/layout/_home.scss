@@ -1,19 +1,17 @@
-.accroche
-{
- display: flex;
- flex-direction: column;
- align-items: center;
- margin-top: 5%;
- margin-bottom: 5%;
-    h1 
-    {
+.accroche {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+    h1 {
         font-family: $font-titre;
         font-size: 3em;
         margin: 3%;
     }
 }
-.presentation
-{
+.presentation {
     background-color: $couleur-secondaire;
     padding-left: 3%;
     padding-right: 3%;
@@ -24,22 +22,21 @@
 
 }
 
-.newposts
-{
+.newposts {
     margin-top: 2%;
     margin-bottom: 2%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    .postsa 
-    {   
+
+    .postsa {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: row;
-        .post 
-        { 
+
+        .post {
             margin-left: 1%;
             margin-right: 1%;
             display: flex;
@@ -49,15 +46,14 @@
             &:hover .overlay {
                 width: 100%;
               }
-            h2 
-            {
+
+            h2 {
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
             }        
-            img 
-            {
+            img {
                 width: 400px;
                 height: 250px;
                 opacity: 0.3;
@@ -74,8 +70,8 @@
                 height: 100%;
                 transition: .5s ease;
                 border-radius: 50px;
-              }
-              .chapo {
+            }
+            .chapo {
                 //white-space: nowrap; 
                 position: absolute;
                 overflow: hidden;
@@ -83,14 +79,12 @@
                 left: 40%;
                 transform: translate(-40%, -40%);
                 -ms-transform: translate(-40%, -40%);
-              }
-
+            }
         }
     }
 }
 
-.direction 
-{
+.direction {
     background-color: $couleur-secondaire;
     padding-left: 10%;
     padding-right: 10%;
@@ -100,21 +94,18 @@
     display: flex; 
     justify-content: space-between;
     flex-direction: column;
-    .contenu 
-    {
+
+    .contenu {
         display: flex; 
         justify-content: space-between;
         flex-direction: row;
         width: 100%;
-        .item 
-        {
-            a 
-            {
+        .item {
+            a {
                 display: flex; 
                 flex-direction: column;
                 align-items: center;
-                svg
-                {
+                svg {
                     width: 50%;
                 }
             }

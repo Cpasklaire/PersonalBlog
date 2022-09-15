@@ -5,18 +5,18 @@ header {
     align-items: center;
     padding-left: 3%;
     padding-right: 3%;
-    a  {
+    a {
         display: flex;
         flex-direction: column;
         img {
             width: 30%;
         }
         h1 {
-            font-family: $font-titre;            
+            font-family: $font-titre;
         }
     }
 }
-.bodyblock{
+.bodyblock {
     margin-bottom: 3%;
 }
 footer {
@@ -26,8 +26,7 @@ footer {
     width: 100%;
     text-align: center;
     background-color: $couleur-primaire;
-    a 
-    {
+    a {
         margin-left: 1%;
         margin-right: 1%;
     }

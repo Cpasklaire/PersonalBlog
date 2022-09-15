@@ -17,26 +17,22 @@
         display: flex;
         justify-content: space-between;
         flex-wrap: no-wrap;
-            &:hover 
-            {
+            &:hover {
                 box-shadow: 2px 4px $couleur-ombre;
                 opacity: .8;
             }
-        p 
-        {
+        p {
             overflow: hidden;
             max-height: 5em;
         }
-        img 
-        {
+        img {
             width: 40%;
             border-radius: 40%;  
         }
-        H2{
+        H2 {
             font-size: 2em;
         }
-        span 
-        {
+        span {
             margin-left: 70%;
         }
     }
@@ -46,14 +42,14 @@
     margin-left: 3%;
     margin-right: 3%;
     margin-top: 1%;
-    .chapo{
+    .chapo {
         margin: 2%;
         background-color: $couleur-primaire;
         border-radius: 30px;
         text-align: center;
         padding: 1%;
     }
-    .info{
+    .info {
         background-color: $couleur-primaire;
         border-radius: 30px;
         text-align: center;
@@ -67,7 +63,7 @@
         margin-top: 2%;
         padding: 2%;
         border-radius: 50px;
-        .comment{
+        .comment {
             background-color: white;
             border-radius: 50px;
             margin: 2%;
@@ -75,10 +71,9 @@
             svg {
                 width: 5%;
             }
-            .date{
+            .date {
                 font-size: .5em;
             }
-
-        }            
+        }
     }
 }
