@@ -2,29 +2,21 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use App\Models\PostModel;
+use App\Models\UserModel;
 
-class BaseController
-{
+class BaseController {
+    
     private $loader;
     protected $twig;
-
-    //public $get;
-    //public $post;
-    //public $session;
 
     //Render twig
     public function __construct()
     {
         $this->loader = new FilesystemLoader('./templates');
         $this->twig = new Environment($this->loader);
-
-        //$this->get = $_GET;
-        //$this->post = $_POST;
-        //$this->session = $_SESSION;
     }
 
     //User connected
@@ -43,8 +35,12 @@ class BaseController
 
     protected function getCurrentUserId()
     {
-        if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) {
-            return $_SESSION['userId'];
+        $request = new RequestController();
+        echo $userId = $request->session['userId'];
+        echo $userId;
+
+        if (isset($userId) && (int)$userId > 0) {
+            return $userId;
         }
 
         return null;
@@ -54,6 +50,20 @@ class BaseController
     {
         return $this->getCurrentUserId() > 0 ? true : false;
     }
+
+/*     protected function isAdmin()
+    {
+        $request = new RequestController();
+        $request->session;
+
+        $userId = $session['userId'];
+        $admin = $session['admin'];
+        if (!$userId) {
+            header('Location: /login');
+        } elseif ($admin == 0) {
+            header('Location: /');
+        }
+    }  */
 
     //render function
     protected function render($view, $params = [])

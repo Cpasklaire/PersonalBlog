@@ -11,15 +11,10 @@ class UserController extends BaseController {
 
         $user = $this->getCurrentUser();
 
-        //$userId = $_SESSION['userId'];
-        //$admin = $_SESSION['admin'];
-        
         if (!$user->id) {
             header('Location: /login');
-            exit();
         } elseif ($user->admin == 0){
             header('Location: /');
-            exit();
         } else {
             $userModel = new UserModel();
             $users = $userModel->getUsers();
@@ -31,19 +26,20 @@ class UserController extends BaseController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
 
             $userId = $this->getCurrentUserId();
+            $request = new RequestController();
+            $message = $request->post['message'];
 
             if (!$userId) {
-                    $pseudo = $_POST['pseudo'];
-                    $contact = $_POST['email'];
+                    $pseudo = $request->post['pseudo'];
+                    $contact = $request->post['email'];
             } else {
                 $user = $this->getCurrentUser();
                 $pseudo = $user->pseudo;
                 $contact = $user->email;
             }
-            if (isset($_POST['message'])) {
+            if (isset($message)) {
 
                 $headers = 'From:' .$contact;
-                $message = $_POST['message'];
                 $destinataire = 'sasha.leroux92@gmail.com';
                 $sujet = "Email de" .$pseudo;
 

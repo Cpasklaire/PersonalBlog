@@ -18,14 +18,13 @@ class PostController extends BaseController
     }
     public function listAdmin()
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
+        $request = new RequestController();
+        $userId = $request->session['userId'];
+        $admin = $request->session['admin'];
         if (!$userId) {
             header('Location: /login');
-            exit();
         } elseif ($admin == 0) {
             header('Location: /');
-            exit();
         } else {
             $postModel = new PostModel();
             $posts = $postModel->getPosts();
@@ -47,14 +46,13 @@ class PostController extends BaseController
     }
     public function showAdmin($postId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
+        $request = new RequestController();
+        $userId = $request->session['userId'];
+        $admin = $request->session['admin'];
         if (!$userId) {
             header('Location: /login');
-            exit();
         } elseif ($admin == 0) {
             header('Location: /');
-            exit();
         } else {
             $postModel = new PostModel();
             $commentModel = new CommentModel();
@@ -69,23 +67,24 @@ class PostController extends BaseController
     //create post
     public function create()
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
+        $request = new RequestController();
+        $userId = $request->session['userId'];
+        $admin = $request->session['admin'];
         if (!$userId) {
             header('Location: /login');
-            exit();
         } elseif ($admin == 0) {
             header('Location: /');
-            exit();
         } else {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
+                $request = new RequestController();
+                $title = $request->post['title'];
+                $chapo = $request->post['chapo'];
+                $content = $request->post['content'];
 
-                    $userId = $_SESSION['userId'];
-                    $title = $_POST['title'];
-                    $chapo = $_POST['chapo'];
-                    $content = $_POST['content'];
-                    $author = $_SESSION['pseudo'];
+                if (isset($title) && isset($chapo) && isset($content)) {
+                    
+                    $userId = $request->session['userId'];
+                    $author = $request->session['pseudo'];
 
                     $postModel = new PostModel();
                     $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
@@ -107,22 +106,21 @@ class PostController extends BaseController
     //modify post
     public function modify($postId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
+        $request = new RequestController();
+        $userId = $request->session['userId'];
+        $admin = $request->session['admin'];
         if (!$userId) {
             header('Location: /login');
-            exit();
         } elseif ($admin == 0) {
             header('Location: /');
-            exit();
         } else {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $request = new RequestController();
+                $title = $request->post['title'];
+                $chapo = $request->post['chapo'];
+                $content = $request->post['content'];
 
-                if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
-
-                    $title = $_POST['title'];
-                    $chapo = $_POST['chapo'];
-                    $content = $_POST['content'];
+                if (isset($title) && isset($chapo) && isset($content)) {
 
                     $postModel = new PostModel();
                     $success = $postModel->putPost($title, $chapo, $content, $postId);
@@ -148,14 +146,13 @@ class PostController extends BaseController
     //delete post
     public function delete($postId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
+        $request = new RequestController();
+        $userId = $request->session['userId'];
+        $admin = $request->session['admin'];
         if (!$userId) {
             header('Location: /login');
-            exit();
         } elseif ($admin == 0) {
             header('Location: /');
-            exit();
         } else {
             $postModel = new PostModel();
             $success = $postModel->deletePost($postId);

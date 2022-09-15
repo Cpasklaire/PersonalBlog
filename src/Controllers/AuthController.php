@@ -4,38 +4,43 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 
-class AuthController extends BaseController
-{
+class AuthController extends BaseController {
 
     //user connection
 
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+            $request = new RequestController();
+            $login = $request->post['login'];
+            $password = $request->post['password'];
 
-            if (isset($_POST['login']) && isset($_POST['password'])) {
+            if (isset($login) && isset($password)) {
                 $userModel = new UserModel();
-                $user = $userModel->login($_POST['login']);
+                $user = $userModel->login($login);
 
                 //user existe
                 if ($user) {
-                    $_SESSION['userId'] = $user->id;
-                    $_SESSION['admin'] = $user->admin;
-                    $_SESSION['pseudo'] = $user->pseudo;
-                } else {
-                    header('Location: /login?error=invalid_credentials');
-                }
 
-                //good password
-                if (password_verify($_POST['password'], $user->mdp)) {
+                    //good password
+                    if (password_verify($password, $user->mdp)) {
 
-                    if ($user->admin == 1) {
-                        header('Location: /admin');
+                        //$user->id = $request->session['userId'];
+                        //$password = $request->post['password'];
+                        $_SESSION['userId'] = $user->id;
+                        $_SESSION['admin'] = $user->admin;
+                        $_SESSION['pseudo'] = $user->pseudo;
+                        if ($user->admin == 1) {
+                            header('Location: /admin');
+                        } else {
+                            header('Location: /');
+                        }
                     } else {
-                        header('Location: /');
+                        header('Location: /login?error=invalid_passeword');
                     }
                 } else {
-                    header('Location: /login?error=invalid_passeword');
+                    header('Location: /login?error=invalid_credentials');
                 }
             } else {
                 header('Location: /login?error=invalid_form');
@@ -49,10 +54,14 @@ class AuthController extends BaseController
     public function signup()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $request = new RequestController();
+            $pseudo = $request->post['pseudo'];
+            $email = $request->post['email'];
+            $password = $request->post['password'];
 
-            if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {
+            if (isset($pseudo) && isset($email) && isset($password)) {
                 $userModel = new UserModel();
-                $success = $userModel->createUser($_POST['pseudo'], $_POST['email'], $_POST['password']);
+                $success = $userModel->createUser($pseudo, $email, $password);
 
                 if ($success) {
                     header('Location: /login');

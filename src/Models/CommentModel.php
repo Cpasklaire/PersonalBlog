@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use \Ramsey\Uuid\Uuid;
-
 class Comment {
     public string $commentId;
     public string $userId;
