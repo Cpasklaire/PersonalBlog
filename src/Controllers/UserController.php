@@ -8,18 +8,21 @@ class UserController extends BaseController {
 
     //users show
     public function userList() {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
+
+        $user = $this->getCurrentUser();
+
+        //$userId = $_SESSION['userId'];
+        //$admin = $_SESSION['admin'];
+        
+        if (!$user->id) {
             header('Location: /login');
             exit();
-        } elseif ($admin == 0){
+        } elseif ($user->admin == 0){
             header('Location: /');
             exit();
         } else {
             $userModel = new UserModel();
             $users = $userModel->getUsers();
-            echo $users['admin'];
             $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
         }
     }
@@ -41,17 +44,16 @@ class UserController extends BaseController {
 
                 $headers = 'From:' .$contact;
                 $message = $_POST['message'];
-                $to = 'sasha.leroux92@gmail.com';
+                $destinataire = 'sasha.leroux92@gmail.com';
                 $sujet = "Email de" .$pseudo;
 
-                if (mail($to, $sujet, $message, $headers)) {
+                if (mail($destinataire, $sujet, $message, $headers)) {
                     header('Location: /');
                 } else {
                     header('Location: /contact');
                 }
             }
-        } else {
-            return $this->render('contact.html.twig');
         }
+        return $this->render('contact.html.twig');
     } 
 }

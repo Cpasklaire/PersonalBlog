@@ -20,8 +20,8 @@ class BaseController
     public function __construct()
     {
         $this->loader = new FilesystemLoader('./templates');
-        $this->twig = new Environment($this->loader);        
-        
+        $this->twig = new Environment($this->loader);
+
         //$this->get = $_GET;
         //$this->post = $_POST;
         //$this->session = $_SESSION;
@@ -39,16 +39,15 @@ class BaseController
         $userModel = new UserModel();
         $user = $userModel->getUser($userId);
         return $user;
-        
     }
 
     protected function getCurrentUserId()
     {
         if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) {
             return $_SESSION['userId'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     protected function isAuthenticated()
