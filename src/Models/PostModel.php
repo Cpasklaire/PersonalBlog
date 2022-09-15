@@ -51,7 +51,7 @@ class PostModel extends BaseModel {
             return header('Location: /404'); 
         } else {
             $post = new Post();
-            $post->id = $postId;
+            $post->postId = $postId;
             $post->title = $data['title'];
             $post->chapo = $data['chapo'];
             $post->content = $data['content'];
@@ -60,7 +60,7 @@ class PostModel extends BaseModel {
             $post->updateDate = $data['updatedAt'];
 
             $commentModel = new CommentModel();
-            $comments = $commentModel->getComments($post->id);
+            $comments = $commentModel->getComments($post->postId);
             $post->comments = $comments;
 
             return $post;
@@ -80,7 +80,7 @@ class PostModel extends BaseModel {
             return header('Location: /404'); 
         } else {
             $post = new Post();
-            $post->id = $postId;
+            $post->postId = $postId;
             $post->title = $data['title'];
             $post->chapo = $data['chapo'];
             $post->content = $data['content'];
@@ -89,7 +89,7 @@ class PostModel extends BaseModel {
             $post->updateDate = $data['updatedAt'];
 
             $commentModel = new CommentModel();
-            $comments = $commentModel->getAllComments($post->id);
+            $comments = $commentModel->getAllComments($post->postId);
             $post->comments = $comments;
 
             return $post;
@@ -108,25 +108,25 @@ class PostModel extends BaseModel {
     }
 
     // edit post
-    public function putPost(string $title, string $content, string $chapo, $id): bool {
+    public function putPost(string $title, string $content, string $chapo, $postId): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "UPDATE posts SET title = ?,  content = ?,  chapo = ?, updatedAt = NOW() WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$title, $content, $chapo, $id]);
+        $affectedLine = $statement->execute([$title, $content, $chapo, $postId]);
         return ($affectedLine > 0);
     }
     
     //delete post 
 
-    public function deletePost($id): bool {
+    public function deletePost($postId): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "DELETE FROM posts WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$id]);
+        $affectedLine = $statement->execute([$postId]);
         return ($affectedLine > 0);
     }
 }

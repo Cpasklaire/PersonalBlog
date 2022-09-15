@@ -9,13 +9,13 @@ class CommentController extends BaseController
 {
 
     //create new comment
-    public function createComment($id)
+    public function createComment($commentId)
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['content'])) {
 
                 $content = $_POST['content'];
-                $postId = $id;
+                $postId = $commentId;
 
                 if (!$_SESSION['userId']) {
                     $userId = 42;
@@ -29,7 +29,7 @@ class CommentController extends BaseController
                 $success = $commentModel->createComment($userId, $postId, $content, $author);
 
                 if ($success) {
-                    header('Location: /articles/' . $id);
+                    header('Location: /articles/' . $commentId);
                 } else {
                     header('Location: /articles?error=fail_creation');
                 }
@@ -56,7 +56,7 @@ class CommentController extends BaseController
     }
 
     //valid a comment
-    public function validate($id)
+    public function validate($commentId)
     {
         $userId = $_SESSION['userId'];
         $admin = $_SESSION['admin'];
@@ -68,7 +68,7 @@ class CommentController extends BaseController
             exit();
         } else {
             $commentModel = new CommentModel();
-            $success = $commentModel->validateComment($id);
+            $success = $commentModel->validateComment($commentId);
             if ($success) {
                 header('Location: /admin/commentaires');
             } else {

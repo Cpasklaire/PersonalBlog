@@ -11,10 +11,10 @@
             <div class="user">
                 <span>{{ user.pseudo }}</span>
                 <span>{{ user.email }}</span>
-                {% if user.admin < 1 %} 
+                {% if user.admin < 1 %}
                     <span>Utilisateur</span> 
                 {% endif %}
-                {% if user.admin > 0 %} 
+                {% if user.admin > 0 %}
                     <span>Administrateur</span> 
                 {% endif %}
             </div>

@@ -28,10 +28,10 @@
                         {% endif %}
 
                         {% if comment.valided < 1 %} 
-                        <a href="/./admin/commentaires/{{comment.id}}">Valider</a>
+                        <a href="/./admin/commentaires/{{comment.commentId}}">Valider</a>
                         {% endif %}
 
-                        <a href="commentaires/delect/{{comment.id}}">Supprimer</a>
+                        <a href="commentaires/delect/{{comment.commentId}}">Supprimer</a>
                     </div>
                 </div>
             {% endfor %} 

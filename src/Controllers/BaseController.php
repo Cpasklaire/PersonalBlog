@@ -9,15 +9,22 @@ use App\Models\PostModel;
 
 class BaseController
 {
-
     private $loader;
     protected $twig;
+
+    //public $get;
+    //public $post;
+    //public $session;
 
     //Render twig
     public function __construct()
     {
         $this->loader = new FilesystemLoader('./templates');
-        $this->twig = new Environment($this->loader);
+        $this->twig = new Environment($this->loader);        
+        
+        //$this->get = $_GET;
+        //$this->post = $_POST;
+        //$this->session = $_SESSION;
     }
 
     //User connected
@@ -27,11 +34,12 @@ class BaseController
 
         if (!$userId) {
             return null;
-        } else {
-            $userModel = new UserModel();
-            $user = $userModel->getUser($userId);
-            return $user;
         }
+
+        $userModel = new UserModel();
+        $user = $userModel->getUser($userId);
+        return $user;
+        
     }
 
     protected function getCurrentUserId()

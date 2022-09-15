@@ -19,6 +19,7 @@ class UserController extends BaseController {
         } else {
             $userModel = new UserModel();
             $users = $userModel->getUsers();
+            echo $users['admin'];
             $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
         }
     }
@@ -32,8 +33,9 @@ class UserController extends BaseController {
                     $pseudo = $_POST['pseudo'];
                     $contact = $_POST['email'];
             } else {
-                    $pseudo = $_SESSION['pseudo'];
-                    $contact = $_SESSION['email'];
+                $user = $this->getCurrentUser();
+                $pseudo = $user->pseudo;
+                $contact = $user->email;
             }
             if (isset($_POST['message'])) {
 
@@ -47,10 +49,9 @@ class UserController extends BaseController {
                 } else {
                     header('Location: /contact');
                 }
-
-            } else {
-                return $this->render('contact.html.twig');
             }
+        } else {
+            return $this->render('contact.html.twig');
         }
     } 
 }

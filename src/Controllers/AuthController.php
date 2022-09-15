@@ -22,7 +22,6 @@ class AuthController extends BaseController {
                     $_SESSION['pseudo'] = $user->pseudo;
                 } else {
                     header('Location: /login?error=invalid_credentials');
-                    die;
                 }
 
                 //good password
@@ -30,17 +29,15 @@ class AuthController extends BaseController {
                     
                     if($user->admin==1) {
                         header('Location: /admin');
-                        die;
                     } else {
                         header('Location: /');
-                        die;
                     }
                 } else {
                     header('Location: /login?error=invalid_passeword');
                 }
 
             } else {
-                header('Location: /login?error=invalid_form');
+                header('Location: /login?error=invalid_form'); 
             }
 
         } else {

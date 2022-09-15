@@ -34,18 +34,18 @@ class PostController extends BaseController
     }
 
     //show One post
-    public function show($id)
+    public function show($postId)
     {
 
         $postModel = new PostModel();
         $commentModel = new CommentModel();
 
-        $post = $postModel->getOnePost($id);
-        $comments = $commentModel->getAllComments($id);
+        $post = $postModel->getOnePost($postId);
+        $comments = $commentModel->getAllComments($postId);
 
         $this->render('./postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     }
-    public function showAdmin($id)
+    public function showAdmin($postId)
     {
         $userId = $_SESSION['userId'];
         $admin = $_SESSION['admin'];
@@ -59,8 +59,8 @@ class PostController extends BaseController
             $postModel = new PostModel();
             $commentModel = new CommentModel();
 
-            $post = $postModel->getOnePostAllComment($id);
-            $comments = $commentModel->getAllComments($id);
+            $post = $postModel->getOnePostAllComment($postId);
+            $comments = $commentModel->getAllComments($postId);
 
             $this->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
         }
@@ -105,7 +105,7 @@ class PostController extends BaseController
     }
 
     //modify post
-    public function modify($id)
+    public function modify($postId)
     {
         $userId = $_SESSION['userId'];
         $admin = $_SESSION['admin'];
@@ -125,28 +125,28 @@ class PostController extends BaseController
                     $content = $_POST['content'];
 
                     $postModel = new PostModel();
-                    $success = $postModel->putPost($title, $chapo, $content, $id);
+                    $success = $postModel->putPost($title, $chapo, $content, $postId);
 
                     if ($success) {
                         header('Location: /admin');
                     } else {
                         //l'article n'as pas pu étre modifier
-                        header('Location: /admin/modify/:id');
+                        header('Location: /admin/modify/:postId');
                     }
                 } else {
                     //formulaire incomplet
-                    header('Location: /admin/modify/:id');
+                    header('Location: /admin/modify/:postId');
                 }
             } else {
                 $postModel = new PostModel();
-                $post = $postModel->getOnePost($id);
+                $post = $postModel->getOnePost($postId);
                 $this->render('./admin/modify.html.twig', ['post' => $post]);
             }
         }
     }
 
     //delete post
-    public function delete($id)
+    public function delete($postId)
     {
         $userId = $_SESSION['userId'];
         $admin = $_SESSION['admin'];
@@ -158,7 +158,7 @@ class PostController extends BaseController
             exit();
         } else {
             $postModel = new PostModel();
-            $success = $postModel->deletePost($id);
+            $success = $postModel->deletePost($postId);
 
             if ($success) {
                 header('Location: /admin');

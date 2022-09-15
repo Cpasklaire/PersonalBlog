@@ -5,7 +5,7 @@ namespace App\Models;
 use \Ramsey\Uuid\Uuid;
 
 class Comment {
-    public string $id;
+    public string $commentId;
     public string $userId;
     public string $author;
     public string $content;
@@ -26,7 +26,7 @@ class CommentModel extends BaseModel{
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
-            $comment->id = $row['id'];
+            $comment->commentId = $row['id'];
             $comment->userId = $row['userId'];
             $comment->author = $row['author'];
             $comment->content = $row['content'];
@@ -48,7 +48,7 @@ class CommentModel extends BaseModel{
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
-            $comment->id = $row['id'];
+            $comment->commentId = $row['id'];
             $comment->userId = $row['userId'];
             $comment->author = $row['author'];
             $comment->content = $row['content'];
@@ -72,13 +72,13 @@ class CommentModel extends BaseModel{
     }
 
     //delete one comment 
-    public function deleteComment(string $id): bool {
+    public function deleteComment(string $commentId): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "DELETE FROM posts WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$id]);
+        $affectedLine = $statement->execute([$commentId]);
         return ($affectedLine > 0);
     }
 
@@ -93,7 +93,7 @@ class CommentModel extends BaseModel{
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
-            $comment->id = $row['id'];
+            $comment->commentId = $row['id'];
             $comment->userId = $row['userId'];
             $comment->postId = $row['postId'];
             $comment->author = $row['author'];
@@ -106,12 +106,12 @@ class CommentModel extends BaseModel{
     }
 
     //valid one comment
-    public function validateComment(string $id): bool {
+    public function validateComment(string $commentId): bool {
         $statement = $this->connection->getConnection()->prepare(
             "UPDATE posts SET valided = true WHERE id = ?"
         );
         
-        $affectedLine = $statement->execute([$id]);
+        $affectedLine = $statement->execute([$commentId]);
         return ($affectedLine > 0);
     }
 
