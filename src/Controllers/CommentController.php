@@ -34,7 +34,7 @@ class CommentController extends BaseController
                 if ($success) {
                     header('Location: /articles/' . $commentId);
                 }
-                header('Location: /articles?error=fail_creation');
+                header('Location: /error');
             }
         }
     }
@@ -72,7 +72,7 @@ class CommentController extends BaseController
             if ($success) {
                 header('Location: /admin/commentaires');
             } else {
-                header('Location: /admin/commentaires?error=validate');
+                header('Location: /admin/error');
             }
         }
     }

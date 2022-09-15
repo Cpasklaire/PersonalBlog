@@ -83,4 +83,8 @@ class BaseController {
     {
         $this->render('polConf.html.twig');
     }
+    public function error()
+    {
+        $this->render('error.html.twig');
+    }
 }

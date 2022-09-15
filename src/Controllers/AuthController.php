@@ -37,11 +37,14 @@ class AuthController extends BaseController {
                         }
                         header('Location: /');
                     }
-                    header('Location: /login?error=invalid_passeword');
+                    header('Location: /error');
+                    echo 1;
                 }
-                header('Location: /login?error=invalid_credentials');
+                header('Location: /error');
+                echo 2;
             }
-            header('Location: /login?error=invalid_form');
+            header('Location: /error');
+            echo 3;
         }
         return $this->render('login.html.twig');
     }
@@ -67,7 +70,9 @@ class AuthController extends BaseController {
                 }
                 header('Location: /signup');
             }
-            header('Location: /signup?error=invalid_form');
+
+            header('Location: /error');
+            echo 1;
         }
         return $this->render('signup.html.twig');
     }

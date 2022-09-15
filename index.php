@@ -13,6 +13,7 @@ $router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
 $router->get('/contact', 'User#contact');
 $router->post('/contact', 'User#contact');
 $router->get('/info', 'Base#politique');
+$router->get('/error', 'Base#error');
 
 //connection
 $router->get('/login', 'Auth#connect');
@@ -42,6 +43,5 @@ $router->get('/admin/users', 'User#userList');
 try {
     $router->run();
 } catch (\Exception $e) {
-    //$router->get('/error', 'Base#error'); 
-    die($e);
+    header('Location: /error');
 }
