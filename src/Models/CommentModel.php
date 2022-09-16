@@ -24,6 +24,7 @@ class CommentModel extends BaseModel{
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
+            // TODO SAM virer le code duploqué comme ca a ete fait dans post
             $comment->commentId = $row['id'];
             $comment->userId = $row['userId'];
             $comment->author = $row['author'];
@@ -46,6 +47,7 @@ class CommentModel extends BaseModel{
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
+            // TODO SAM virer le code duploqué comme ca a ete fait dans post
             $comment->commentId = $row['id'];
             $comment->userId = $row['userId'];
             $comment->author = $row['author'];
@@ -91,6 +93,7 @@ class CommentModel extends BaseModel{
 
         while($row = $statement->fetch()) {
             $comment = new Comment();
+            // TODO SAM virer le code duploqué comme ca a ete fait dans post
             $comment->commentId = $row['id'];
             $comment->userId = $row['userId'];
             $comment->postId = $row['postId'];

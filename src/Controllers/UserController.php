@@ -10,7 +10,9 @@ class UserController extends BaseController {
     public function userList() {
         $userModel = new UserModel();
         $users = $userModel->getUsers();
-        $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
+        // print_r(var_export($users, true));
+        // die ('coucou');
+        $this->render('./admin/userList.html.twig', ['users' => $users]);	
     }
 
     public function contact() {
@@ -25,7 +27,7 @@ class UserController extends BaseController {
             if (!$userId) {
                     $pseudo = $request->post['pseudo'];
                     $contact = $request->post['email'];
-            } 
+            }
             $user = $this->getCurrentUser();
             $pseudo = $user->pseudo;
             $contact = $user->email;

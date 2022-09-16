@@ -36,12 +36,11 @@ class BaseController {
     protected function getCurrentUserId()
     {
         $request = new RequestController();
-        $userId = $request->session['userId'];
+        $userId = isset($request->session['userId']) ? $request->session['userId'] : null;
 
         if (isset($userId) && (int)$userId > 0) {
             return $userId;
         }
-
         return null;
     }
 

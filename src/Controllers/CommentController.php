@@ -71,9 +71,8 @@ class CommentController extends BaseController
             $success = $commentModel->validateComment($commentId);
             if ($success) {
                 header('Location: /admin/commentaires');
-            } else {
-                header('Location: /admin/error');
             }
+            header('Location: /admin/error');
         }
     }
 }

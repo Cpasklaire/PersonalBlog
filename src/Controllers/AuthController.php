@@ -20,31 +20,35 @@ class AuthController extends BaseController {
             if (isset($login) && isset($password)) {
                 $userModel = new UserModel();
                 $user = $userModel->login($login);
+                
 
+                
                 //user existe
                 if ($user) {
 
                     //good password
                     if (password_verify($password, $user->mdp)) {
-
-                        //$user->id = $request->session['userId'];
-                        //$password = $request->post['password'];
-                        $_SESSION['userId'] = $user->id;
+                        // TODO SAM
+                        /* $_SESSION['userId'] = $user->id;
                         $_SESSION['admin'] = $user->admin;
-                        $_SESSION['pseudo'] = $user->pseudo;
+                        $_SESSION['pseudo'] = $user->pseudo; */
+
+                        $request->setSession('userId', $user->id);
+                        $request->setSession('admin', $user->admin);
+                        $request->setSession('pseudo', $user->pseudo);                        
+
                         if ($user->admin == 1) {
-                            header('Location: /admin');
+                            header('Location: /admin'); // change to redirect avec le return devant ... 
+                            die;
                         }
-                        header('Location: /');
+                        header('Location: /'); // ideam
                     }
-                    header('Location: /error');
-                    echo 1;
+                    header('Location: /error');                    
                 }
-                header('Location: /error');
-                echo 2;
+                header('Location: /error');                
             }
-            header('Location: /error');
-            echo 3;
+            return $request->redirect('/error');            
+            
         }
         return $this->render('login.html.twig');
     }
@@ -66,13 +70,15 @@ class AuthController extends BaseController {
                 $success = $userModel->createUser($pseudo, $email, $password);
 
                 if ($success) {
+                    // TO DO SAM les redirect
                     header('Location: /login');
+                    die;
                 }
                 header('Location: /signup');
+                die;
             }
 
             header('Location: /error');
-            echo 1;
         }
         return $this->render('signup.html.twig');
     }

@@ -73,33 +73,29 @@ class PostController extends BaseController
             header('Location: /login');
         } elseif ($admin == 0) {
             header('Location: /');
-        } else {
-            if ($method === 'POST') {
-
-                $title = $request->post['title'];
-                $chapo = $request->post['chapo'];
-                $content = $request->post['content'];
-
-                if (isset($title) && isset($chapo) && isset($content)) {
-                    
-                    $userId = $request->session['userId'];
-                    $author = $request->session['pseudo'];
-
-                    $postModel = new PostModel();
-                    $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
-
-                    if ($success) {
-                        header('Location: /admin');
-                    } else {
-                        header('Location: /admin/createPost?error=fail_creation');
-                    }
-                } else {
-                    header('Location: /admin/createPost?error=invalid_form');
-                }
-            } else {
-                return $this->render('./admin/createPost.html.twig');
-            }
         }
+        if ($method === 'POST') {
+
+            $title = $request->post['title'];
+            $chapo = $request->post['chapo'];
+            $content = $request->post['content'];
+
+            if (isset($title) && isset($chapo) && isset($content)) {
+                
+                $userId = $request->session['userId'];
+                $author = $request->session['pseudo'];
+
+                $postModel = new PostModel();
+                $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
+
+                if ($success) {
+                    header('Location: /admin');
+                }
+                header('Location: /admin/createPost?error=fail_creation');
+            }
+            header('Location: /admin/createPost?error=invalid_form');
+        }
+        return $this->render('./admin/createPost.html.twig');
     }
 
     //modify post

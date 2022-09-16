@@ -10,6 +10,18 @@ class Post {
     public string $author;
     public string $createDate;
     public string $updateDate;
+
+    public function __construct ($row = null) {
+        if ($row) {
+            $this->postId = $row['id'];
+            $this->title = $row['title'];
+            $this->chapo = $row['chapo'];
+            $this->content = $row['content'];
+            $this->author = $row['author'];
+            $this->createDate = $row['createdAt'];
+            $this->updateDate = $row['updatedAt'];
+        }
+    }
 }
 
 class PostModel extends BaseModel {
@@ -24,15 +36,7 @@ class PostModel extends BaseModel {
         $posts = [];
 
         while($row = $statement->fetch()) {
-            $post = new Post();
-            $post->postId = $row['id'];
-            $post->title = $row['title'];
-            $post->chapo = $row['chapo'];
-            $post->content = $row['content'];
-            $post->author = $row['author'];
-            $post->createDate = $row['createdAt'];
-            $post->updateDate = $row['updatedAt'];
-
+            $post = new Post($row);            
             $posts[] = $post;
         }
         return $posts;
@@ -50,14 +54,14 @@ class PostModel extends BaseModel {
         if(!is_array($data)) {
             return header('Location: /404'); 
         }
-        $post = new Post();
+        $post = new Post($data);
         $post->postId = $postId;
-        $post->title = $data['title'];
+        /* $post->title = $data['title'];
         $post->chapo = $data['chapo'];
         $post->content = $data['content'];
         $post->author = $data['author'];
         $post->createDate = $data['createdAt'];
-        $post->updateDate = $data['updatedAt'];
+        $post->updateDate = $data['updatedAt']; */
 
         $commentModel = new CommentModel();
         $comments = $commentModel->getComments($post->postId);
@@ -78,14 +82,14 @@ class PostModel extends BaseModel {
         if(!is_array($data)) {
             return header('Location: /404'); 
         }
-        $post = new Post();
+        $post = new Post($data);
         $post->postId = $postId;
-        $post->title = $data['title'];
+        /* $post->title = $data['title'];
         $post->chapo = $data['chapo'];
         $post->content = $data['content'];
         $post->author = $data['author'];
         $post->createDate = $data['createdAt'];
-        $post->updateDate = $data['updatedAt'];
+        $post->updateDate = $data['updatedAt']; */
 
         $commentModel = new CommentModel();
         $comments = $commentModel->getAllComments($post->postId);
