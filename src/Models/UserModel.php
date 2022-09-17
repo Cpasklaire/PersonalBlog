@@ -3,7 +3,7 @@
 namespace App\Models;
 
 class User {
-    public string $id;
+    public string $userId;
     public string $pseudo;
     public string $admin;
 }
@@ -16,17 +16,17 @@ class UserModel extends BaseModel{
         $statement = $this->connection->getConnection()->query(
             "SELECT * FROM users WHERE pseudo = '$pseudo' LIMIT 1"
         );
-        
-        return $statement->fetchObject();   
+
+        return $statement->fetchObject();
     }
 
-    public function getUser($id) {
+    public function getUser($userId) {
         
         $statement = $this->connection->getConnection()->query(
-            "SELECT * FROM Users WHERE id = $id"
+            "SELECT * FROM Users WHERE id = $userId"
         );
         
-        return $statement->fetchObject();   
+        return $statement->fetchObject();
     }
 
     //create user
@@ -57,8 +57,8 @@ class UserModel extends BaseModel{
             $user->pseudo = $row['pseudo'];
             $user->email = $row['email'];
             $user->admin = $row['admin'];
-            $user->createdAt = $row['createdAt'];
-    
+            //$user->createdAt = $row['createdAt'];
+
             $users[] = $user;
         }
         return $users;

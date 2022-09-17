@@ -2,14 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use App\Models\PostModel;
+use App\Models\UserModel;
 
-class BaseController
-{
-
+class BaseController {
+    
     private $loader;
     protected $twig;
 
@@ -27,26 +26,42 @@ class BaseController
 
         if (!$userId) {
             return null;
-        } else {
-            $userModel = new UserModel();
-            $user = $userModel->getUser($userId);
-            return $user;
         }
+
+        $userModel = new UserModel();
+        $user = $userModel->getUser($userId);
+        return $user;
     }
 
     protected function getCurrentUserId()
     {
-        if (isset($_SESSION['userId']) && (int)$_SESSION['userId'] > 0) {
-            return $_SESSION['userId'];
-        } else {
-            return null;
+        $request = new RequestController();
+        $userId = isset($request->session['userId']) ? $request->session['userId'] : null;
+
+        if (isset($userId) && (int)$userId > 0) {
+            return $userId;
         }
+        return null;
     }
 
     protected function isAuthenticated()
     {
         return $this->getCurrentUserId() > 0 ? true : false;
     }
+
+/*     protected function isAdmin()
+    {
+        $request = new RequestController();
+        $request->session;
+
+        $userId = $session['userId'];
+        $admin = $session['admin'];
+        if (!$userId) {
+            return $request->redirect('/login');
+        } elseif ($admin == 0) {
+            return $request->redirect('/');
+        }
+    }  */
 
     //render function
     protected function render($view, $params = [])
@@ -66,5 +81,9 @@ class BaseController
     public function politique()
     {
         $this->render('polConf.html.twig');
+    }
+    public function error()
+    {
+        $this->render('error.html.twig');
     }
 }

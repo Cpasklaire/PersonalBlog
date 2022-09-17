@@ -2,15 +2,24 @@
 
 namespace App\Models;
 
-use \Ramsey\Uuid\Uuid;
-
 class Comment {
-    public string $id;
+    public string $commentId;
     public string $userId;
     public string $author;
     public string $content;
     public string $valided;
     public string $updatedAt;
+
+    public function __construct ($row = null) {
+        if ($row) {
+            $this->commentId = $row['id'];
+            $this->userId = $row['userId'];
+            $this->author = $row['author'];
+            $this->content = $row['content'];
+            $this->valided = $row['valided'];
+            $this->updatedAt = $row['updatedAt'];
+        }
+    }
 }
 
 class CommentModel extends BaseModel{
@@ -25,13 +34,7 @@ class CommentModel extends BaseModel{
         $comments = [];
 
         while($row = $statement->fetch()) {
-            $comment = new Comment();
-            $comment->id = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->author = $row['author'];
-            $comment->content = $row['content'];
-            $comment->updatedAt = $row['updatedAt'];
-
+            $comment = new Comment($row);
             $comments[] = $comment;
         }
         return $comments;
@@ -47,14 +50,7 @@ class CommentModel extends BaseModel{
         $comments = [];
 
         while($row = $statement->fetch()) {
-            $comment = new Comment();
-            $comment->id = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->author = $row['author'];
-            $comment->content = $row['content'];
-            $comment->valided = $row['valided'];
-            $comment->updatedAt = $row['updatedAt'];
-
+            $comment = new Comment($row);
             $comments[] = $comment;
         }
         return $comments;
@@ -72,13 +68,13 @@ class CommentModel extends BaseModel{
     }
 
     //delete one comment 
-    public function deleteComment(string $id): bool {
+    public function deleteComment(string $commentId): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "DELETE FROM posts WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$id]);
+        $affectedLine = $statement->execute([$commentId]);
         return ($affectedLine > 0);
     }
 
@@ -92,26 +88,19 @@ class CommentModel extends BaseModel{
         $comments = [];
 
         while($row = $statement->fetch()) {
-            $comment = new Comment();
-            $comment->id = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->postId = $row['postId'];
-            $comment->author = $row['author'];
-            $comment->content = $row['content'];
-            $comment->updatedAt = $row['updatedAt'];
-
+            $comment = new Comment($row);
             $comments[] = $comment;
         }
         return $comments;
     }
 
     //valid one comment
-    public function validateComment(string $id): bool {
+    public function validateComment(string $commentId): bool {
         $statement = $this->connection->getConnection()->prepare(
             "UPDATE posts SET valided = true WHERE id = ?"
         );
         
-        $affectedLine = $statement->execute([$id]);
+        $affectedLine = $statement->execute([$commentId]);
         return ($affectedLine > 0);
     }
 

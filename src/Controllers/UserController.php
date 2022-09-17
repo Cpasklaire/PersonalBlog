@@ -8,49 +8,40 @@ class UserController extends BaseController {
 
     //users show
     public function userList() {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0){
-            header('Location: /');
-            exit();
-        } else {
-            $userModel = new UserModel();
-            $users = $userModel->getUsers();
-            $this->twig->render('./admin/userList.html.twig', ['users' => $users]);	
-        }
+        $userModel = new UserModel();
+        $users = $userModel->getUsers();
+        $this->render('./admin/userList.html.twig', ['users' => $users]);	
     }
 
     public function contact() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
+
+        if ($method === 'POST') { 
 
             $userId = $this->getCurrentUserId();
+            $message = $request->post['message'];
 
             if (!$userId) {
-                    $pseudo = $_POST['pseudo'];
-                    $contact = $_POST['email'];
-            } else {
-                    $pseudo = $_SESSION['pseudo'];
-                    $contact = $_SESSION['email'];
+                    $pseudo = $request->post['pseudo'];
+                    $contact = $request->post['email'];
             }
-            if (isset($_POST['message'])) {
+            $user = $this->getCurrentUser();
+            $pseudo = $user->pseudo;
+            $contact = $user->email;
+
+            if (isset($message)) {
 
                 $headers = 'From:' .$contact;
-                $message = $_POST['message'];
-                $to = 'sasha.leroux92@gmail.com';
+                $destinataire = 'sasha.leroux92@gmail.com';
                 $sujet = "Email de" .$pseudo;
 
-                if (mail($to, $sujet, $message, $headers)) {
-                    header('Location: /');
-                } else {
-                    header('Location: /contact');
+                if (mail($destinataire, $sujet, $message, $headers)) {
+                    return $request->redirect('/');
                 }
-
-            } else {
-                return $this->render('contact.html.twig');
+                return $request->redirect('/contact');
             }
         }
+        return $this->render('contact.html.twig');
     } 
 }

@@ -2,6 +2,8 @@
 
 namespace App\Lib;
 
+use Dotenv;
+
 class DatabaseConnection 
 {
     public ?\PDO $database = null;
@@ -10,15 +12,12 @@ class DatabaseConnection
 
         if($this->database == null) 
         {
-<<<<<<< Updated upstream
-            $this->database = new \PDO('mysql:host=localhost;dbname=baseblog;charset=utf8', 'root', 'root');
-=======
 /*              $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
             $dotenv->load();  */
 
-            $this->database = new \PDO('mysql:host=localhost;dbname=blogphp;charset=utf8', 'root', 'root');
->>>>>>> Stashed changes
+            $this->database = new \PDO('mysql:host=localhost;dbname=baseblog;charset=utf8', 'root', 'root');
         }
         return $this->database;
     }
 }
+

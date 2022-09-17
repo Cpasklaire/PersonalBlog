@@ -13,10 +13,11 @@ $router->get('/articles/:id', 'Post#show')->with('id', '[0-9]+');
 $router->get('/contact', 'User#contact');
 $router->post('/contact', 'User#contact');
 $router->get('/info', 'Base#politique');
+$router->get('/error', 'Base#error');
 
 //connection
-$router->get('/login', 'Auth#login');
-$router->post('/login', 'Auth#login');
+$router->get('/login', 'Auth#connect');
+$router->post('/login', 'Auth#connect');
 $router->get('/signup', 'Auth#signup');
 $router->post('/signup', 'Auth#signup');
 $router->get('/logout', 'Auth#logout');
@@ -42,6 +43,5 @@ $router->get('/admin/users', 'User#userList');
 try {
     $router->run();
 } catch (\Exception $e) {
-    //$router->get('/error', 'Base#error'); 
-    die($e);
+    return header('Location: /error');
 }

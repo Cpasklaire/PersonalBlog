@@ -1,74 +1,89 @@
 .adminPosts {
-    margin: 3%;
-    .option{
-        display: flex;
-        justify-content: space-between;
-        a{
-            border-radius: 15px;
-            background-color: $couleur-secondaire;
-            width: 30%;
-            padding: 1%;
-            text-align: center;
-        }
+  margin: 3%;
+
+  .option {
+    display: flex;
+    justify-content: space-between;
+
+    a {
+      border-radius: 15px;
+      background-color: $couleur-secondaire;
+      width: 30%;
+      padding: 1%;
+      text-align: center;
     }
-    .adminPost {
-        background-color: $couleur-primaire;
-        display: flex;
-        justify-content: space-between;
-        border: 2px solid;
-        border-radius: 15px;
-        margin-bottom: 2%;
-        padding: 1%;
-        padding-left: 5%;
-        padding-right: 5%;
-        margin-top: 2%;
-        .commande {
-            display: flex;
-            flex-direction: column;
-        }
+  }
+
+  .adminPost {
+    background-color: $couleur-primaire;
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid;
+    border-radius: 15px;
+    margin-bottom: 2%;
+    padding: 1%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 2%;
+
+    .commande {
+      display: flex;
+      flex-direction: column;
     }
+  }
 }
-.adminOnePost{
-    .comment{
-        display: flex;
-        justify-content: space-between;
-        .moderation{
-            display: flex;
-            flex-direction: column;
-        }
+
+.adminOnePost {
+
+  .comment {
+    display: flex;
+    justify-content: space-between;
+
+    .moderation {
+      display: flex;
+      flex-direction: column;
     }
+  }
 }
 
 .users {
-    margin: 3%;
-    border: 2px solid;
+  margin: 3%;
+  border: 2px solid;
+  display: flex;
+  flex-direction: column;
+
+  .user {
     display: flex;
-    flex-direction: column;
-    .user{
-        display: flex;
-        justify-content: space-between;
-        span {
-            border-left: 2px solid;
-            min-width: 30%;
-        }
+    justify-content: space-between;
+
+    span {
+      border-left: 2px solid;
+      min-width: 30%;
     }
+  }
 }
 
-.noValid 
-{
-    margin: 3%;
-    display: flex;
-    flex-direction: column;
-    .comment 
-    {
-        border: 2px solid;
-        margin: 1%;
-        width: 40%;
-        padding: 2%;
-        border-radius: 50px;
-    }
-    svg 
-    {
-        width: 10%;
-    }
+.noValid {
+  margin: 3%;
+  display: flex;
+  flex-direction: column;
+
+  .comment {
+    border: 2px solid;
+    margin: 1%;
+    width: 40%;
+    padding: 2%;
+    border-radius: 50px;
+  }
+
+  svg {
+    width: 10%;
+  }
+
+  button {
+    border-radius: 15px;
+    background-color: $couleur-primaire;
+    width: 20%;
+    margin: 2%;
+  }
 }
