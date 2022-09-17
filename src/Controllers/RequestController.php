@@ -17,15 +17,10 @@ class RequestController
         $this->session = $_SESSION; // read about references in PHP with &$_SESSION ... 
     }
 
-    /* public function getSession() {
-        return $_SESSION;
-    } */
-
     public function setSession($sessionKey, $sessionValue) {
         $_SESSION[$sessionKey] = $sessionValue;
     }
 
-    // TODO SAM
     public function redirect($location) {
         return header('Location: ' . $location);
     }

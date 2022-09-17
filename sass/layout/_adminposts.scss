@@ -79,4 +79,11 @@
   svg {
     width: 10%;
   }
+
+  button {
+    border-radius: 15px;
+    background-color: $couleur-primaire;
+    width: 20%;
+    margin: 2%;
+  }
 }

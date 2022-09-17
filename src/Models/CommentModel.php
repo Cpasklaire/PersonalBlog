@@ -9,6 +9,17 @@ class Comment {
     public string $content;
     public string $valided;
     public string $updatedAt;
+
+    public function __construct ($row = null) {
+        if ($row) {
+            $this->commentId = $row['id'];
+            $this->userId = $row['userId'];
+            $this->author = $row['author'];
+            $this->content = $row['content'];
+            $this->valided = $row['valided'];
+            $this->updatedAt = $row['updatedAt'];
+        }
+    }
 }
 
 class CommentModel extends BaseModel{
@@ -23,14 +34,7 @@ class CommentModel extends BaseModel{
         $comments = [];
 
         while($row = $statement->fetch()) {
-            $comment = new Comment();
-            // TODO SAM virer le code duploqué comme ca a ete fait dans post
-            $comment->commentId = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->author = $row['author'];
-            $comment->content = $row['content'];
-            $comment->updatedAt = $row['updatedAt'];
-
+            $comment = new Comment($row);
             $comments[] = $comment;
         }
         return $comments;
@@ -46,15 +50,7 @@ class CommentModel extends BaseModel{
         $comments = [];
 
         while($row = $statement->fetch()) {
-            $comment = new Comment();
-            // TODO SAM virer le code duploqué comme ca a ete fait dans post
-            $comment->commentId = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->author = $row['author'];
-            $comment->content = $row['content'];
-            $comment->valided = $row['valided'];
-            $comment->updatedAt = $row['updatedAt'];
-
+            $comment = new Comment($row);
             $comments[] = $comment;
         }
         return $comments;
@@ -92,15 +88,7 @@ class CommentModel extends BaseModel{
         $comments = [];
 
         while($row = $statement->fetch()) {
-            $comment = new Comment();
-            // TODO SAM virer le code duploqué comme ca a ete fait dans post
-            $comment->commentId = $row['id'];
-            $comment->userId = $row['userId'];
-            $comment->postId = $row['postId'];
-            $comment->author = $row['author'];
-            $comment->content = $row['content'];
-            $comment->updatedAt = $row['updatedAt'];
-
+            $comment = new Comment($row);
             $comments[] = $comment;
         }
         return $comments;

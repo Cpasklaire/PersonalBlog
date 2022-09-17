@@ -57,9 +57,9 @@ class BaseController {
         $userId = $session['userId'];
         $admin = $session['admin'];
         if (!$userId) {
-            header('Location: /login');
+            return $request->redirect('/login');
         } elseif ($admin == 0) {
-            header('Location: /');
+            return $request->redirect('/');
         }
     }  */
 

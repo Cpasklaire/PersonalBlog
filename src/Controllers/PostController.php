@@ -18,14 +18,6 @@ class PostController extends BaseController
     }
     public function listAdmin()
     {
-        $request = new RequestController();
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        }
         $postModel = new PostModel();
         $posts = $postModel->getPosts();
         $this->render('./admin/postPage.html.twig', ['posts' => $posts]);
@@ -45,14 +37,6 @@ class PostController extends BaseController
     }
     public function showAdmin($postId)
     {
-        $request = new RequestController();
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        }
         $postModel = new PostModel();
         $commentModel = new CommentModel();
 
@@ -67,13 +51,7 @@ class PostController extends BaseController
     {
         $request = new RequestController();
         $method = $request->server['REQUEST_METHOD'];
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        }
+
         if ($method === 'POST') {
 
             $title = $request->post['title'];
@@ -89,11 +67,11 @@ class PostController extends BaseController
                 $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
 
                 if ($success) {
-                    header('Location: /admin');
+                    return $request->redirect('/admin');
                 }
-                header('Location: /admin/createPost?error=fail_creation');
+                return $request->redirect('/error');
             }
-            header('Location: /admin/createPost?error=invalid_form');
+            return $request->redirect('/error');
         }
         return $this->render('./admin/createPost.html.twig');
     }
@@ -103,39 +81,31 @@ class PostController extends BaseController
     {
         $request = new RequestController();
         $method = $request->server['REQUEST_METHOD'];
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        } else {
-            if ($method === 'POST') {
-                $request = new RequestController();
-                $title = $request->post['title'];
-                $chapo = $request->post['chapo'];
-                $content = $request->post['content'];
+        if ($method === 'POST') {
+            $request = new RequestController();
+            $title = $request->post['title'];
+            $chapo = $request->post['chapo'];
+            $content = $request->post['content'];
 
-                if (isset($title) && isset($chapo) && isset($content)) {
+            if (isset($title) && isset($chapo) && isset($content)) {
 
-                    $postModel = new PostModel();
-                    $success = $postModel->putPost($title, $chapo, $content, $postId);
+                $postModel = new PostModel();
+                $success = $postModel->putPost($title, $chapo, $content, $postId);
 
-                    if ($success) {
-                        header('Location: /admin');
-                    } else {
-                        //l'article n'as pas pu étre modifier
-                        header('Location: /admin/modify/:postId');
-                    }
+                if ($success) {
+                    return $request->redirect('/admin');
                 } else {
-                    //formulaire incomplet
-                    header('Location: /admin/modify/:postId');
+                    //l'article n'as pas pu étre modifier
+                    return $request->redirect('/admin/modify/:postId');
                 }
             } else {
-                $postModel = new PostModel();
-                $post = $postModel->getOnePost($postId);
-                $this->render('./admin/modify.html.twig', ['post' => $post]);
+                //formulaire incomplet
+                return $request->redirect('/admin/modify/:postId');
             }
+        } else {
+            $postModel = new PostModel();
+            $post = $postModel->getOnePost($postId);
+            $this->render('./admin/modify.html.twig', ['post' => $post]);
         }
     }
 
@@ -143,21 +113,13 @@ class PostController extends BaseController
     public function delete($postId)
     {
         $request = new RequestController();
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        } else {
-            $postModel = new PostModel();
-            $success = $postModel->deletePost($postId);
+        $postModel = new PostModel();
+        $success = $postModel->deletePost($postId);
 
-            if ($success) {
-                header('Location: /admin');
-            } else {
-                header('Location: /admin?error=fail_delete');
-            }
+        if ($success) {
+            return $request->redirect('/admin');
+        } else {
+            return $request->redirect('/error');
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use APP\Controllers\RequestController;
+
 class Post {
     public string $postId;
     public string $title;
@@ -36,7 +38,7 @@ class PostModel extends BaseModel {
         $posts = [];
 
         while($row = $statement->fetch()) {
-            $post = new Post($row);            
+            $post = new Post($row);
             $posts[] = $post;
         }
         return $posts;
@@ -52,16 +54,11 @@ class PostModel extends BaseModel {
         $data = $statement->fetch();
         
         if(!is_array($data)) {
-            return header('Location: /404'); 
+            $request = new RequestController();
+            return $request->redirect('/error');
         }
         $post = new Post($data);
         $post->postId = $postId;
-        /* $post->title = $data['title'];
-        $post->chapo = $data['chapo'];
-        $post->content = $data['content'];
-        $post->author = $data['author'];
-        $post->createDate = $data['createdAt'];
-        $post->updateDate = $data['updatedAt']; */
 
         $commentModel = new CommentModel();
         $comments = $commentModel->getComments($post->postId);
@@ -80,16 +77,11 @@ class PostModel extends BaseModel {
         $data = $statement->fetch();
         
         if(!is_array($data)) {
-            return header('Location: /404'); 
+            $request = new RequestController();
+            return $request->redirect('/error');
         }
         $post = new Post($data);
         $post->postId = $postId;
-        /* $post->title = $data['title'];
-        $post->chapo = $data['chapo'];
-        $post->content = $data['content'];
-        $post->author = $data['author'];
-        $post->createDate = $data['createdAt'];
-        $post->updateDate = $data['updatedAt']; */
 
         $commentModel = new CommentModel();
         $comments = $commentModel->getAllComments($post->postId);

@@ -43,10 +43,5 @@ $router->get('/admin/users', 'User#userList');
 try {
     $router->run();
 } catch (\Exception $e) {
-    if ($e->getCode() == 401) {
-        header('Location: /login');  
-        // TODO SAM
-        die;
-    }
-    header('Location: /error');
+    return header('Location: /error');
 }

@@ -1,4 +1,4 @@
-@media (max-width: 423px) {
+@media (max-width: 780px) {
   * {
     font-size: 0.95em !important;
   }
@@ -40,5 +40,32 @@
         margin-left: 0% !important;
       }
     }
+  }
+
+  .onePost .comments,
+  .adminOnePost .comments {
+    background-color: transparent !important;
+  }
+  .login-form,
+  .sign-form,
+  .contact-form,
+  .create-form,
+  .modify-form,
+  .comment-form {
+    background-color: transparent !important;
+    margin-left: 3% !important;
+    width: 90% !important;
+    margin-bottom: 3% !important;
+
+    button {
+      width: 30% !important;
+    }
+  }
+
+  .noValid .comment {
+    padding: 4% !important;
+  }
+  .noValid button {
+    width: 60% !important;
   }
 }

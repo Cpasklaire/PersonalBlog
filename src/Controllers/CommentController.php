@@ -32,9 +32,9 @@ class CommentController extends BaseController
                 $success = $commentModel->createComment($userId, $postId, $content, $author);
 
                 if ($success) {
-                    header('Location: /articles/' . $commentId);
+                    return $request->redirect('/articles/' . $commentId);
                 }
-                header('Location: /error');
+                return $request->redirect('/error');
             }
         }
     }
@@ -42,37 +42,20 @@ class CommentController extends BaseController
     //show comments not validate
     public function showComments()
     {
-        $request = new RequestController();
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        } else {
             $commentModel = new CommentModel();
             $comments = $commentModel->getNotEnabledComments();
-            $this->twig->render('./admin/noValidComment.html.twig', ['comments' => $comments]);
-        }
+            $this->render('./admin/noValidComment.html.twig', ['comments' => $comments]);
     }
 
     //valid a comment
     public function validate($commentId)
     {
         $request = new RequestController();
-        $userId = $request->session['userId'];
-        $admin = $request->session['admin'];
-        if (!$userId) {
-            header('Location: /login');
-        } elseif ($admin == 0) {
-            header('Location: /');
-        } else {
-            $commentModel = new CommentModel();
-            $success = $commentModel->validateComment($commentId);
-            if ($success) {
-                header('Location: /admin/commentaires');
-            }
-            header('Location: /admin/error');
+        $commentModel = new CommentModel();
+        $success = $commentModel->validateComment($commentId);
+        if ($success) {
+            return $request->redirect('/admin/commentaires');
         }
+        return $request->redirect('/error');
     }
 }

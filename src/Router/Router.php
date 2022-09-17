@@ -54,18 +54,17 @@ class Router {
         {
             if($route->match($this->url)) 
             {
-/*                 if (strpos($this->url, '/admin') == 0) {
-                    // TODO SAM
-                    // faut etre admin
-                    // si on est pas admin -> 401
-                    // return $request->redirect('/login');
-                    throw new \Exception(401);
-                    
-                }    */          
-               // check the route permissions (est-ce qu il faut etre admin ?)
-               // si il faut eter admin et qu on ne l'est pas -> 401 ou redirect  /
+                $pos = strpos($this->url, '/admin');
+                if ($pos === 0){
+                    $userId = $_SESSION['userId'];
+                    $admin = $_SESSION['admin'];
+                    if (!$userId) {
+                        return header('Location: /login');
+                    } elseif ($admin == 0) {
+                        return header('Location: /');
+                    }
+                }
                return $route->call();
-                
             }
         }
         throw new RouterException('No routes matches');

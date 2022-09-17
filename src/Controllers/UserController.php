@@ -10,8 +10,6 @@ class UserController extends BaseController {
     public function userList() {
         $userModel = new UserModel();
         $users = $userModel->getUsers();
-        // print_r(var_export($users, true));
-        // die ('coucou');
         $this->render('./admin/userList.html.twig', ['users' => $users]);	
     }
 
@@ -39,9 +37,9 @@ class UserController extends BaseController {
                 $sujet = "Email de" .$pseudo;
 
                 if (mail($destinataire, $sujet, $message, $headers)) {
-                    header('Location: /');
+                    return $request->redirect('/');
                 }
-                header('Location: /contact');
+                return $request->redirect('/contact');
             }
         }
         return $this->render('contact.html.twig');

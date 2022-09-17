@@ -5,13 +5,13 @@
         <form method="POST" class="modify-form">
 
                 <label>Titre</label>                
-                <input  type="text" name="title" placeholder={{post.title|raw}}/>
+                <input  type="text" name="title" placeholder={{post.title|raw}} requied/>
 
                 <label>Chapo</label>
-                <textarea type="text" name="chapo" >{{post.chapo|raw}}</textarea>             
+                <textarea type="text" name="chapo" requied>{{post.chapo|raw}}</textarea>             
 
                 <label>Contenu</label>                
-                <textarea name="content" class="longtext">{{post.content|raw}}</textarea>
+                <textarea name="content" class="longtext" requied>{{post.content|raw}}</textarea>
 
                 <button type="submit">Publier</button>
 

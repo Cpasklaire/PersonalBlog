@@ -16,6 +16,7 @@
         "ramsey/uuid": "^4.2",
         "twig/intl-extra": "^3.4",
         "twig/extra-bundle": "^3.4",
-        "tinymce/tinymce": "^6.1"
+        "tinymce/tinymce": "^6.1",
+        "vlucas/phpdotenv": "^5.4"
     }
 }

@@ -28,26 +28,20 @@ class AuthController extends BaseController {
 
                     //good password
                     if (password_verify($password, $user->mdp)) {
-                        // TODO SAM
-                        /* $_SESSION['userId'] = $user->id;
-                        $_SESSION['admin'] = $user->admin;
-                        $_SESSION['pseudo'] = $user->pseudo; */
-
                         $request->setSession('userId', $user->id);
                         $request->setSession('admin', $user->admin);
-                        $request->setSession('pseudo', $user->pseudo);                        
+                        $request->setSession('pseudo', $user->pseudo);
 
                         if ($user->admin == 1) {
-                            header('Location: /admin'); // change to redirect avec le return devant ... 
-                            die;
+                            return $request->redirect('/admin');
                         }
-                        header('Location: /'); // ideam
+                        return $request->redirect('/');
                     }
-                    header('Location: /error');                    
+                    return $request->redirect('/error');
                 }
-                header('Location: /error');                
+                return $request->redirect('/error');
             }
-            return $request->redirect('/error');            
+            return $request->redirect('/error');
             
         }
         return $this->render('login.html.twig');
@@ -70,15 +64,11 @@ class AuthController extends BaseController {
                 $success = $userModel->createUser($pseudo, $email, $password);
 
                 if ($success) {
-                    // TO DO SAM les redirect
-                    header('Location: /login');
-                    die;
+                    return $request->redirect('/login');
                 }
-                header('Location: /signup');
-                die;
+                return $request->redirect('/signup');
             }
-
-            header('Location: /error');
+            return $request->redirect('/error');
         }
         return $this->render('signup.html.twig');
     }
@@ -86,7 +76,8 @@ class AuthController extends BaseController {
     //deconnection
     public function logout()
     {
+        $request = new RequestController();
         session_destroy();
-        header('Location: /');
+        return $request->redirect('/');
     }
 }
