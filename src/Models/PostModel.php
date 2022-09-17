@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use APP\Controllers\RequestController;
+
 class Post {
     public string $postId;
     public string $title;
@@ -10,6 +12,18 @@ class Post {
     public string $author;
     public string $createDate;
     public string $updateDate;
+
+    public function __construct ($row = null) {
+        if ($row) {
+            $this->postId = $row['id'];
+            $this->title = $row['title'];
+            $this->chapo = $row['chapo'];
+            $this->content = $row['content'];
+            $this->author = $row['author'];
+            $this->createDate = $row['createdAt'];
+            $this->updateDate = $row['updatedAt'];
+        }
+    }
 }
 
 class PostModel extends BaseModel {
@@ -24,15 +38,7 @@ class PostModel extends BaseModel {
         $posts = [];
 
         while($row = $statement->fetch()) {
-            $post = new Post();
-            $post->postId = $row['id'];
-            $post->title = $row['title'];
-            $post->chapo = $row['chapo'];
-            $post->content = $row['content'];
-            $post->author = $row['author'];
-            $post->createDate = $row['createdAt'];
-            $post->updateDate = $row['updatedAt'];
-
+            $post = new Post($row);
             $posts[] = $post;
         }
         return $posts;
@@ -48,23 +54,17 @@ class PostModel extends BaseModel {
         $data = $statement->fetch();
         
         if(!is_array($data)) {
-            return header('Location: /404'); 
-        } else {
-            $post = new Post();
-            $post->id = $postId;
-            $post->title = $data['title'];
-            $post->chapo = $data['chapo'];
-            $post->content = $data['content'];
-            $post->author = $data['author'];
-            $post->createDate = $data['createdAt'];
-            $post->updateDate = $data['updatedAt'];
-
-            $commentModel = new CommentModel();
-            $comments = $commentModel->getComments($post->id);
-            $post->comments = $comments;
-
-            return $post;
+            $request = new RequestController();
+            return $request->redirect('/error');
         }
+        $post = new Post($data);
+        $post->postId = $postId;
+
+        $commentModel = new CommentModel();
+        $comments = $commentModel->getComments($post->postId);
+        $post->comments = $comments;
+
+        return $post;
     }
 
     // view One post and full comments
@@ -77,23 +77,17 @@ class PostModel extends BaseModel {
         $data = $statement->fetch();
         
         if(!is_array($data)) {
-            return header('Location: /404'); 
-        } else {
-            $post = new Post();
-            $post->id = $postId;
-            $post->title = $data['title'];
-            $post->chapo = $data['chapo'];
-            $post->content = $data['content'];
-            $post->author = $data['author'];
-            $post->createDate = $data['createdAt'];
-            $post->updateDate = $data['updatedAt'];
-
-            $commentModel = new CommentModel();
-            $comments = $commentModel->getAllComments($post->id);
-            $post->comments = $comments;
-
-            return $post;
+            $request = new RequestController();
+            return $request->redirect('/error');
         }
+        $post = new Post($data);
+        $post->postId = $postId;
+
+        $commentModel = new CommentModel();
+        $comments = $commentModel->getAllComments($post->postId);
+        $post->comments = $comments;
+
+        return $post;
     }
 
     //creat post
@@ -108,25 +102,25 @@ class PostModel extends BaseModel {
     }
 
     // edit post
-    public function putPost(string $title, string $content, string $chapo, $id): bool {
+    public function putPost(string $title, string $content, string $chapo, $postId): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "UPDATE posts SET title = ?,  content = ?,  chapo = ?, updatedAt = NOW() WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$title, $content, $chapo, $id]);
+        $affectedLine = $statement->execute([$title, $content, $chapo, $postId]);
         return ($affectedLine > 0);
     }
     
     //delete post 
 
-    public function deletePost($id): bool {
+    public function deletePost($postId): bool {
 
         $statement = $this->connection->getConnection()->prepare(
             "DELETE FROM posts WHERE id = ?"
         );
 
-        $affectedLine = $statement->execute([$id]);
+        $affectedLine = $statement->execute([$postId]);
         return ($affectedLine > 0);
     }
 }

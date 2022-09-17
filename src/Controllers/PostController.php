@@ -18,153 +18,108 @@ class PostController extends BaseController
     }
     public function listAdmin()
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
-            $postModel = new PostModel();
-            $posts = $postModel->getPosts();
-            $this->render('./admin/postPage.html.twig', ['posts' => $posts]);
-        }
+        $postModel = new PostModel();
+        $posts = $postModel->getPosts();
+        $this->render('./admin/postPage.html.twig', ['posts' => $posts]);
     }
 
     //show One post
-    public function show($id)
+    public function show($postId)
     {
 
         $postModel = new PostModel();
         $commentModel = new CommentModel();
 
-        $post = $postModel->getOnePost($id);
-        $comments = $commentModel->getAllComments($id);
+        $post = $postModel->getOnePost($postId);
+        $comments = $commentModel->getAllComments($postId);
 
         $this->render('./postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     }
-    public function showAdmin($id)
+    public function showAdmin($postId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
-            $postModel = new PostModel();
-            $commentModel = new CommentModel();
+        $postModel = new PostModel();
+        $commentModel = new CommentModel();
 
-            $post = $postModel->getOnePostAllComment($id);
-            $comments = $commentModel->getAllComments($id);
+        $post = $postModel->getOnePostAllComment($postId);
+        $comments = $commentModel->getAllComments($postId);
 
-            $this->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
-        }
+        $this->render('./admin/postOnePage.html.twig', ['post' => $post], ['comments' => $comments]);
     }
 
     //create post
     public function create()
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
 
-                    $userId = $_SESSION['userId'];
-                    $title = $_POST['title'];
-                    $chapo = $_POST['chapo'];
-                    $content = $_POST['content'];
-                    $author = $_SESSION['pseudo'];
+        if ($method === 'POST') {
 
-                    $postModel = new PostModel();
-                    $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
+            $title = $request->post['title'];
+            $chapo = $request->post['chapo'];
+            $content = $request->post['content'];
 
-                    if ($success) {
-                        header('Location: /admin');
-                    } else {
-                        header('Location: /admin/createPost?error=fail_creation');
-                    }
-                } else {
-                    header('Location: /admin/createPost?error=invalid_form');
+            if (isset($title) && isset($chapo) && isset($content)) {
+                
+                $userId = $request->session['userId'];
+                $author = $request->session['pseudo'];
+
+                $postModel = new PostModel();
+                $success = $postModel->createPost($userId, $title, $chapo, $content, $author);
+
+                if ($success) {
+                    return $request->redirect('/admin');
                 }
-            } else {
-                return $this->render('./admin/createPost.html.twig');
+                return $request->redirect('/error');
             }
+            return $request->redirect('/error');
         }
+        return $this->render('./admin/createPost.html.twig');
     }
 
     //modify post
-    public function modify($id)
+    public function modify($postId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
+        if ($method === 'POST') {
+            $request = new RequestController();
+            $title = $request->post['title'];
+            $chapo = $request->post['chapo'];
+            $content = $request->post['content'];
 
-                if (isset($_POST['title']) && isset($_POST['chapo']) && isset($_POST['content'])) {
+            if (isset($title) && isset($chapo) && isset($content)) {
 
-                    $title = $_POST['title'];
-                    $chapo = $_POST['chapo'];
-                    $content = $_POST['content'];
+                $postModel = new PostModel();
+                $success = $postModel->putPost($title, $chapo, $content, $postId);
 
-                    $postModel = new PostModel();
-                    $success = $postModel->putPost($title, $chapo, $content, $id);
-
-                    if ($success) {
-                        header('Location: /admin');
-                    } else {
-                        //l'article n'as pas pu étre modifier
-                        header('Location: /admin/modify/:id');
-                    }
+                if ($success) {
+                    return $request->redirect('/admin');
                 } else {
-                    //formulaire incomplet
-                    header('Location: /admin/modify/:id');
+                    //l'article n'as pas pu étre modifier
+                    return $request->redirect('/admin/modify/:postId');
                 }
             } else {
-                $postModel = new PostModel();
-                $post = $postModel->getOnePost($id);
-                $this->render('./admin/modify.html.twig', ['post' => $post]);
+                //formulaire incomplet
+                return $request->redirect('/admin/modify/:postId');
             }
+        } else {
+            $postModel = new PostModel();
+            $post = $postModel->getOnePost($postId);
+            $this->render('./admin/modify.html.twig', ['post' => $post]);
         }
     }
 
     //delete post
-    public function delete($id)
+    public function delete($postId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
-            $postModel = new PostModel();
-            $success = $postModel->deletePost($id);
+        $request = new RequestController();
+        $postModel = new PostModel();
+        $success = $postModel->deletePost($postId);
 
-            if ($success) {
-                header('Location: /admin');
-            } else {
-                header('Location: /admin?error=fail_delete');
-            }
+        if ($success) {
+            return $request->redirect('/admin');
+        } else {
+            return $request->redirect('/error');
         }
     }
 }

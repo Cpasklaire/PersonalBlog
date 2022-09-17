@@ -54,10 +54,18 @@ class Router {
         {
             if($route->match($this->url)) 
             {
-               
+                $pos = strpos($this->url, '/admin');
+                if ($pos === 0){
+                    $userId = $_SESSION['userId'];
+                    $admin = $_SESSION['admin'];
+                    if (!$userId) {
+                        return header('Location: /login');
+                    } elseif ($admin == 0) {
+                        return header('Location: /');
+                    }
+                }
                return $route->call();
-                
-            }    
+            }
         }
         throw new RouterException('No routes matches');
     }

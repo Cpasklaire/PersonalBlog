@@ -7,8 +7,7 @@
        <div class="comment"> 
         <h1>{{ comment.author }}</h1>
         <p>{{ comment.content }}</p>
-        <a href="commentaires/{{comment.id}}">Valider</a>
-        <a href="admin/articles/{{ comment.postId }}">Voir le contexte</a>
+        <button href="commentaires/{{comment.commentId}}">Valider</button>
         </div>
     {% endfor %}
 

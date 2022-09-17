@@ -3,36 +3,38 @@
 namespace App\Controllers;
 
 use App\Models\CommentModel;
-use App\Models\PostModel;
 
 class CommentController extends BaseController
 {
 
     //create new comment
-    public function createComment($id)
+    public function createComment($commentId)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['content'])) {
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
 
-                $content = $_POST['content'];
-                $postId = $id;
+        if ($method === 'POST') {
+            $content = $request->post['content'];
+            $sessionId = $request->session['userId'];
 
-                if (!$_SESSION['userId']) {
+            if (isset($content)) {
+
+                $postId = $commentId;
+
+                if (!$sessionId) {
                     $userId = 42;
                     $author = 'Anonyme';
-                } else {
-                    $userId = $_SESSION['userId'];
-                    $author = $_SESSION['pseudo'];
                 }
-
+                $userId = $sessionId;
+                $author = $request->session['pseudo'];
+                
                 $commentModel = new CommentModel();
                 $success = $commentModel->createComment($userId, $postId, $content, $author);
 
                 if ($success) {
-                    header('Location: /articles/' . $id);
-                } else {
-                    header('Location: /articles?error=fail_creation');
+                    return $request->redirect('/articles/' . $commentId);
                 }
+                return $request->redirect('/error');
             }
         }
     }
@@ -40,40 +42,20 @@ class CommentController extends BaseController
     //show comments not validate
     public function showComments()
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
             $commentModel = new CommentModel();
             $comments = $commentModel->getNotEnabledComments();
-            $this->twig->render('./admin/noValidComment.html.twig', ['comments' => $comments]);
-        }
+            $this->render('./admin/noValidComment.html.twig', ['comments' => $comments]);
     }
 
     //valid a comment
-    public function validate($id)
+    public function validate($commentId)
     {
-        $userId = $_SESSION['userId'];
-        $admin = $_SESSION['admin'];
-        if (!$userId) {
-            header('Location: /login');
-            exit();
-        } elseif ($admin == 0) {
-            header('Location: /');
-            exit();
-        } else {
-            $commentModel = new CommentModel();
-            $success = $commentModel->validateComment($id);
-            if ($success) {
-                header('Location: /admin/commentaires');
-            } else {
-                header('Location: /admin/commentaires?error=validate');
-            }
+        $request = new RequestController();
+        $commentModel = new CommentModel();
+        $success = $commentModel->validateComment($commentId);
+        if ($success) {
+            return $request->redirect('/admin/commentaires');
         }
+        return $request->redirect('/error');
     }
 }

@@ -5,75 +5,79 @@ namespace App\Controllers;
 use App\Models\UserModel;
 
 class AuthController extends BaseController {
-    
+
     //user connection
 
-    public function login(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    public function connect()
+    {
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
 
-            if (isset($_POST['login']) && isset($_POST['password'])) {
+        if ($method === 'POST') {
+            $login = $request->post['login'];
+            $password = $request->post['password'];
+
+            if (isset($login) && isset($password)) {
                 $userModel = new UserModel();
-                $user = $userModel->login($_POST['login']);
+                $user = $userModel->login($login);
+                
+
                 
                 //user existe
                 if ($user) {
-                    $_SESSION['userId'] = $user->id;
-                    $_SESSION['admin'] = $user->admin;
-                    $_SESSION['pseudo'] = $user->pseudo;
-                } else {
-                    header('Location: /login?error=invalid_credentials');
-                    die;
-                }
 
-                //good password
-                if(password_verify($_POST['password'], $user->mdp)) {
-                    
-                    if($user->admin==1) {
-                        header('Location: /admin');
-                        die;
-                    } else {
-                        header('Location: /');
-                        die;
+                    //good password
+                    if (password_verify($password, $user->mdp)) {
+                        $request->setSession('userId', $user->id);
+                        $request->setSession('admin', $user->admin);
+                        $request->setSession('pseudo', $user->pseudo);
+
+                        if ($user->admin == 1) {
+                            return $request->redirect('/admin');
+                        }
+                        return $request->redirect('/');
                     }
-                } else {
-                    header('Location: /login?error=invalid_passeword');
+                    return $request->redirect('/error');
                 }
-
-            } else {
-                header('Location: /login?error=invalid_form');
+                return $request->redirect('/error');
             }
-
-        } else {
-            return $this->render('login.html.twig');
-        }        
+            return $request->redirect('/error');
+            
+        }
+        return $this->render('login.html.twig');
     }
 
     //create user
-    public function signup(){
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {  
+    public function signup()
+    {
+        $request = new RequestController();
+        $method = $request->server['REQUEST_METHOD'];
 
-            if (isset($_POST['pseudo']) && isset($_POST['email']) && isset($_POST['password'])) {
-                $userModel = new UserModel();
-                $success = $userModel->createUser($_POST['pseudo'], $_POST['email'], $_POST['password']);
-                
-                if($success) {
-                    header('Location: /login');
-                } else {
-                    header('Location: /signup');
-                }
+        if ($method === 'POST') {
             
-            } else {
-                header('Location: /signup?error=invalid_form');
+            $pseudo = $request->post['pseudo'];
+            $email = $request->post['email'];
+            $password = $request->post['password'];
+
+            if (isset($pseudo) && isset($email) && isset($password)) {
+                $userModel = new UserModel();
+                $success = $userModel->createUser($pseudo, $email, $password);
+
+                if ($success) {
+                    return $request->redirect('/login');
+                }
+                return $request->redirect('/signup');
             }
-        
-        } else {
-            return $this->render('signup.html.twig');
-        }   
+            return $request->redirect('/error');
+        }
+        return $this->render('signup.html.twig');
     }
 
     //deconnection
-     public function logout() {
+    public function logout()
+    {
+        $request = new RequestController();
         session_destroy();
-        header('Location: /');
-    } 
+        return $request->redirect('/');
+    }
 }

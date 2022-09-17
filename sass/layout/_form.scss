@@ -1,38 +1,46 @@
-.login-form, .sign-form, .contact-form, .create-form, .modify-form, .comment-form {
-	background-color: $couleur-secondaire;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 3%;
-	margin-left: 35%;
-	width: 30%;
-	border-radius: 50px;
-	margin-bottom: 3%;
-	input{
-		margin-bottom: 1%;
-		margin-top: 1%;
-	}		
-	button {
-		border-radius: 15px;
-		background-color: $couleur-primaire;
-		width: 20%;
-		margin: 2%;
-	}
+.login-form,
+.sign-form,
+.contact-form,
+.create-form,
+.modify-form,
+.comment-form {
+  background-color: $couleur-secondaire;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3%;
+  margin-left: 35%;
+  width: 30%;
+  border-radius: 50px;
+  margin-bottom: 3%;
+
+  input {
+    margin-bottom: 1%;
+    margin-top: 1%;
+  }
+
+  button {
+    border-radius: 15px;
+    background-color: $couleur-primaire;
+    width: 20%;
+    margin: 2%;
+  }
 }
 
-.create-form, .modify-form {
-	width: 96%;
-	margin-left: 2%;
+.create-form,
+.modify-form {
+  width: 96%;
+  margin-left: 2%;
 }
 
-.comment-form
-{
-	margin-top: 0%;
-	margin-left: 0%;
-	width: 100%;
-	border-radius: 0px;
-	margin-bottom: 0%;
-	textarea {
-		width: 50%;
-	}
+.comment-form {
+  margin-top: 0%;
+  margin-left: 0%;
+  width: 100%;
+  border-radius: 0;
+  margin-bottom: 0%;
+
+  textarea {
+    width: 50%;
+  }
 }
