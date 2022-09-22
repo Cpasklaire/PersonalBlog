@@ -10,7 +10,7 @@ class AuthController extends BaseController {
 
     public function connect()
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $method = $request->server['REQUEST_METHOD'];
 
         if ($method === 'POST') {
@@ -20,8 +20,6 @@ class AuthController extends BaseController {
             if (isset($login) && isset($password)) {
                 $userModel = new UserModel();
                 $user = $userModel->login($login);
-                
-
                 
                 //user existe
                 if ($user) {
@@ -50,7 +48,7 @@ class AuthController extends BaseController {
     //create user
     public function signup()
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $method = $request->server['REQUEST_METHOD'];
 
         if ($method === 'POST') {
@@ -62,7 +60,6 @@ class AuthController extends BaseController {
             if (isset($pseudo) && isset($email) && isset($password)) {
                 $userModel = new UserModel();
                 $success = $userModel->createUser($pseudo, $email, $password);
-
                 if ($success) {
                     return $request->redirect('/login');
                 }
@@ -76,7 +73,7 @@ class AuthController extends BaseController {
     //deconnection
     public function logout()
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         session_destroy();
         return $request->redirect('/');
     }

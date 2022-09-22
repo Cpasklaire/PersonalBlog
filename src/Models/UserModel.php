@@ -33,11 +33,10 @@ class UserModel extends BaseModel{
     public function createUser(string $pseudo, string $email, string $password): bool {
 
         $mdp = password_hash($password, PASSWORD_DEFAULT);
-
         $statement = $this->connection->getConnection()->prepare(
             "INSERT INTO users(email, pseudo, mdp, createdAt) VALUES (?, ?, ?, NOW())"
         );
-
+        
         $affectedLine = $statement->execute([$email, $pseudo, $mdp]);
         return ($affectedLine > 0);
     }

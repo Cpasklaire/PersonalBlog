@@ -49,7 +49,7 @@ class PostController extends BaseController
     //create post
     public function create()
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $method = $request->server['REQUEST_METHOD'];
 
         if ($method === 'POST') {
@@ -79,10 +79,9 @@ class PostController extends BaseController
     //modify post
     public function modify($postId)
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $method = $request->server['REQUEST_METHOD'];
         if ($method === 'POST') {
-            $request = new RequestController();
             $title = $request->post['title'];
             $chapo = $request->post['chapo'];
             $content = $request->post['content'];
@@ -112,7 +111,7 @@ class PostController extends BaseController
     //delete post
     public function delete($postId)
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $postModel = new PostModel();
         $success = $postModel->deletePost($postId);
 

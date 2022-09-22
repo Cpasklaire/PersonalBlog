@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App;
 
-class RequestController
+class Request
 {
     public ?array $server = null;
     public ?array $get = null;

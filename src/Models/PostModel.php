@@ -54,7 +54,7 @@ class PostModel extends BaseModel {
         $data = $statement->fetch();
         
         if(!is_array($data)) {
-            $request = new RequestController();
+            $request = new \App\Request();
             return $request->redirect('/error');
         }
         $post = new Post($data);
@@ -77,7 +77,7 @@ class PostModel extends BaseModel {
         $data = $statement->fetch();
         
         if(!is_array($data)) {
-            $request = new RequestController();
+            $request = new \App\Request();
             return $request->redirect('/error');
         }
         $post = new Post($data);

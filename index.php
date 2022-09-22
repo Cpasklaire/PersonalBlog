@@ -43,5 +43,7 @@ $router->get('/admin/users', 'User#userList');
 try {
     $router->run();
 } catch (\Exception $e) {
+    print_r($e);
+    die;
     return header('Location: /error');
 }

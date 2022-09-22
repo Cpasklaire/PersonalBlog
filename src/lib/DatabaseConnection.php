@@ -2,8 +2,6 @@
 
 namespace App\Lib;
 
-use Dotenv;
-
 class DatabaseConnection 
 {
     public ?\PDO $database = null;
@@ -12,12 +10,9 @@ class DatabaseConnection
 
         if($this->database == null) 
         {
-/*              $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-            $dotenv->load();  */
-
-            $this->database = new \PDO('mysql:host=localhost;dbname=blogphp;charset=utf8', 'root', 'root');
+            $config = \App\Config::getConfig();
+            $this->database = new \PDO('mysql:host=localhost;dbname=blogphp;charset=utf8', $config['DB_USER'], $config['DB_PASSWORD']);
         }
         return $this->database;
     }
 }
-

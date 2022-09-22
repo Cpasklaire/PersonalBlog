@@ -14,7 +14,7 @@ class UserController extends BaseController {
     }
 
     public function contact() {
-        $request = new RequestController();
+        $request = new \App\Request();
         $method = $request->server['REQUEST_METHOD'];
 
         if ($method === 'POST') { 

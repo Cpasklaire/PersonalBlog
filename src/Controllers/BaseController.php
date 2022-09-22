@@ -35,7 +35,7 @@ class BaseController {
 
     protected function getCurrentUserId()
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $userId = isset($request->session['userId']) ? $request->session['userId'] : null;
 
         if (isset($userId) && (int)$userId > 0) {
@@ -49,20 +49,6 @@ class BaseController {
         return $this->getCurrentUserId() > 0 ? true : false;
     }
 
-/*     protected function isAdmin()
-    {
-        $request = new RequestController();
-        $request->session;
-
-        $userId = $session['userId'];
-        $admin = $session['admin'];
-        if (!$userId) {
-            return $request->redirect('/login');
-        } elseif ($admin == 0) {
-            return $request->redirect('/');
-        }
-    }  */
-
     //render function
     protected function render($view, $params = [])
     {
@@ -74,7 +60,7 @@ class BaseController {
     {
         $postModel = new PostModel();
         $posts = $postModel->getPosts();
-
+        
         $this->render('home.html.twig', ['posts' => $posts]);
     }
 

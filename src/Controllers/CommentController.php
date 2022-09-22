@@ -10,7 +10,7 @@ class CommentController extends BaseController
     //create new comment
     public function createComment($commentId)
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $method = $request->server['REQUEST_METHOD'];
 
         if ($method === 'POST') {
@@ -50,7 +50,7 @@ class CommentController extends BaseController
     //valid a comment
     public function validate($commentId)
     {
-        $request = new RequestController();
+        $request = new \App\Request();
         $commentModel = new CommentModel();
         $success = $commentModel->validateComment($commentId);
         if ($success) {
