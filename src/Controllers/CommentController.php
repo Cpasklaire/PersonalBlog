@@ -14,6 +14,7 @@ class CommentController extends BaseController
         $method = $request->server['REQUEST_METHOD'];
 
         if ($method === 'POST') {
+            $request = new \App\Request();
             $content = $request->post['content'];
             $sessionId = $request->session['userId'];
 
@@ -24,16 +25,18 @@ class CommentController extends BaseController
                 if (!$sessionId) {
                     $userId = 42;
                     $author = 'Anonyme';
+                } else {
+                    $userId = $sessionId;
+                    $author = $request->session['pseudo'];
                 }
-                $userId = $sessionId;
-                $author = $request->session['pseudo'];
                 
                 $commentModel = new CommentModel();
                 $success = $commentModel->createComment($userId, $postId, $content, $author);
 
                 if ($success) {
-                    return $request->redirect('/articles/' . $commentId);
+                    return $request->redirect('/articles/' . $postId);
                 }
+                
                 return $request->redirect('/error');
             }
         }

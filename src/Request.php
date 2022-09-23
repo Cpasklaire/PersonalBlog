@@ -14,7 +14,7 @@ class Request
         $this->server = $_SERVER;
         $this->get = $_GET;
         $this->post = $_POST;
-        $this->session = $_SESSION; // read about references in PHP with &$_SESSION ... 
+        $this->session = &$_SESSION; // read about references in PHP with &$_SESSION ... 
     }
 
     public function setSession($sessionKey, $sessionValue) {
