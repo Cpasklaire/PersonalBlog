@@ -6,7 +6,7 @@
 
 Command `composer install`
 
-Create your .env at the root of the project (you can follow the .env.example)
+Create your .env at the src of the project (you can follow the .env.example)
 
 Create your database with the .sql at the .doc.
 The admin account is : name: Admin and pw : admin
