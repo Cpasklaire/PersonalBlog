@@ -58,24 +58,13 @@ class CommentModel extends BaseModel{
 
     //create a comment 
     public function createComment(string $userId, string $postId, string $content, string $author): bool {
-        try {
-            $statement = $this->connection->getConnection()->prepare(
-                "INSERT INTO posts(postId, userId, content, author, valided) VALUES (?, ?, ?, ?, ?)"
-            );
-            echo ($postId);
         
-            $statement->execute([$postId, $userId, $content, $author, 0]);
-            print_r($statement->errorInfo());
-            $lastInsertedId = $this->connection->getConnection()->lastInsertId();
+        $statement = $this->connection->getConnection()->prepare(
+            "INSERT INTO posts(postId, userId, content, author, valided) VALUES (?, ?, ?, ?, 0)"
+        );
 
-            echo "affected line";
-            die($lastInsertedId);
-        } catch (\Exception $e) {
-            print_r($e->getMessage());
-            
-        }
-        die;
-        return ($lastInsertedId > 0);
+        $affectedLine = $statement->execute([$postId, $userId, $content, $author]);
+        return ($affectedLine > 0);
     }
 
     //delete one comment 
