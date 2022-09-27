@@ -11,7 +11,13 @@ class DatabaseConnection
         if($this->database == null) 
         {
             $config = \App\Config::getConfig();
-            $this->database = new \PDO('mysql:host=localhost;dbname=blogphp;charset=utf8', $config['DB_USER'], $config['DB_PASSWORD']);
+
+            $DB_NAME = $config['DB_NAME'];
+            $DB_HOST = $config['DB_HOST'];
+            $DB_USER = $config['DB_USER'];
+            $DB_PASSWORD = $config['DB_PASSWORD'];
+            
+            $this->database = new \PDO("mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8", $DB_USER, $DB_PASSWORD);
         }
         return $this->database;
     }
